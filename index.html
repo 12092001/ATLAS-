@@ -2271,6 +2271,322 @@ RINFO.pierna = {nombre:"Rodilla, pierna y pie", n:4, sub:"Miembro inferior", des
   inicio:["lig_cruzado_anterior", "menisco_medial", "gastrocnemio", "tibial_anterior", "lig_talofibular_anterior", "fascia_plantar"], home:{tx:10.5, ty:-117, tz:-1, dist:100, yaw:.4, pitch:.06}};
 
 /* =====================================================================
+   FICHAS ANATÓMICAS · Región 5: columna y espalda
+   ===================================================================== */
+delete DATA.columna;
+Object.assign(DATA, {
+/* ================= HUESOS ================= */
+atlas:{cat:"hueso", grupo:"Columna cervical", nombre:"Atlas (C1)", latin:"Atlas",
+  resumen:"Primera vértebra cervical: un anillo sin cuerpo que sostiene el cráneo, como el titán Atlas sostenía el mundo.",
+  partes:"Arcos anterior y posterior con sus tubérculos, masas laterales con carillas superiores cóncavas para los cóndilos del occipital, apófisis transversas largas con agujero transverso y surco para la arteria vertebral.",
+  articula:"Con el occipital (atlantooccipital, para decir «sí») y con el axis (atlantoaxiales, para decir «no»).",
+  clinica:"La fractura de Jefferson es el estallido del anillo por un golpe en la cabeza desde arriba (clavados en agua poco profunda). Su apófisis transversa se palpa entre la mastoides y el ángulo de la mandíbula."},
+axis:{cat:"hueso", grupo:"Columna cervical", nombre:"Axis (C2)", latin:"Axis",
+  resumen:"Segunda vértebra cervical. Tiene el diente (apófisis odontoides), el eje alrededor del cual gira el atlas.",
+  partes:"Cuerpo, diente o apófisis odontoides, carillas articulares superiores, apófisis espinosa grande y bífida, apófisis transversas pequeñas.",
+  articula:"Con el atlas (atlantoaxiales media y laterales) y con C3.",
+  clinica:"Las fracturas del diente son frecuentes en personas mayores tras caídas. La «fractura del ahorcado» es la de sus pedículos por hiperextensión brusca. El ligamento transverso del atlas sujeta el diente; si se rompe, puede comprimir la médula."},
+vertebras_cervicales:{cat:"hueso", grupo:"Columna cervical", nombre:"Vértebras cervicales C3–C7", latin:"Vertebrae cervicales III–VII",
+  resumen:"Las vértebras pequeñas y móviles del cuello, con agujeros en las apófisis transversas por donde sube la arteria vertebral.",
+  partes:"Cuerpo pequeño con uncus (bordes laterales elevados), agujero vertebral triangular grande, agujeros transversos, apófisis espinosas cortas y bífidas (C3–C6). C7 es la «vértebra prominente», con espinosa larga.",
+  articula:"Entre sí por discos, articulaciones facetarias y uncovertebrales (de Luschka).",
+  clinica:"El latigazo cervical estira sus ligamentos y músculos en choques por alcance. La artrosis de las uncovertebrales estrecha los agujeros de salida de los nervios (dolor que baja al brazo). La espinosa de C7 se usa para contar vértebras."},
+vertebras_toracicas:{cat:"hueso", grupo:"Columna torácica", nombre:"Vértebras torácicas T1–T12", latin:"Vertebrae thoracicae",
+  resumen:"Las doce vértebras del tórax, unidas a las costillas. Son las menos móviles de la columna.",
+  partes:"Cuerpo en forma de corazón con carillas costales, apófisis transversas con carilla para el tubérculo de la costilla, apófisis espinosas largas e inclinadas hacia abajo (como tejas), agujero vertebral redondo.",
+  articula:"Entre sí por discos y facetas, con las cabezas de las costillas (costovertebrales) y con los tubérculos costales (costotransversas).",
+  clinica:"Las fracturas por aplastamiento por osteoporosis aumentan la curva de la espalda (joroba o cifosis). La escoliosis es una curva lateral con rotación de las vértebras, más visible al inclinarse hacia delante."},
+vertebras_lumbares:{cat:"hueso", grupo:"Columna lumbar", nombre:"Vértebras lumbares L1–L5", latin:"Vertebrae lumbales",
+  resumen:"Las cinco vértebras más grandes y fuertes de la columna, que cargan el peso del tronco.",
+  partes:"Cuerpo grande en forma de riñón, pedículos gruesos, láminas, apófisis espinosa corta y cuadrada, apófisis transversas largas, apófisis mamilares y articulares orientadas en sentido sagital.",
+  articula:"Entre sí por los discos intervertebrales y las articulaciones facetarias; L5 con el sacro.",
+  clinica:"L4–L5 y L5–S1 concentran la mayoría de las hernias de disco, que pueden comprimir raíces del nervio ciático. La punción lumbar se hace entre L3–L4 o L4–L5, por debajo del final de la médula. La espondilolistesis es el deslizamiento de una vértebra sobre otra, sobre todo L5 sobre S1."},
+discos_intervertebrales:{cat:"ligamento", grupo:"Articulaciones de la columna", nombre:"Discos intervertebrales", latin:"Disci intervertebrales",
+  resumen:"Almohadillas de fibrocartílago entre los cuerpos vertebrales, desde C2–C3 hasta L5–S1. Forman cerca de un cuarto de la altura de la columna.",
+  une:"Las caras superior e inferior de los cuerpos vertebrales vecinos, a través de las placas terminales de cartílago.",
+  funcion:"Amortiguan las cargas y permiten el movimiento. Tienen un anillo fibroso externo con láminas cruzadas y un núcleo pulposo interno gelatinoso.",
+  clinica:"Hernia de disco: el núcleo sale por una grieta del anillo, casi siempre hacia atrás y a un lado, y comprime una raíz nerviosa (ciática o dolor que baja al brazo). Con la edad pierden agua y altura; por eso somos más bajos de mayores."},
+hueso_occipital:{cat:"hueso", grupo:"Cráneo", nombre:"Hueso occipital", latin:"Os occipitale",
+  resumen:"Hueso de la parte posterior e inferior del cráneo; por su gran agujero pasa la médula hacia el encéfalo.",
+  partes:"Escama con protuberancia occipital externa y líneas nucales superior e inferior, agujero magno, cóndilos occipitales y porción basilar.",
+  articula:"Con el atlas (atlantooccipital) y con los parietales, temporales y esfenoides.",
+  clinica:"La protuberancia occipital externa se palpa en la nuca y es el origen del ligamento nucal y del trapecio. En sus líneas nucales se insertan los músculos del cuello que sostienen la cabeza."},
+
+/* ================= MÚSCULOS ================= */
+serrato_posterior_superior:{cat:"musculo", capa:"Intermedia", grupo:"Músculos intermedios de la espalda", nombre:"Serrato posterior superior", latin:"Musculus serratus posterior superior",
+  resumen:"Músculo delgado en forma de cinta bajo los romboides que llega a las costillas superiores.",
+  origen:"Ligamento nucal y apófisis espinosas de C7 a T3.",
+  insercion:"Bordes superiores de las costillas 2.ª a 5.ª, por fuera de sus ángulos.",
+  inervacion:"Nervios intercostales 2.º a 5.º.",
+  irrigacion:"Arterias intercostales posteriores.",
+  accion:"Se considera que eleva las costillas al inspirar, aunque su función respiratoria es pequeña; más bien es propioceptivo.",
+  clinica:"Puede dar puntos dolorosos bajo la escápula que se confunden con dolor del hombro.",
+  prueba:"No se explora aislado."},
+serrato_posterior_inferior:{cat:"musculo", capa:"Intermedia", grupo:"Músculos intermedios de la espalda", nombre:"Serrato posterior inferior", latin:"Musculus serratus posterior inferior",
+  resumen:"Músculo delgado bajo el dorsal ancho que llega a las últimas costillas.",
+  origen:"Apófisis espinosas de T11 a L2 por la fascia toracolumbar.",
+  insercion:"Bordes inferiores de las costillas 9.ª a 12.ª.",
+  inervacion:"Ramos anteriores de T9 a T12.",
+  irrigacion:"Arterias intercostales posteriores y subcostal.",
+  accion:"Baja las últimas costillas y las fija contra la tracción del diafragma.",
+  clinica:"Su tensión puede contribuir al dolor dorsolumbar bajo.",
+  prueba:"No se explora aislado."},
+esplenio_cabeza:{cat:"musculo", capa:"Superficial", grupo:"Músculos profundos de la espalda · esplenios", nombre:"Esplenio de la cabeza", latin:"Musculus splenius capitis",
+  resumen:"Músculo ancho como una venda en la nuca, bajo el trapecio, que gira la cabeza hacia su lado.",
+  origen:"Mitad inferior del ligamento nucal y apófisis espinosas de C7 a T3.",
+  insercion:"Apófisis mastoides y tercio lateral de la línea nucal superior del occipital.",
+  inervacion:"Ramos dorsales de los nervios cervicales medios (C3–C5).",
+  irrigacion:"Arterias occipital y cervical profunda.",
+  accion:"Uno solo: inclina y gira la cabeza hacia su lado. Los dos juntos: extienden la cabeza y el cuello.",
+  clinica:"Se contractura en la tortícolis y en el dolor de cuello por postura (mirar el celular). Sus puntos dolorosos pueden dar dolor de cabeza en la nuca y la sien.",
+  prueba:"Girar e inclinar la cabeza hacia el mismo lado contra resistencia."},
+esplenio_cuello:{cat:"musculo", capa:"Profundo", grupo:"Músculos profundos de la espalda · esplenios", nombre:"Esplenio del cuello", latin:"Musculus splenius cervicis",
+  resumen:"Parte inferior del esplenio, que sube desde la espalda alta hasta las primeras vértebras cervicales.",
+  origen:"Apófisis espinosas de T3 a T6.",
+  insercion:"Tubérculos posteriores de las apófisis transversas de C1 a C3.",
+  inervacion:"Ramos dorsales de los nervios cervicales inferiores.",
+  irrigacion:"Arterias cervical profunda e intercostales superiores.",
+  accion:"Gira e inclina el cuello hacia su lado; los dos juntos lo extienden.",
+  clinica:"Participa en el dolor y la rigidez de cuello tras latigazos cervicales.",
+  prueba:"Rotación del cuello hacia el mismo lado contra resistencia."},
+iliocostal:{cat:"musculo", capa:"Superficial", grupo:"Erector de la columna", nombre:"Iliocostal", latin:"Musculus iliocostalis",
+  resumen:"La columna más lateral del erector de la columna; sube por los ángulos de las costillas desde la pelvis hasta el cuello.",
+  origen:"Tendón común del erector: cresta ilíaca, sacro y apófisis espinosas lumbares; las porciones altas nacen de las costillas inferiores.",
+  insercion:"Ángulos de las costillas y apófisis transversas de C4 a C6 (porciones lumbar, torácica y cervical).",
+  inervacion:"Ramos dorsales de los nervios espinales.",
+  irrigacion:"Arterias intercostales posteriores, subcostal y lumbares.",
+  accion:"Los dos lados juntos extienden la columna; uno solo la inclina hacia su lado.",
+  clinica:"Su contractura protege la columna tras una lesión y causa gran parte del dolor en el «lumbago».",
+  prueba:"Boca abajo, levantar el pecho de la camilla (extensión del tronco) y palpar la masa lateral."},
+longisimo:{cat:"musculo", capa:"Superficial", grupo:"Erector de la columna", nombre:"Longísimo", latin:"Musculus longissimus",
+  resumen:"La columna intermedia y más larga del erector de la columna, desde el sacro hasta la mastoides.",
+  origen:"Tendón común del erector y apófisis transversas lumbares, torácicas y cervicales inferiores.",
+  insercion:"Apófisis transversas torácicas y cervicales, costillas cerca de sus tubérculos y apófisis mastoides (porción de la cabeza).",
+  inervacion:"Ramos dorsales de los nervios espinales.",
+  irrigacion:"Arterias intercostales posteriores, lumbares y cervical profunda.",
+  accion:"Extiende la columna y la cabeza; uno solo inclina y gira la cabeza hacia su lado.",
+  clinica:"Es el gran relieve muscular a cada lado de la columna lumbar; se palpa al estar de pie e inclinarse hacia delante.",
+  prueba:"Extensión del tronco boca abajo contra resistencia."},
+espinoso:{cat:"musculo", capa:"Superficial", grupo:"Erector de la columna", nombre:"Espinoso", latin:"Musculus spinalis",
+  resumen:"La columna más medial y delgada del erector, pegada a las apófisis espinosas.",
+  origen:"Apófisis espinosas de T11 a L2 (porción torácica) y de C7 a T2 (porción cervical, inconstante).",
+  insercion:"Apófisis espinosas de T2 a T8 y del axis.",
+  inervacion:"Ramos dorsales de los nervios espinales.",
+  irrigacion:"Arterias intercostales posteriores.",
+  accion:"Extiende la columna torácica.",
+  clinica:"Puede estar poco desarrollado; junto con las demás columnas forma el erector de la columna.",
+  prueba:"Extensión del tronco."},
+semiespinoso:{cat:"musculo", capa:"Profundo", grupo:"Transversoespinosos", nombre:"Semiespinoso", latin:"Musculus semispinalis",
+  resumen:"El transversoespinoso más superficial y largo. Su porción de la cabeza forma los dos cordones gruesos de la nuca.",
+  origen:"Apófisis transversas de C4 a T10.",
+  insercion:"Apófisis espinosas cervicales y torácicas altas, y occipital entre las líneas nucales superior e inferior (semiespinoso de la cabeza).",
+  inervacion:"Ramos dorsales de los nervios espinales (el de la cabeza, también el occipital mayor).",
+  irrigacion:"Arterias occipital, cervical profunda e intercostales posteriores.",
+  accion:"Extiende la cabeza y la columna cervicotorácica; gira la columna hacia el lado contrario.",
+  clinica:"El nervio occipital mayor lo atraviesa; su compresión ahí causa neuralgia occipital (dolor punzante desde la nuca hacia la cabeza).",
+  prueba:"Extensión de la cabeza contra resistencia, palpando los cordones de la nuca."},
+multifido:{cat:"musculo", capa:"Profundo", grupo:"Transversoespinosos", nombre:"Multífido", latin:"Musculus multifidus",
+  resumen:"Muchos fascículos cortos que saltan 2 a 4 vértebras; es más grueso en la región lumbar.",
+  origen:"Sacro, espina ilíaca posterosuperior, apófisis mamilares lumbares, transversas torácicas y articulares cervicales.",
+  insercion:"Apófisis espinosas de las vértebras 2 a 4 niveles por encima.",
+  inervacion:"Ramos dorsales de los nervios espinales (un nervio por segmento).",
+  irrigacion:"Arterias lumbares, intercostales y cervicales profundas.",
+  accion:"Estabiliza cada segmento de la columna, sobre todo la lumbar; ayuda a extenderla y rotarla.",
+  clinica:"Se atrofia rápido después de un episodio de dolor lumbar y no se recupera solo; por eso los ejercicios de estabilización lumbar buscan activarlo.",
+  prueba:"Se valora con ultrasonido o palpando a los lados de las espinosas lumbares al levantar un brazo boca abajo."},
+rotadores:{cat:"musculo", capa:"Profundo", grupo:"Transversoespinosos", nombre:"Rotadores", latin:"Musculi rotatores",
+  resumen:"Los músculos más cortos y profundos de la espalda, entre la apófisis transversa de una vértebra y la lámina de la de arriba.",
+  origen:"Apófisis transversas, sobre todo torácicas.",
+  insercion:"Láminas y bases de las espinosas de la vértebra superior (cortos) o de dos niveles arriba (largos).",
+  inervacion:"Ramos dorsales de los nervios espinales.",
+  irrigacion:"Arterias intercostales posteriores.",
+  accion:"Estabilizan las vértebras y dan información de su posición (propiocepción); ayudan a la rotación.",
+  clinica:"Tienen muchísimos receptores de posición; su lesión se relaciona con el dolor de espalda crónico y mal control postural.",
+  prueba:"No se exploran aislados."},
+interespinosos:{cat:"musculo", capa:"Profundo", grupo:"Segmentarios de la espalda", nombre:"Interespinosos", latin:"Musculi interspinales",
+  resumen:"Pares de fascículos cortos entre las apófisis espinosas vecinas, sobre todo en el cuello y la zona lumbar.",
+  origen:"Borde superior de una apófisis espinosa.",
+  insercion:"Borde inferior de la apófisis espinosa de arriba.",
+  inervacion:"Ramos dorsales de los nervios espinales.",
+  irrigacion:"Arterias de cada segmento.",
+  accion:"Ayudan a extender la columna y a controlar su posición.",
+  clinica:"Su papel principal es propioceptivo; faltan en la mayor parte de la columna torácica.",
+  prueba:"No se exploran aislados."},
+cuadrado_lumbar:{cat:"musculo", capa:"Profundo", grupo:"Pared posterior del abdomen", nombre:"Cuadrado lumbar", latin:"Musculus quadratus lumborum",
+  resumen:"Músculo cuadrado y profundo entre la cresta ilíaca y la última costilla, por delante del erector de la columna.",
+  origen:"Ligamento iliolumbar y labio interno de la cresta ilíaca.",
+  insercion:"Borde inferior de la 12.ª costilla y apófisis transversas de L1 a L4.",
+  inervacion:"Ramos anteriores de T12 a L4.",
+  irrigacion:"Arterias lumbares y subcostal.",
+  accion:"Inclina el tronco hacia su lado, levanta la cadera de ese lado al caminar y fija la 12.ª costilla al inspirar.",
+  clinica:"Su contractura es una causa frecuente de dolor lumbar lateral que empeora al voltearse en la cama o toser. Es la referencia para el bloqueo anestésico del cuadrado lumbar.",
+  prueba:"De pie, inclinar el tronco hacia un lado contra resistencia o levantar la cadera de ese lado."},
+recto_posterior_mayor_cabeza:{cat:"musculo", capa:"Profundo", grupo:"Suboccipitales", nombre:"Recto posterior mayor de la cabeza", latin:"Musculus rectus capitis posterior major",
+  resumen:"Músculo suboccipital que va de la espinosa del axis al occipital; forma el borde medial del triángulo suboccipital.",
+  origen:"Apófisis espinosa del axis.",
+  insercion:"Parte lateral de la línea nucal inferior del occipital.",
+  inervacion:"Nervio suboccipital (ramo dorsal de C1).",
+  irrigacion:"Arterias vertebral y occipital.",
+  accion:"Extiende la cabeza y la gira hacia su lado.",
+  clinica:"Los suboccipitales tensos por mala postura (cabeza adelantada) son una causa frecuente de cefalea tensional en la nuca.",
+  prueba:"Pequeños movimientos de «sí» y de giro de la cabeza; se palpan bajo la base del cráneo."},
+recto_posterior_menor_cabeza:{cat:"musculo", capa:"Profundo", grupo:"Suboccipitales", nombre:"Recto posterior menor de la cabeza", latin:"Musculus rectus capitis posterior minor",
+  resumen:"El más pequeño y medial de los suboccipitales, del tubérculo posterior del atlas al occipital.",
+  origen:"Tubérculo posterior del atlas.",
+  insercion:"Parte medial de la línea nucal inferior del occipital.",
+  inervacion:"Nervio suboccipital (C1).",
+  irrigacion:"Arterias vertebral y occipital.",
+  accion:"Extiende la cabeza; tiene un puente de tejido hasta la duramadre.",
+  clinica:"Su conexión con la duramadre se ha relacionado con algunas cefaleas de origen cervical.",
+  prueba:"No se explora aislado."},
+oblicuo_inferior_cabeza:{cat:"musculo", capa:"Profundo", grupo:"Suboccipitales", nombre:"Oblicuo inferior de la cabeza", latin:"Musculus obliquus capitis inferior",
+  resumen:"El mayor de los suboccipitales, a pesar de su nombre no llega a la cabeza: va del axis al atlas.",
+  origen:"Apófisis espinosa del axis.",
+  insercion:"Apófisis transversa del atlas.",
+  inervacion:"Nervio suboccipital (C1).",
+  irrigacion:"Arterias vertebral y occipital.",
+  accion:"Gira el atlas, y con él la cabeza, hacia su lado (decir «no»).",
+  clinica:"El nervio occipital mayor lo rodea por debajo; forma el borde inferior del triángulo suboccipital.",
+  prueba:"Rotación de la cabeza contra resistencia ligera."},
+oblicuo_superior_cabeza:{cat:"musculo", capa:"Profundo", grupo:"Suboccipitales", nombre:"Oblicuo superior de la cabeza", latin:"Musculus obliquus capitis superior",
+  resumen:"Suboccipital que sube de la apófisis transversa del atlas al occipital; forma el borde lateral del triángulo suboccipital.",
+  origen:"Apófisis transversa del atlas.",
+  insercion:"Occipital, entre las líneas nucales superior e inferior.",
+  inervacion:"Nervio suboccipital (C1).",
+  irrigacion:"Arterias vertebral y occipital.",
+  accion:"Extiende la cabeza y la inclina hacia su lado.",
+  clinica:"En el triángulo suboccipital que forma pasan la arteria vertebral y el nervio suboccipital.",
+  prueba:"No se explora aislado."},
+
+/* ================= LIGAMENTOS ================= */
+lig_longitudinal_anterior:{cat:"ligamento", grupo:"Articulaciones de la columna", nombre:"Ligamento longitudinal anterior", latin:"Ligamentum longitudinale anterius",
+  resumen:"Banda ancha y fuerte que recorre la cara anterior de los cuerpos vertebrales desde el occipital hasta el sacro.",
+  une:"Caras anteriores de los cuerpos vertebrales y discos, desde el tubérculo anterior del atlas y el occipital hasta el sacro.",
+  funcion:"Limita la extensión de la columna y refuerza los discos por delante.",
+  clinica:"Se desgarra en el latigazo cervical por hiperextensión. En la espondilitis anquilosante se osifica y la columna se vuelve rígida («columna en caña de bambú»)."},
+lig_longitudinal_posterior:{cat:"ligamento", grupo:"Articulaciones de la columna", nombre:"Ligamento longitudinal posterior", latin:"Ligamentum longitudinale posterius",
+  resumen:"Banda más delgada dentro del conducto vertebral, sobre la cara posterior de los cuerpos.",
+  une:"Caras posteriores de los cuerpos vertebrales y discos, desde el axis (como membrana tectoria) hasta el sacro.",
+  funcion:"Limita la flexión y refuerza los discos por detrás, en la línea media.",
+  clinica:"Como es más fuerte en el centro, las hernias de disco suelen salir hacia atrás y a un lado, donde comprimen la raíz. Su osificación estrecha el conducto cervical."},
+lig_amarillo:{cat:"ligamento", grupo:"Articulaciones de la columna", nombre:"Ligamentos amarillos", latin:"Ligamenta flava",
+  resumen:"Ligamentos elásticos de color amarillo que unen las láminas de vértebras vecinas.",
+  une:"Láminas de las vértebras adyacentes, desde C2 hasta el sacro.",
+  funcion:"Su elasticidad ayuda a volver a la postura recta después de flexionar y evita que se pliegue hacia el conducto.",
+  clinica:"En la punción lumbar y la epidural se siente un «pop» al atravesarlo. Con la edad se engruesa y contribuye a la estenosis del conducto lumbar (dolor de piernas al caminar que mejora al inclinarse)."},
+lig_supraespinoso:{cat:"ligamento", grupo:"Articulaciones de la columna", nombre:"Ligamento supraespinoso", latin:"Ligamentum supraspinale",
+  resumen:"Cordón fibroso que une las puntas de las apófisis espinosas de C7 al sacro.",
+  une:"Vértices de las apófisis espinosas; en el cuello se continúa con el ligamento nucal.",
+  funcion:"Limita la flexión de la columna.",
+  clinica:"Se lesiona en flexiones bruscas y se atraviesa en la punción lumbar por la línea media."},
+lig_nucal:{cat:"ligamento", grupo:"Columna cervical", nombre:"Ligamento nucal", latin:"Ligamentum nuchae",
+  resumen:"Tabique fibroso triangular en la línea media de la nuca, continuación del supraespinoso.",
+  une:"Protuberancia y cresta occipital externa con las apófisis espinosas de las vértebras cervicales y C7.",
+  funcion:"Sirve de inserción a trapecio, esplenios y romboide menor y ayuda a sostener la cabeza.",
+  clinica:"Separa los músculos de los dos lados de la nuca; es la vía sin vasos para operar la columna cervical por detrás."},
+lig_interespinosos:{cat:"ligamento", grupo:"Articulaciones de la columna", nombre:"Ligamentos interespinosos", latin:"Ligamenta interspinalia",
+  resumen:"Membranas delgadas entre apófisis espinosas vecinas.",
+  une:"Bordes de apófisis espinosas adyacentes, desde la raíz hasta el vértice.",
+  funcion:"Limitan la flexión y separan los músculos de ambos lados.",
+  clinica:"Se rompen en las fracturas por flexión-distracción (cinturón de seguridad de dos puntos)."},
+fascia_toracolumbar:{cat:"ligamento", grupo:"Espalda baja", nombre:"Fascia toracolumbar", latin:"Fascia thoracolumbalis",
+  resumen:"Gran lámina de tejido fibroso en forma de rombo que envuelve los músculos de la espalda baja.",
+  une:"Apófisis espinosas torácicas bajas, lumbares y sacras con la cresta ilíaca, la 12.ª costilla y las apófisis transversas; se continúa con el dorsal ancho, el glúteo mayor y los músculos del abdomen.",
+  funcion:"Envuelve al erector y al cuadrado lumbar y transmite fuerzas entre el tronco, la pelvis y los brazos; actúa como un corsé natural.",
+  clinica:"Es una fuente frecuente de dolor lumbar por su gran número de terminaciones nerviosas. Se usa como capa de cierre en cirugías de columna."},
+lig_iliolumbar:{cat:"ligamento", grupo:"Espalda baja", nombre:"Ligamento iliolumbar", latin:"Ligamentum iliolumbale",
+  resumen:"Ligamento fuerte que une la última vértebra lumbar con la pelvis.",
+  une:"Apófisis transversa de L5 con la cresta ilíaca posterior.",
+  funcion:"Impide que L5 se deslice hacia delante sobre el sacro y limita la flexión lateral y la rotación.",
+  clinica:"Su irritación da dolor lumbar bajo que puede irradiar a la ingle o al glúteo."},
+lig_sacroiliacos_posteriores:{cat:"ligamento", grupo:"Espalda baja", nombre:"Ligamentos sacroilíacos posteriores", latin:"Ligamenta sacroiliaca posteriora",
+  resumen:"Haces fibrosos muy fuertes que sujetan el sacro entre los dos huesos coxales por detrás.",
+  une:"Cresta sacra lateral con la espina ilíaca posterosuperior y la tuberosidad ilíaca.",
+  funcion:"Mantienen el sacro encajado como una cuña y soportan el peso del tronco que pasa a las piernas.",
+  clinica:"En el embarazo se aflojan por las hormonas y pueden dar dolor sacroilíaco. Su lesión causa dolor sobre los hoyuelos lumbares."},
+
+/* ================= NERVIOS ================= */
+medula_espinal:{cat:"nervio", grupo:"Sistema nervioso central", nombre:"Médula espinal", latin:"Medulla spinalis",
+  resumen:"Cordón nervioso dentro del conducto vertebral que conecta el encéfalo con el cuerpo. Mide unos 45 cm y termina hacia L1–L2.",
+  raices:"Da 31 pares de nervios espinales: 8 cervicales, 12 torácicos, 5 lumbares, 5 sacros y 1 coccígeo.",
+  trayecto:"Continúa al bulbo raquídeo en el agujero magno, baja por el conducto vertebral envuelta en las meninges, se engrosa en el cuello (plexo braquial) y en la zona lumbar (plexo lumbosacro) y termina en el cono medular.",
+  inerva:"Lleva las órdenes motoras y recoge la sensibilidad de todo el cuerpo por debajo de la cabeza; contiene los centros de los reflejos.",
+  clinica:"Una lesión medular causa parálisis y pérdida de sensibilidad por debajo del nivel lesionado: en el cuello afecta brazos y piernas (tetraplejia); en el tórax, solo las piernas (paraplejia). Por eso se inmoviliza el cuello tras un accidente."},
+cola_caballo:{cat:"nervio", grupo:"Sistema nervioso central", nombre:"Cola de caballo", latin:"Cauda equina",
+  resumen:"Haz de raíces nerviosas lumbares y sacras que bajan por el conducto vertebral desde el final de la médula, como la cola de un caballo.",
+  raices:"Raíces de L2 a S5 y coccígea, más el filum terminal.",
+  trayecto:"Desde el cono medular (L1–L2) baja dentro del saco dural hasta S2 y cada raíz sale por su agujero intervertebral o sacro.",
+  inerva:"Piernas, vejiga, recto y genitales, a través de los plexos lumbar y sacro.",
+  clinica:"El síndrome de cola de caballo (por una hernia grande) es una urgencia: dolor en ambas piernas, adormecimiento «en silla de montar» y pérdida del control de la orina. La punción lumbar se hace aquí porque las raíces se apartan de la aguja."},
+nervios_espinales:{cat:"nervio", grupo:"Nervios espinales", nombre:"Nervios espinales", latin:"Nervi spinales",
+  resumen:"Nervios que salen de la médula por cada agujero intervertebral, a ambos lados, uniendo una raíz motora y una sensitiva.",
+  raices:"Raíz anterior (motora) y raíz posterior (sensitiva, con su ganglio). C1–C7 salen por encima de su vértebra; C8 y los demás, por debajo.",
+  trayecto:"Salen por el agujero intervertebral y se dividen enseguida en un ramo dorsal (espalda) y uno ventral (resto del cuerpo, forma los plexos y los nervios intercostales).",
+  inerva:"Cada uno inerva una franja de piel (dermatoma) y un grupo de músculos (miotoma).",
+  clinica:"Una hernia de disco o la artrosis pueden comprimirlos en el agujero (radiculopatía): dolor y hormigueo en su dermatoma, debilidad y reflejos disminuidos. El herpes zóster aparece siguiendo un dermatoma."},
+ramos_dorsales:{cat:"nervio", grupo:"Nervios espinales", nombre:"Ramos dorsales de los nervios espinales", latin:"Rami posteriores nervorum spinalium",
+  resumen:"Ramas posteriores de cada nervio espinal que inervan la musculatura profunda y la piel de la espalda.",
+  raices:"Todos los nervios espinales, de C1 a S5.",
+  trayecto:"Rodean la articulación facetaria hacia atrás y se dividen en ramas medial y lateral que entran en los músculos y llegan a la piel junto a la línea media.",
+  inerva:"Músculos propios de la espalda (erector, transversoespinosos, esplenios, suboccipitales), las articulaciones facetarias y la piel de la espalda.",
+  clinica:"La rama medial inerva las facetas; su bloqueo o radiofrecuencia alivia el dolor de artrosis facetaria. Son el origen del dolor de espalda «mecánico»."},
+n_occipital_mayor:{cat:"nervio", grupo:"Nervios espinales", nombre:"Nervio occipital mayor", latin:"Nervus occipitalis major",
+  resumen:"Ramo dorsal de C2 que sube por la nuca hasta el cuero cabelludo.",
+  raices:"C2 (ramo dorsal).",
+  trayecto:"Rodea el oblicuo inferior de la cabeza, sube atravesando el semiespinoso de la cabeza y el trapecio cerca de la protuberancia occipital, junto a la arteria occipital.",
+  inerva:"Piel de la parte posterior de la cabeza hasta la coronilla; ramos para el semiespinoso.",
+  clinica:"Neuralgia occipital: dolor punzante desde la nuca hacia la cabeza por irritación del nervio. Se bloquea con anestesia en la nuca para tratar algunos dolores de cabeza."},
+n_suboccipital:{cat:"nervio", grupo:"Nervios espinales", nombre:"Nervio suboccipital", latin:"Nervus suboccipitalis",
+  resumen:"Ramo dorsal de C1, casi solo motor, que inerva los músculos suboccipitales.",
+  raices:"C1 (ramo dorsal).",
+  trayecto:"Sale entre el occipital y el atlas, por encima del arco posterior del atlas, y entra en el triángulo suboccipital bajo la arteria vertebral.",
+  inerva:"Rectos posteriores mayor y menor, oblicuos superior e inferior de la cabeza y parte del semiespinoso.",
+  clinica:"Casi no tiene ramas para la piel; por eso C1 no tiene dermatoma propio."},
+
+/* ================= VASOS ================= */
+a_vertebral:{cat:"arteria", grupo:"Cuello", nombre:"Arteria vertebral", latin:"Arteria vertebralis",
+  resumen:"Arteria que sube por los agujeros de las apófisis transversas cervicales y entra al cráneo para irrigar la parte posterior del encéfalo.",
+  origen:"Primera porción de la arteria subclavia.",
+  trayecto:"Entra en el agujero transverso de C6, sube por los de C5 a C1, gira hacia atrás sobre el arco posterior del atlas (triángulo suboccipital) y entra al cráneo por el agujero magno, donde se une con la del otro lado para formar la arteria basilar.",
+  ramas:"Ramas espinales y musculares en el cuello; dentro del cráneo, arterias espinales anterior y posteriores y cerebelosa posteroinferior.",
+  irriga:"Médula cervical, tronco encefálico, cerebelo y lóbulos occipitales del cerebro (con la basilar).",
+  clinica:"Puede disecarse (rasgarse) con manipulaciones bruscas del cuello o traumatismos, causando infartos del cerebelo o del tronco: mareo intenso, visión doble y dificultad para hablar."},
+a_intercostales_posteriores:{cat:"arteria", grupo:"Tórax", nombre:"Arterias intercostales posteriores", latin:"Arteriae intercostales posteriores",
+  resumen:"Arterias que corren por el borde inferior de cada costilla y dan ramas a la espalda y a la médula.",
+  origen:"Las dos primeras de la arteria intercostal suprema (tronco costocervical); de la 3.ª a la 11.ª, de la aorta torácica.",
+  trayecto:"Rodean el cuerpo vertebral, dan un ramo dorsal hacia la espalda y siguen por el surco costal, entre los músculos intercostales, junto a la vena y el nervio intercostal.",
+  ramas:"Ramo dorsal (con ramo espinal hacia la médula y ramos musculares) y ramos colaterales y cutáneos laterales.",
+  irriga:"Músculos intercostales, piel y músculos de la espalda, vértebras y médula espinal.",
+  clinica:"Una de ellas suele formar la arteria radicular mayor (de Adamkiewicz), clave para la médula; dañarla en cirugías de aorta puede causar paraplejia. Las agujas en el tórax se introducen por el borde superior de la costilla para no lesionarlas."},
+a_lumbares:{cat:"arteria", grupo:"Abdomen", nombre:"Arterias lumbares", latin:"Arteriae lumbales",
+  resumen:"Cuatro pares de arterias que salen de la aorta abdominal y rodean los cuerpos de L1 a L4.",
+  origen:"Cara posterior de la aorta abdominal.",
+  trayecto:"Rodean el cuerpo vertebral por detrás del psoas y se dividen en ramo dorsal (espalda y conducto vertebral) y ramos para la pared del abdomen.",
+  ramas:"Ramo dorsal con ramos espinales y musculares; ramos abdominales.",
+  irriga:"Vértebras lumbares, músculos de la espalda baja, cuadrado lumbar, psoas y pared abdominal.",
+  clinica:"Pueden sangrar en fracturas lumbares o en cirugías de columna por delante."},
+plexo_venoso_vertebral:{cat:"vena", grupo:"Venas de la columna", nombre:"Plexo venoso vertebral", latin:"Plexus venosi vertebrales",
+  resumen:"Red de venas sin válvulas dentro y alrededor de la columna, desde el cráneo hasta el sacro (plexo de Batson).",
+  trayecto:"Plexo interno en el espacio epidural, con canales longitudinales unidos por escalones en cada vértebra, y plexo externo por delante de los cuerpos y alrededor de los arcos.",
+  drena:"Venas intervertebrales hacia las venas vertebrales, intercostales, lumbares y sacras; se comunica con los senos venosos del cráneo.",
+  clinica:"Como no tiene válvulas, permite que células de cáncer de próstata, mama o pulmón lleguen a las vértebras sin pasar por los pulmones (metástasis óseas). Puede sangrar en la anestesia epidural."}
+});
+
+/* Región 5: columna y espalda */
+(function(){
+  var esp = ["atlas", "axis", "discos_intervertebrales", "hueso_occipital", "serrato_posterior_superior", "serrato_posterior_inferior", "esplenio_cabeza", "esplenio_cuello", "iliocostal", "longisimo", "espinoso", "semiespinoso", "multifido", "rotadores", "interespinosos", "cuadrado_lumbar",
+    "recto_posterior_mayor_cabeza", "recto_posterior_menor_cabeza", "oblicuo_inferior_cabeza", "oblicuo_superior_cabeza", "lig_longitudinal_anterior", "lig_longitudinal_posterior", "lig_amarillo", "lig_supraespinoso", "lig_nucal", "lig_interespinosos", "fascia_toracolumbar", "lig_iliolumbar", "lig_sacroiliacos_posteriores",
+    "medula_espinal", "cola_caballo", "nervios_espinales", "ramos_dorsales", "n_occipital_mayor", "n_suboccipital", "a_vertebral", "a_intercostales_posteriores", "a_lumbares", "plexo_venoso_vertebral"];
+  esp.forEach(function(id){ if(DATA[id]) DATA[id].reg = ["espalda"]; });
+  ["vertebras_cervicales", "vertebras_toracicas", "trapecio", "dorsal_ancho", "romboide_mayor", "romboide_menor", "elevador_escapula", "escapula", "costillas", "n_accesorio"].forEach(function(id){ if(DATA[id]) DATA[id].reg = ["hombro", "espalda"]; });
+  ["vertebras_lumbares", "sacro", "hueso_coxal", "lig_sacrotuberoso"].forEach(function(id){ if(DATA[id]) DATA[id].reg = ["cadera", "espalda"]; });
+  REGIONES.forEach(function(r){ if(r.id === "espalda") r.listo = true; });
+})();
+RGRUPO.espalda = "ax";
+RINFO.espalda = {nombre:"Columna y espalda", n:5, sub:"Tronco", desc:"Columna vertebral completa con atlas, axis, discos y occipital; músculos profundos de ambos lados (erectores, transversoespinosos, esplenios, suboccipitales), ligamentos vertebrales, médula espinal, nervios espinales y vasos de la columna.",
+  inicio:["multifido", "iliocostal", "discos_intervertebrales", "medula_espinal", "lig_amarillo", "recto_posterior_mayor_cabeza"], home:{tx:0, ty:-14, tz:-12, dist:122, yaw:Math.PI, pitch:.06}};
+
+/* =====================================================================
    GEOMETRÍA: tubos de radio variable, elipsoides, toroides, placas, lofts
    ===================================================================== */
 var G = (function(){
@@ -3534,6 +3850,221 @@ var MODEL = (function(){
 })();
 
 /* =====================================================================
+   MODELO · REGIÓN 5: COLUMNA Y ESPALDA (ambos lados de la línea media)
+   Reemplaza la columna simplificada por vértebras detalladas.
+   ===================================================================== */
+(function(){
+  var V = G.v, add = V.add, sub = V.sub, sc = V.sc, nrm = V.nrm, lerp = V.lerp, COL = MODEL.COL, L = MODEL.list;
+  function gOf(id){ for(var i = 0; i < L.length; i++) if(L[i].id === id) return L[i].g; return null; }
+  function push(id, g, opt){ L.push({id:id, g:g, opt:opt || {}}); }
+  for(var q = L.length - 1; q >= 0; q--) if(L[q].id === "columna") L.splice(q, 1);
+  var S2 = [1, -1], g;
+
+  /* ---------- niveles vertebrales (mismas medidas que el resto de la escena) ---------- */
+  var LV = [];
+  var cy = [14, 12.7, 11.3, 9.9, 8.5, 7.1, 5.6], i;
+  for(i = 1; i <= 7; i++){ var bz = -5.2 - (i - 1) * .38; LV.push({k:"C" + i, b:[0, cy[i - 1], bz], s:[0, cy[i - 1] - .6, bz - 4.4 - (i === 7 ? 1.4 : 0)], r:i < 3 ? 1.0 : .95 + i * .04, t:"C"}); }
+  for(i = 1; i <= 12; i++){ var y = 2.8 - (i - 1) * 2.65, z = i <= 6 ? -8.6 - (i - 1) * .48 : -11 + (i - 6) * .1; LV.push({k:"T" + i, b:[0, y, z], s:[0, y - 1.8 - (i > 4 && i < 10 ? .9 : 0), z - 6], r:1.25 + i * .045, t:"T"}); }
+  LV.push({k:"L1", b:[0, -29.4, -10.2], s:[0, -30.4, -15.8], r:1.95, t:"L"}, {k:"L2", b:[0, -32.4, -9.8], s:[0, -33.4, -15.4], r:2.0, t:"L"},
+    {k:"L3", b:[0, -35.4, -9.6], s:[0, -36.4, -15.2], r:2.1, t:"L"}, {k:"L4", b:[0, -38.4, -9.3], s:[0, -39.4, -14.9], r:2.1, t:"L"}, {k:"L5", b:[0, -41.4, -9.2], s:[0, -42.4, -14.6], r:2.1, t:"L"});
+  var byK = {}; LV.forEach(function(v){ byK[v.k] = v; v.can = [0, v.b[1], v.b[2] - v.r * (v.t === "C" ? 1.45 : 1.38)]; });
+  function rib(n, f, side){
+    var a = [7.5, 10, 11.5, 12.5, 13, 13.4, 13.5, 13.4, 13, 12.4, 12, 11.5][n - 1], b = [5.5, 7, 7.6, 8, 8.2, 8.3, 8.3, 8.2, 8, 7.8, 7.4, 7][n - 1];
+    var yp = 2.8 - (n - 1) * 2.65, ph = f * Math.PI, s = Math.sin(ph), c = Math.cos(ph);
+    return [(side || 1) * (2 + (a - 2) * s), yp - 4 * (1 - c) / 2 - 1.5 * s, (3 - b) - b * c];
+  }
+  var EOP = [0, 21.4, -11.6];
+  function nucal(s, t){ return [s * (1.2 + t * 4.2), 21.0 - t * 1.4, -11.4 + t * 3.2]; }
+  function nucalInf(s, t){ return [s * (1.0 + t * 3.6), 19.3 - t * .9, -10.4 + t * 2.8]; }
+  function mastoid(s){ return [s * 5.2, 19.2, -6.6]; }
+
+  /* =================== HUESOS =================== */
+  function vertebra(gg, v){
+    var b = v.b, r = v.r, C = v.t === "C", T = v.t === "T", Lb = v.t === "L";
+    var ry = C ? .5 : T ? .75 + (r - 1.3) * .5 : .95;
+    G.ell(gg, b, r, ry, r * .85, COL.bone, 8, 12);
+    var back = add(b, [0, 0, -r * (C ? 1.95 : 1.85)]);
+    S2.forEach(function(s){
+      var ped = add(b, [s * r * .6, 0, -r * .8]), lam = add(b, [s * r * .5, 0, -r * (C ? 1.75 : 1.7)]);
+      G.tube(gg, [ped, add(b, [s * r * .7, 0, -r * 1.25]), lam, back], {r:C ? .28 : T ? .32 : .42, col:COL.bone, rad:6});
+      var tp = C ? add(b, [s * (r + 1.3), 0, -r * .45]) : T ? add(b, [s * (r + 1.9), .3, -r * 1.65]) : add(b, [s * (r + 2.4), 0, -r * 1.05]);
+      G.tube(gg, [add(b, [s * r * .65, 0, -r * 1.2]), tp], {r:function(u){ return (C ? .28 : T ? .34 : .36) * (1 - u * .3); }, col:COL.bone, rad:6, caps:true});
+      G.ell(gg, add(lam, [s * .15, ry * .9, .1]), .3, .32, .32, COL.bone, 5, 6);
+      G.ell(gg, add(lam, [s * .15, -ry * .9, .1]), .3, .32, .32, COL.bone, 5, 6);
+      if(C) G.torus(gg, add(b, [s * (r + .55), 0, -r * .35]), [0, 1, 0], .32, .1, COL.bone, 10, 4);
+    });
+    G.tube(gg, [back, lerp(back, v.s, .5), v.s], {r:function(u){ return (C ? .3 : Lb ? .55 : .36) * (1 - u * .35); }, col:COL.bone, rad:6, caps:true, flatY:Lb ? 2.2 : 1});
+    if(C && v.k !== "C7") S2.forEach(function(s){ G.ell(gg, add(v.s, [s * .3, 0, 0]), .22, .22, .22, COL.bone, 4, 6); });
+  }
+  // Atlas (C1)
+  g = G.B();
+  (function(){ var b = byK.C1.b; G.torus(g, add(b, [0, 0, -1.6]), [0, 1, 0], 1.55, .32, COL.bone, 28, 6);
+    S2.forEach(function(s){ G.ell(g, add(b, [s * 1.35, 0, -1.0]), .55, .55, .8, COL.bone, 8, 10); G.tube(g, [add(b, [s * 1.6, 0, -1.0]), add(b, [s * 3.6, -.1, -1.0])], {r:.32, col:COL.bone, rad:6, caps:true}); });
+    G.ell(g, add(b, [0, 0, .05]), .45, .4, .3, COL.bone, 6, 8); G.ell(g, [0, b[1] - .3, b[2] - 4.0], .4, .35, .3, COL.bone, 6, 8); })();
+  push("atlas", g, {layer:"hueso"});
+  // Axis (C2)
+  g = G.B(); vertebra(g, byK.C2); G.ellBetween(g, add(byK.C2.b, [0, .3, .3]), add(byK.C1.b, [0, .7, -.35]), .38, .38, COL.bone);
+  push("axis", g, {layer:"hueso"});
+  g = G.B(); ["C3", "C4", "C5", "C6", "C7"].forEach(function(k){ vertebra(g, byK[k]); }); push("vertebras_cervicales", g, {layer:"hueso"});
+  g = G.B(); LV.filter(function(v){ return v.t === "T"; }).forEach(function(v){ vertebra(g, v); S2.forEach(function(s){ G.ell(g, add(v.b, [s * v.r * .95, v.r * .25, -v.r * .35]), .25, .25, .25, COL.cart, 4, 6); }); }); push("vertebras_toracicas", g, {layer:"hueso"});
+  // L1–L5: reemplaza la malla lumbar anterior para que todas tengan el mismo detalle
+  for(q = L.length - 1; q >= 0; q--) if(L[q].id === "vertebras_lumbares") L.splice(q, 1);
+  g = G.B(); LV.filter(function(v){ return v.t === "L"; }).forEach(function(v){ vertebra(g, v); }); push("vertebras_lumbares", g, {layer:"hueso"});
+  // Discos intervertebrales
+  g = G.B();
+  for(i = 1; i < LV.length; i++){ var A = LV[i - 1], B = LV[i]; if(i === 1) continue; var c = lerp(A.b, B.b, .5), rr = (A.r + B.r) / 2, h = Math.max(.12, (A.b[1] - B.b[1]) - (B.t === "C" ? 1.0 : B.t === "T" ? 1.6 : 1.9)) / 2;
+    G.ell(g, c, rr * .95, h, rr * .8, COL.cart, 6, 12); G.ell(g, add(c, [0, 0, -rr * .05]), rr * .45, h * 1.05, rr * .38, [.95, .85, .7], 5, 8); }
+  G.ell(g, [0, -43.0, -9.3], 2.0, .45, 1.65, COL.cart, 6, 12);
+  push("discos_intervertebrales", g, {layer:"ligamento"});
+  // Hueso occipital (parte posterior e inferior del cráneo)
+  g = G.B();
+  (function(){
+    // casquete liso de la parte posterior e inferior del cráneo
+    function patch(c, R, la0, la1, lo0, lo1, nr, nc, th){
+      [0, 1].forEach(function(side){
+        var base = g.p.length / 3, rr, cc;
+        for(rr = 0; rr <= nr; rr++) for(cc = 0; cc <= nc; cc++){
+          var la = la0 + (la1 - la0) * rr / nr, lo = lo0 + (lo1 - lo0) * cc / nc;
+          var nx = Math.cos(la) * Math.sin(lo), ny = Math.sin(la), nz = -Math.cos(la) * Math.cos(lo), k = side ? 1 : 1 - th / R[0];
+          g.p.push(c[0] + nx * R[0] * k, c[1] + ny * R[1] * k, c[2] + nz * R[2] * k);
+          var nn = nrm([nx / R[0], ny / R[1], nz / R[2]]); if(!side) nn = sc(nn, -1);
+          g.n.push(nn[0], nn[1], nn[2]); g.c.push(COL.bone[0], COL.bone[1], COL.bone[2]); g.t.push(0);
+        }
+        for(rr = 0; rr < nr; rr++) for(cc = 0; cc < nc; cc++){ var a = base + rr * (nc + 1) + cc, b = a + 1, d = a + nc + 1, e = d + 1; g.i.push(a, b, d, b, e, d); }
+      });
+    }
+    patch([0, 24.2, -3.8], [6.9, 8.4, 8.0], -.62, .75, -1.25, 1.25, 16, 22, .45);
+    G.ell(g, EOP, .6, .5, .5, COL.bone, 6, 8);
+    S2.forEach(function(s){ G.ellBetween(g, [s * 4.8, 20.6, -6.2], mastoid(s), .75, .9, COL.bone); G.ell(g, [s * 1.4, 16.9, -5.6], .7, .4, 1.0, COL.bone, 8, 10); });
+    G.torus(g, [0, 17.0, -6.6], [0, 1, 0], 1.55, .3, COL.bone, 22, 6);
+  })();
+  push("hueso_occipital", g, {layer:"hueso"});
+
+  /* =================== MÚSCULOS (bilaterales) =================== */
+  var seed = 7101;
+  function mus(id, deep, partsFn){ var gg = G.B(), parts = []; S2.forEach(function(s){ parts = parts.concat(partsFn(s)); }); G.muscle(gg, {parts:parts}, seed += 151, {m:deep ? COL.musDeep : COL.mus, t:COL.ten}); push(id, gg, {layer:deep ? "profundo" : "superficial"}); }
+  function X(p, s){ return [p[0] * s, p[1], p[2]]; }
+  function spn(k, s, dz){ var v = byK[k]; return add(v.s, [s * .35, 0, dz || 0]); }
+  function tpp(k, s, dz){ var v = byK[k], r = v.r, C = v.t === "C", T = v.t === "T"; return add(v.b, [s * (C ? r + 1.2 : T ? r + 1.8 : r + 2.3), T ? .3 : 0, (C ? -r * .5 : T ? -r * 1.7 : -r * 1.1) + (dz || 0)]); }
+  function lamP(k, s, dz){ var v = byK[k]; return add(v.b, [s * v.r * .55, 0, -v.r * 1.9 + (dz || 0)]); }
+  var v1 = function(p){ return [p]; };
+  // Serratos posteriores
+  mus("serrato_posterior_superior", false, function(s){ return [{o:["C7", "T1", "T2", "T3"].map(function(k){ return spn(k, s, -.3); }), i:[2, 3, 4, 5].map(function(n){ return add(rib(n, .2, s), [0, 0, -.5]); }), b:[0, 0, -.6], n:8, r:.35, belly:[.25, .85], rt:.18}]; });
+  mus("serrato_posterior_inferior", false, function(s){ return [{o:["T11", "T12", "L1", "L2"].map(function(k){ return spn(k, s, -.3); }), i:[9, 10, 11, 12].map(function(n){ return add(rib(n, .2, s), [0, 0, -.5]); }), b:[0, 0, -.6], n:9, r:.38, belly:[.28, .9], rt:.2}]; });
+  // Esplenios
+  mus("esplenio_cabeza", false, function(s){ return [{o:[[s * .3, 10.6, -11.4], [s * .3, 8.0, -11.2], spn("C7", s, -.2), spn("T1", s, -.2), spn("T2", s, -.2), spn("T3", s, -.2)], v:[[X([2.0, 11.0, -11.6], s), X([2.6, 9.0, -11.8], s), X([2.8, 7.0, -12.4], s)]], i:[mastoid(s), add(nucal(s, .85), [0, -.2, .2]), add(nucal(s, .7), [0, -.2, .1])], cross:true, n:10, r:.62, belly:[.04, .94]}]; });
+  mus("esplenio_cuello", true, function(s){ return [{o:["T3", "T4", "T5", "T6"].map(function(k){ return spn(k, s, .2); }), v:[[X([3.0, 2.0, -12.0], s), X([3.0, -2.0, -12.8], s)]], i:[tpp("C1", s, -.2), tpp("C2", s, -.2), tpp("C3", s, -.2)], n:7, r:.45, belly:[.06, .9], rt:.15}]; });
+  // Erector de la columna
+  var ILC = [4.6, 4.8, 5.2, 5.6, 6.0, 6.2];
+  mus("iliocostal", false, function(s){ var parts = [];
+    parts.push({o:[X([4.6, -45.8, -14.4], s), X([6.4, -44.8, -13.6], s), X([7.6, -43.4, -12.6], s)], v:[[X([5.4, -36, -15.0], s), X([6.2, -34, -14.6], s), X([6.8, -32, -14.0], s)]], i:[6, 7, 8, 9, 10, 11, 12].map(function(n){ return add(rib(n, .16, s), [0, -.2, -.6]); }), n:10, r:.62, belly:[.05, .9], rt:.2});
+    parts.push({o:[7, 8, 9, 10, 11, 12].map(function(n){ return add(rib(n, .16, s), [0, .3, -.6]); }), i:[1, 2, 3, 4, 5, 6].map(function(n){ return add(rib(n, .15, s), [0, -.2, -.5]); }), n:8, r:.45, belly:[.05, .92], rt:.15});
+    parts.push({o:[3, 4, 5, 6].map(function(n){ return add(rib(n, .14, s), [0, .3, -.5]); }), i:[tpp("C4", s, -.3), tpp("C5", s, -.3), tpp("C6", s, -.3)], n:5, r:.35, belly:[.06, .9], rt:.12});
+    return parts; });
+  mus("longisimo", false, function(s){ var parts = [];
+    parts.push({o:[X([2.4, -46.4, -13.6], s), X([3.2, -44.6, -14.2], s), tpp("L5", s, -.4), tpp("L4", s, -.4), tpp("L3", s, -.4)], v:[[X([3.2, -34, -15.4], s), X([3.3, -26, -15.6], s)]], i:["T12", "T10", "T8", "T6", "T4", "T2", "T1"].map(function(k){ return tpp(k, s, -.5); }), n:12, r:.62, belly:[.04, .9], rt:.18});
+    parts.push({o:["T1", "T2", "T3", "T4", "T5"].map(function(k){ return tpp(k, s, -.6); }), i:["C2", "C3", "C4", "C5", "C6"].map(function(k){ return tpp(k, s, -.4); }), n:6, r:.38, belly:[.05, .9], rt:.12});
+    parts.push({o:["T1", "T2", "T3", "C7", "C6", "C5", "C4"].map(function(k){ return tpp(k, s, -.7); }), v:[[X([3.4, 12, -8.6], s)]], i:[add(mastoid(s), [0, .1, -.3])], n:5, r:.33, belly:[.06, .88], rt:.12});
+    return parts; });
+  mus("espinoso", false, function(s){ return [{o:["L2", "L1", "T12", "T11"].map(function(k){ return spn(k, s, .7); }), v:[[X([1.1, -20, -16.6], s)]], i:["T8", "T6", "T4", "T2"].map(function(k){ return spn(k, s, .7); }), n:6, r:.4, belly:[.08, .9], rt:.12}, {o:["T2", "T1", "C7"].map(function(k){ return spn(k, s, .5); }), i:["C4", "C3", "C2"].map(function(k){ return spn(k, s, .5); }), n:3, r:.28, belly:[.08, .9], rt:.1}]; });
+  // Transversoespinosos
+  mus("semiespinoso", true, function(s){ return [
+    {o:["T1", "T2", "T3", "T4", "T5", "T6", "C7", "C6", "C5", "C4"].map(function(k){ return tpp(k, s, -.9); }), v:[[X([1.8, 10, -10.6], s), X([2.2, 13, -10.4], s)]], i:[add(nucal(s, .02), [0, -.6, .2]), add(nucal(s, .25), [0, -.6, .2]), add(nucal(s, .45), [0, -.6, .3])], n:10, r:.55, belly:[.06, .92], rt:.15},
+    {o:["T10", "T9", "T8", "T7", "T6"].map(function(k){ return tpp(k, s, -1.0); }), i:["T4", "T3", "T2", "T1", "C7", "C6"].map(function(k){ return spn(k, s, 1.0); }), n:8, r:.32, belly:[.06, .9], rt:.1}]; });
+  mus("multifido", true, function(s){ var parts = [];
+    var lv = LV.slice(2);
+    for(var j = 0; j < lv.length - 3; j++){ var lo = lv[j + 3], hi = lv[j], lum = lo.t === "L";
+      parts.push({o:[lum ? add(lamP(lo.k, s, -.6), [s * .8, 0, 0]) : tpp(lo.k, s, -.4)], i:[spn(hi.k, s, lum ? 1.0 : 1.2)], n:lum ? 3 : 1, r:lum ? .42 : .22, belly:[.05, .92], rt:.08}); }
+    parts.push({o:[X([1.6, -46, -12.6], s), X([2.4, -48.6, -12.8], s), X([3.6, -46.2, -13.6], s)], i:[spn("L4", s, .9), spn("L5", s, .9)], n:6, r:.45, belly:[.05, .92], rt:.1});
+    return parts; });
+  mus("rotadores", true, function(s){ var parts = []; LV.filter(function(v){ return v.t === "T"; }).forEach(function(v, j, arr){ if(!j) return; var up = arr[j - 1]; parts.push({o:[tpp(v.k, s, -.2)], i:[lamP(up.k, s, .2)], n:2, r:.18, belly:[.05, .95], rt:.06}); }); return parts; });
+  mus("interespinosos", true, function(s){ var parts = []; ["C2", "C3", "C4", "C5", "C6", "C7", "T12", "L1", "L2", "L3", "L4"].forEach(function(k){ var j = LV.indexOf(byK[k]), a = LV[j], b = LV[j + 1]; parts.push({o:[lerp(a.b, a.s, .55)].map(function(p){ return add(p, [s * .3, -.2, 0]); }), i:[lerp(b.b, b.s, .55)].map(function(p){ return add(p, [s * .3, .3, 0]); }), n:2, r:a.t === "L" ? .35 : .18, belly:[.05, .95], rt:.06}); }); return parts; });
+  mus("cuadrado_lumbar", true, function(s){ return [{o:[X([5.8, -44.2, -11.8], s), X([7.6, -43.6, -11.6], s), X([9.4, -43.2, -10.4], s)], v:[[X([5.4, -36, -10.6], s), X([6.6, -36, -10.4], s)]], i:[add(rib(12, .12, s), [0, -.3, .4]), add(rib(12, .22, s), [0, -.3, .4]), tpp("L1", s, .4), tpp("L2", s, .4), tpp("L3", s, .4)], n:10, r:.55, belly:[.05, .92], rt:.15}]; });
+  // Suboccipitales
+  var C1t = byK.C1.s, C2s = byK.C2.s;
+  mus("recto_posterior_mayor_cabeza", true, function(s){ return [{o:[add(C2s, [s * .4, .2, 0])], i:[add(nucalInf(s, .35), [0, -.1, .2]), add(nucalInf(s, .6), [0, -.1, .3])], n:5, r:.4, belly:[.06, .94], rt:.12}]; });
+  mus("recto_posterior_menor_cabeza", true, function(s){ return [{o:[add(C1t, [s * .25, .1, -.1])], i:[add(nucalInf(s, 0), [0, -.2, .3]), add(nucalInf(s, .22), [0, -.2, .3])], n:4, r:.32, belly:[.06, .94], rt:.1}]; });
+  mus("oblicuo_inferior_cabeza", true, function(s){ return [{o:[add(C2s, [s * .45, .1, .1])], i:[add(tpp("C1", s, -.3), [s * .6, 0, 0])], b:[0, 0, -.4], n:5, r:.42, belly:[.06, .94], rt:.12}]; });
+  mus("oblicuo_superior_cabeza", true, function(s){ return [{o:[add(tpp("C1", s, -.4), [s * .6, .2, 0])], i:[add(nucalInf(s, .7), [0, .4, .4]), add(nucalInf(s, .9), [0, .5, .5])], n:4, r:.36, belly:[.06, .94], rt:.12}]; });
+
+  /* =================== LIGAMENTOS =================== */
+  function lig(id, list, opt){
+    var gg = G.B();
+    list.forEach(function(Lg){
+      if(Lg.fan) G.muscle(gg, {parts:[Lg.fan]}, 11, {m:COL.lig, t:COL.ligT});
+      else if(Lg.plate) G.plate(gg, Lg.plate[0], Lg.plate[1], Lg.plate[2], Lg.th || .15, [0, 0, 0], COL.lig, 6);
+      else G.tube(gg, Lg.p, {r:Lg.r || .2, col:COL.lig, rad:6, flatX:Lg.flat || 1.4, caps:true, seg:Lg.seg});
+    });
+    push(id, gg, Object.assign({layer:"ligamento"}, opt || {}));
+  }
+  var vb = LV.slice(1);
+  lig("lig_longitudinal_anterior", [{p:vb.map(function(v){ return add(v.b, [0, 0, v.r * .86]); }).concat([[0, -44.4, -7.8], [0, -47.4, -9.4]]), r:.22, flat:3.2, seg:120}]);
+  lig("lig_longitudinal_posterior", [{p:vb.map(function(v){ return add(v.b, [0, 0, -v.r * .84]); }).concat([[0, -44.0, -11.4]]), r:.15, flat:2.4, seg:120}]);
+  var amar = [];
+  LV.forEach(function(v, j){ if(!j || j === LV.length) return; var up = LV[j - 1]; S2.forEach(function(s){ amar.push({p:[add(lamP(up.k, s, .25), [0, -.4, 0]), add(lamP(v.k, s, .25), [0, .4, 0])], r:.17, flat:2.2}); }); });
+  lig("lig_amarillo", amar);
+  lig("lig_supraespinoso", [{p:LV.slice(6).map(function(v){ return add(v.s, [0, 0, -.25]); }).concat([[0, -45.6, -14.4]]), r:.14, seg:120}]);
+  lig("lig_nucal", [{plate:[EOP, add(byK.C7.s, [0, 0, -.2]), add(byK.C1.s, [0, 0, -.1])], th:.14}, {plate:[EOP, [0, 13.6, -12.8], add(byK.C7.s, [0, .2, -.3])], th:.14}], {op:.8});
+  var inter = []; LV.slice(1).forEach(function(v, j){ var up = LV[j]; inter.push({p:[lerp(up.b, up.s, .7), lerp(v.b, v.s, .7)], r:v.t === "L" ? .28 : .14, flat:.5}); });
+  lig("lig_interespinosos", inter);
+  (function(){
+    // lámina lisa de dos caras: P(u, v) con u de la línea media (0) al borde lateral (1) y v de arriba (0) a abajo (1)
+    function sheet(gg, P, nu, nv, col){
+      [1, -1].forEach(function(face){
+        var base = gg.p.length / 3, a, b;
+        for(b = 0; b <= nv; b++) for(a = 0; a <= nu; a++){
+          var u = a / nu, v = b / nv, p0 = P(u, v), du = sub(P(Math.min(1, u + .01), v), P(Math.max(0, u - .01), v)), dv = sub(P(u, Math.min(1, v + .01)), P(u, Math.max(0, v - .01)));
+          var nn = nrm(V.cross(du, dv)); if(nn[2] > 0) nn = sc(nn, -1); nn = sc(nn, face); var off = sc(nn, .06);
+          gg.p.push(p0[0] + off[0], p0[1] + off[1], p0[2] + off[2]); gg.n.push(nn[0], nn[1], nn[2]); gg.c.push(col[0], col[1], col[2]); gg.t.push(0);
+        }
+        for(b = 0; b < nv; b++) for(a = 0; a < nu; a++){ var i0 = base + b * (nu + 1) + a, i1 = i0 + 1, i2 = i0 + nu + 1, i3 = i2 + 1; if(face > 0) gg.i.push(i0, i2, i1, i1, i2, i3); else gg.i.push(i0, i1, i2, i1, i3, i2); }
+      });
+    }
+    var gg = G.B();
+    var midZ = function(y){ var a = [[-24, -16.2], [-30.4, -16.2], [-36.4, -15.6], [-42.4, -15.0], [-46, -14.8]]; for(var k = 1; k < a.length; k++) if(y >= a[k][0]) { var t = (y - a[k - 1][0]) / (a[k][0] - a[k - 1][0]); return a[k - 1][1] + (a[k][1] - a[k - 1][1]) * t; } return -14.8; };
+    S2.forEach(function(s){ sheet(gg, function(u, v){ var y = -24 - v * 22, w = 9.0 + v * 2.6, x = s * (u * w), z = midZ(y) - .6 - Math.sin(u * Math.PI) * 1.6 + u * u * (4.2 + v * .8); return [x, y + u * u * 1.2, z]; }, 10, 14, COL.lig); });
+    push("fascia_toracolumbar", gg, {layer:"ligamento", op:.42});
+  })();
+  lig("lig_iliolumbar", S2.map(function(s){ return {p:[tpp("L5", s, .1), X([5.8, -42.8, -11.2], s), X([7.4, -43.6, -12.0], s)], r:.24}; }));
+  lig("lig_sacroiliacos_posteriores", S2.map(function(s){ return {fan:{o:[X([1.6, -45.4, -12.8], s), X([1.8, -48.4, -13.2], s), X([2.0, -51.4, -13.4], s)], i:[X([4.0, -45.2, -13.6], s), X([4.0, -47.2, -13.4], s), X([3.8, -49.6, -12.8], s)], n:7, r:.16, belly:[2, 3], rt:.16}}; }));
+
+  /* =================== MÉDULA Y NERVIOS =================== */
+  function nerve(id, paths, r){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r || .2, col:p.col || COL.nerve, rad:p.rad || 6, t0:p.t0 || 0}); }); push(id, gg, {layer:"nervio", flow:1, flowC:[1, .96, .62], speed:.9}); }
+  var cord = [[0, 18.6, -6.0], [0, 16.6, -6.6]].concat(LV.slice(0, 20).map(function(v){ return v.can; })).concat([[0, -30.6, -12.6]]);
+  (function(){ var gg = G.B(); var R = function(u){ return u < .06 ? .62 : u < .12 ? .55 : u < .3 ? .62 : u < .62 ? .45 : u < .85 ? .55 : Math.max(.12, .4 - (u - .85) * 2.2); }; G.tube(gg, cord, {r:R, col:COL.nerve, rad:10, seg:120}); push("medula_espinal", gg, {layer:"nervio", flow:1, flowC:[1, .96, .62], speed:.9}); })();
+  var cola = [];
+  for(i = 0; i < 10; i++){ var a0 = (i / 10) * Math.PI * 2, dx = Math.cos(a0) * .4, dz = Math.sin(a0) * .35;
+    cola.push({pts:[[dx * .4, -30.4, -12.6 + dz * .3], [dx, -34, byK.L2.can[2] + dz], [dx, -38, byK.L4.can[2] + dz], [dx * 1.1, -42, byK.L5.can[2] + dz], [dx * .9, -46, -11.6 + dz * .6], [dx * .5, -50, -12.4]], r:.07, t0:60}); }
+  cola.push({pts:[[0, -30.6, -12.6], [0, -40, -12.4], [0, -50, -12.6], [0, -56.6, -12.6]], r:.05, t0:60});
+  nerve("cola_caballo", cola);
+  var esp = [];
+  LV.forEach(function(v){ S2.forEach(function(s){ var c = v.can, lv = v.t, out = add(v.b, [s * (v.r + (lv === "C" ? .9 : lv === "T" ? 1.3 : 1.6)), -(lv === "C" ? .1 : lv === "T" ? .9 : 1.1), -v.r * .55]);
+    var from = lv === "L" ? [s * .45, v.b[1] + .6, c[2] + .2] : add(c, [s * .35, 0, 0]);
+    esp.push({pts:[from, add(v.b, [s * v.r * .78, -(lv === "T" ? .6 : .2), -v.r * 1.15]), out], r:lv === "C" ? .22 : lv === "T" ? .16 : .26}); }); });
+  nerve("nervios_espinales", esp);
+  var rd = [];
+  LV.forEach(function(v){ if(v.t === "C" && (v.k === "C1" || v.k === "C2")) return; S2.forEach(function(s){ var base = add(v.b, [s * v.r * .9, -(v.t === "T" ? .7 : .3), -v.r * 1.25]); rd.push({pts:[base, add(base, [s * .6, -.6, -1.8]), add(base, [s * 1.4, -1.6, -3.2])], r:.08}); }); });
+  nerve("ramos_dorsales", rd);
+  nerve("n_occipital_mayor", S2.map(function(s){ return {pts:[X([1.6, 12.1, -8.6], s), X([2.4, 12.6, -10.4], s), X([2.0, 15.6, -11.2], s), X([2.2, 19.2, -11.8], s), X([2.6, 22.6, -12.4], s), X([3.0, 26, -12.6], s)], r:.13}; }));
+  nerve("n_suboccipital", S2.map(function(s){ return {pts:[X([1.2, 14.0, -7.8], s), X([1.9, 14.6, -9.0], s), X([2.6, 15.6, -9.8], s)], r:.12}; }));
+
+  /* =================== VASOS =================== */
+  function vessel(id, paths, r, vein){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r, col:vein ? COL.vein : COL.art, rad:6, revT:!!vein, t0:p.t0 || 0}); }); push(id, gg, {layer:vein ? "vena" : "arteria", flow:1, flowC:vein ? [.6, .78, 1] : [1, .6, .5], speed:vein ? .35 : .75}); }
+  vessel("a_vertebral", S2.map(function(s){ var tf = function(k){ var v = byK[k]; return add(v.b, [s * (v.r + .55), 0, -v.r * .35]); };
+    return {pts:[X([4.6, .6, -3.0], s), X([3.6, 4.0, -4.6], s), tf("C6"), tf("C5"), tf("C4"), tf("C3"), tf("C2"), add(tf("C1"), [s * .5, .2, 0]), X([2.6, 14.6, -8.6], s), X([1.2, 15.0, -8.2], s), X([.7, 16.8, -6.4], s), [s * .35, 18.6, -4.4]], t0:8}; }), .22);
+  var ic = [];
+  for(var n = 3; n <= 11; n++) S2.forEach(function(s){ var p = []; for(var f = 0; f <= .5001; f += .05) p.push(add(rib(n, f, s), [0, -.42, .1])); var v = byK["T" + n]; p.unshift(add(v.b, [s * v.r * .8, -.3, v.r * .2])); ic.push({pts:p, r:.11}); });
+  vessel("a_intercostales_posteriores", ic);
+  var lum = [];
+  ["L1", "L2", "L3", "L4"].forEach(function(k){ var v = byK[k]; S2.forEach(function(s){ lum.push({pts:[add(v.b, [s * .4, 0, v.r * 1.05]), add(v.b, [s * v.r * .95, 0, v.r * .55]), add(v.b, [s * v.r * 1.15, -.2, -v.r * .6]), add(v.b, [s * (v.r + 1.4), -.4, -v.r * 1.4]), add(v.b, [s * (v.r + 2.4), -.8, -v.r * 2.4])], r:.14}); }); });
+  vessel("a_lumbares", lum);
+  var pv = [];
+  S2.forEach(function(s){ pv.push({pts:LV.slice(1).map(function(v){ return add(v.can, [s * .7, 0, v.r * .32]); }), r:.12}); pv.push({pts:LV.slice(2).map(function(v){ return add(v.s, [s * .9, .5, 1.6]); }), r:.1}); });
+  LV.slice(1).forEach(function(v){ pv.push({pts:[add(v.can, [.7, -.4, v.r * .32]), add(v.can, [0, -.5, v.r * .38]), add(v.can, [-.7, -.4, v.r * .32])], r:.08}); });
+  vessel("plexo_venoso_vertebral", pv, .12, true);
+})();
+
+/* =====================================================================
    INTERFAZ: capas, explorador, búsqueda, ficha, notas, cuenta y estudio
    ===================================================================== */
 (function(){
@@ -3604,7 +4135,7 @@ function persist(){ LS.set("atlas_vista", {layers:st.layers, ctx:st.ctx, skin:st
 
 function applyVis(){
   E.all().forEach(function(m){
-    var vis = st.layers[m.layer] !== false && !st.hidden[m.id] && !(m.ctx && (!st.ctx || (st.region !== "hombro" && !st.todo))) && (!DATA[m.id] || enVista(m.id) || (m.layer === "hueso" && mismoGrupo(m.id)));
+    var vis = st.layers[m.layer] !== false && !st.hidden[m.id] && !(m.ctx && (!st.ctx || (st.region !== "hombro" && st.region !== "espalda" && !st.todo))) && (!DATA[m.id] || enVista(m.id) || (m.layer === "hueso" && mismoGrupo(m.id)));
     m.visible = vis;
     if(m.id === "piel"){ m.op = st.skin; m.visible = vis && st.skin > .02; return; }
     var ghost = st.iso && st.sel && m.id !== st.sel && !(STUDY.on);
@@ -3715,7 +4246,7 @@ IDS.forEach(function(id){ var d = DATA[id], a = [fold(d.nombre.replace(/\s*\(.*\
 Object.assign(ALIAS, {
   escapula:["escapula", "acromion", "coracoides", "espina de la escapula", "cavidad glenoidea", "tuberculo supraglenoideo", "tuberculo infraglenoideo", "fosa supraespinosa", "fosa infraespinosa", "fosa subescapular", "borde medial", "borde lateral", "angulo inferior"],
   humero:["humero", "tuberculo mayor", "tuberculo menor", "surco intertubercular", "tuberosidad deltoidea", "epicondilo", "cresta supracondilea"],
-  cubito:["cubito", "olecranon", "coronoides"], radio:["del radio", "tuberosidad del radio", "radio,", "radio y"], clavicula:["clavicula"], costillas:["costilla"], esternon:["esternon"], columna:["apofisis espinosas", "vertebra", "apofisis transversas"],
+  cubito:["cubito", "olecranon", "coronoides"], radio:["del radio", "tuberosidad del radio", "radio,", "radio y"], clavicula:["clavicula"], costillas:["costilla"], esternon:["esternon"], vertebras_toracicas:["vertebra toracica", "vertebras toracicas", "apofisis espinosas", "apofisis transversas"], vertebras_cervicales:["vertebra cervical", "cervicales"], atlas:["atlas"], axis:["axis"], medula_espinal:["medula"], discos_intervertebrales:["disco"], hueso_occipital:["occipital", "linea nucal", "mastoides"], a_vertebral:["arteria vertebral"], multifido:["multifido"], cuadrado_lumbar:["cuadrado lumbar"],
   n_axilar:["nervio axilar"], n_musculocutaneo:["musculocutaneo"], n_radial:["nervio radial", "ramo profundo del nervio radial"], n_mediano:["nervio mediano"], n_cubital:["nervio cubital"],
   n_supraescapular:["nervio supraescapular"], n_toracico_largo:["toracico largo"], n_toracodorsal:["nervio toracodorsal"], n_accesorio:["nervio accesorio"], plexo_braquial:["plexo braquial", "fasciculo"],
   a_braquial:["arteria braquial"], a_braquial_profunda:["braquial profunda"], a_axilar:["arteria axilar"], a_subclavia:["arteria subclavia"], a_supraescapular:["arteria supraescapular"],
@@ -4109,7 +4640,7 @@ function iaSistema(ctx, conImg){
     "Formato: párrafos cortos, listas con guiones y **negritas** para lo esencial. No uses tablas. Cuando menciones una estructura que existe en el atlas, escríbela como [[id]] con el id exacto de la lista de abajo (la app la convierte en un botón que la muestra en 3D). Usa [[id]] solo con ids de la lista; las demás estructuras escríbelas normal.\n" +
     "Puedes responder sobre cualquier parte del cuerpo humano, aunque el modelo 3D por ahora tiene cuatro regiones del lado derecho: hombro y brazo, antebrazo y mano, cadera y muslo, y rodilla, pierna y pie. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
     "Si te piden preguntas de examen, numéralas y pon las respuestas al final. Si te piden mnemotecnias, que sean en español.\n\n" +
-    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares); 3) cadera y muslo (pelvis, glúteos, rotadores, iliopsoas, cuádriceps, aductores, isquiotibiales, plexo lumbosacro); 4) rodilla, pierna y pie (cruzados, meniscos, compartimentos de la pierna, tobillo y capas plantares). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
+    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares); 3) cadera y muslo (pelvis, glúteos, rotadores, iliopsoas, cuádriceps, aductores, isquiotibiales, plexo lumbosacro); 4) rodilla, pierna y pie (cruzados, meniscos, compartimentos de la pierna, tobillo y capas plantares); 5) columna y espalda (vértebras, discos, músculos profundos de la espalda, ligamentos vertebrales, médula espinal y nervios espinales). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
     "Estructuras del atlas (id = nombre):\n" + lista + "\n\nCapas visibles ahora en pantalla: " + (vis.length > 40 ? vis.length + " estructuras" : vis.join(", ")) + ".";
   if(ctx && DATA[ctx]) s += "\n\nLa persona tiene seleccionada esta estructura (úsala como contexto si la pregunta no dice otra cosa): " + fichaTexto(ctx);
   if(conImg) s += "\n\nCon el último mensaje va una imagen de la vista 3D que la persona está viendo en el atlas (modelo esquemático: músculos en rojo, nervios amarillos, arterias rojas, venas azules, huesos color marfil, ligamentos azul claro; la estructura seleccionada brilla en turquesa).";
