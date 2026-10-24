@@ -319,10 +319,12 @@ details.cpass summary{cursor:pointer;font-weight:500}
 .pv{font:600 13pt "IBM Plex Sans",Arial,sans-serif;margin:0 0 8px}
 .pimg{display:block;width:100%;height:auto;max-height:178mm;object-fit:contain;border-radius:4px}
 .pp.land .pimg{max-height:128mm}
+.pp h1 + .pmeta + .pbodyp .pimg{max-height:148mm}
+.pp.land h1 + .pmeta + .pbodyp .pimg{max-height:118mm}
 .pbodyp.split{display:grid;grid-template-columns:1fr 62mm;gap:12px;align-items:start}
-.pleg{list-style:none;margin:10px 0 0;padding:0;columns:3;column-gap:16px;font-size:8.6pt}
+.pleg{list-style:none;margin:8px 0 0;padding:0;columns:3;column-gap:14px;font-size:8pt;line-height:1.3}
 .pbodyp.split .pleg{columns:1;margin:0}
-.pleg li{display:flex;align-items:center;gap:6px;break-inside:avoid;padding:1.5px 0}
+.pleg li{display:flex;align-items:center;gap:5px;break-inside:avoid;padding:1px 0}
 .pleg li b{font:600 8.6pt "IBM Plex Mono",monospace;min-width:20px;text-align:right;color:#2a3340}
 .pleg .blank{flex:1;border-bottom:1px solid #9aa3ae;height:12px;margin-right:6px}
 .pd{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none;display:inline-block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
@@ -944,6 +946,461 @@ var REGIONES = [
   {id:"cadera", nombre:"Cadera y muslo"},
   {id:"pierna", nombre:"Rodilla, pierna y pie"}
 ];
+
+/* =====================================================================
+   FICHAS ANATÓMICAS · Región 2: antebrazo y mano
+   ===================================================================== */
+Object.assign(DATA, {
+/* ---------------- HUESOS DEL CARPO Y LA MANO ---------------- */
+escafoides:{cat:"hueso", grupo:"Carpo · fila proximal", nombre:"Escafoides", latin:"Os scaphoideum",
+  resumen:"El más grande y lateral de la fila proximal del carpo, con forma de barca. Une las dos filas del carpo como un puente.",
+  partes:"Polo proximal, cintura (cuello) y polo distal; tubérculo palmar palpable en la base de la eminencia tenar; carilla convexa para el radio.",
+  articula:"Con el radio, el semilunar, el hueso grande, el trapecio y el trapezoide.",
+  clinica:"Es el hueso del carpo que más se fractura, por caída sobre la mano extendida. Duele al presionar la tabaquera anatómica. Su sangre entra por el polo distal, así que las fracturas de la cintura pueden dejar sin irrigación el polo proximal (necrosis avascular) o no consolidar (seudoartrosis)."},
+semilunar:{cat:"hueso", grupo:"Carpo · fila proximal", nombre:"Semilunar", latin:"Os lunatum",
+  resumen:"Hueso en forma de media luna en el centro de la fila proximal, entre el escafoides y el piramidal.",
+  partes:"Cara proximal convexa para el radio, cara distal cóncava para la cabeza del hueso grande, carillas laterales para escafoides y piramidal.",
+  articula:"Con el radio, el escafoides, el piramidal, el hueso grande y a veces el ganchoso.",
+  clinica:"Es el carpiano que más se luxa: puede desplazarse hacia delante y comprimir el nervio mediano en el túnel carpiano. La enfermedad de Kienböck es la necrosis avascular del semilunar, con dolor y rigidez de la muñeca."},
+piramidal:{cat:"hueso", grupo:"Carpo · fila proximal", nombre:"Piramidal", latin:"Os triquetrum",
+  resumen:"Hueso con forma de pirámide en el lado cubital de la fila proximal; lleva por delante una carilla para el pisiforme.",
+  partes:"Cara palmar con carilla para el pisiforme, cara proximal en contacto con el disco articular (fibrocartílago triangular), cara distal para el ganchoso.",
+  articula:"Con el semilunar, el pisiforme, el ganchoso y el disco articular de la radiocubital distal.",
+  clinica:"Es el segundo carpiano que más se fractura, sobre todo por arrancamiento de un fragmento dorsal en caídas con la muñeca en extensión."},
+pisiforme:{cat:"hueso", grupo:"Carpo · fila proximal", nombre:"Pisiforme", latin:"Os pisiforme",
+  resumen:"Hueso pequeño como un guisante, sesamoideo dentro del tendón del flexor cubital del carpo. Se palpa en la base de la eminencia hipotenar.",
+  partes:"Una sola carilla articular dorsal para el piramidal; el resto da inserción a tendones y ligamentos (pisoganchoso y pisometacarpiano).",
+  articula:"Solo con el piramidal.",
+  clinica:"Es la referencia para encontrar el canal de Guyon: el nervio y la arteria cubitales pasan justo lateral a él, donde pueden comprimirse (ciclistas, uso de herramientas)."},
+hueso_trapecio:{cat:"hueso", grupo:"Carpo · fila distal", nombre:"Trapecio (hueso)", latin:"Os trapezium",
+  resumen:"Hueso lateral de la fila distal que sostiene al pulgar. Su carilla en forma de silla de montar da al pulgar su gran movilidad.",
+  partes:"Tubérculo palmar y surco para el tendón del flexor radial del carpo; carilla en silla de montar para el 1.er metacarpiano.",
+  articula:"Con el escafoides, el trapezoide, el 1.er y el 2.º metacarpianos.",
+  clinica:"La artrosis trapeciometacarpiana (rizartrosis) es muy frecuente en mujeres después de los 50 años: dolor en la base del pulgar al hacer pinza o abrir frascos."},
+trapezoide:{cat:"hueso", grupo:"Carpo · fila distal", nombre:"Trapezoide", latin:"Os trapezoideum",
+  resumen:"El hueso más pequeño de la fila distal, en forma de cuña, encajado entre el trapecio y el hueso grande.",
+  partes:"Cara dorsal más ancha que la palmar (forma de cuña); carilla distal para la base del 2.º metacarpiano.",
+  articula:"Con el escafoides, el trapecio, el hueso grande y el 2.º metacarpiano.",
+  clinica:"Rara vez se fractura porque está muy protegido; da una base firme al índice para la pinza."},
+hueso_grande:{cat:"hueso", grupo:"Carpo · fila distal", nombre:"Hueso grande", latin:"Os capitatum",
+  resumen:"El mayor de los huesos del carpo, en el centro de la muñeca. Su cabeza redondeada encaja en el semilunar y el escafoides.",
+  partes:"Cabeza proximal, cuello y cuerpo; carilla distal sobre todo para el 3.er metacarpiano.",
+  articula:"Con el escafoides, el semilunar, el trapezoide, el ganchoso y los metacarpianos 2.º a 4.º.",
+  clinica:"Es el eje central de los movimientos de la muñeca y el primer hueso del carpo en osificar (útil para calcular la edad ósea en radiografías). Sus fracturas son raras y suelen acompañar a las del escafoides."},
+ganchoso:{cat:"hueso", grupo:"Carpo · fila distal", nombre:"Ganchoso", latin:"Os hamatum",
+  resumen:"Hueso medial de la fila distal con un gancho (apófisis unciforme) que sobresale hacia la palma.",
+  partes:"Cuerpo triangular y gancho palmar, que forma el límite medial del túnel carpiano y el lateral del canal de Guyon.",
+  articula:"Con el semilunar, el piramidal, el hueso grande y los metacarpianos 4.º y 5.º.",
+  clinica:"La fractura del gancho aparece en golfistas, beisbolistas y tenistas por el golpe del mango contra la palma; puede irritar el nervio cubital y romper tendones flexores del meñique."},
+metacarpianos:{cat:"hueso", grupo:"Esqueleto de la mano", nombre:"Metacarpianos", latin:"Ossa metacarpi",
+  resumen:"Cinco huesos largos de la palma, numerados del pulgar (I) al meñique (V). Sus cabezas forman los nudillos.",
+  partes:"Base proximal, cuerpo y cabeza distal. El 1.º es corto y grueso; el 2.º es el más largo; el 3.º tiene una apófisis estiloides.",
+  articula:"Con el carpo (carpometacarpianas), entre sí por sus bases (intermetacarpianas) y con las falanges proximales (metacarpofalángicas).",
+  clinica:"La fractura del boxeador es la del cuello del 5.º metacarpiano al golpear con el puño. La fractura de Bennett es la de la base del 1.º con luxación, que suele requerir cirugía."},
+falanges:{cat:"hueso", grupo:"Esqueleto de la mano", nombre:"Falanges de la mano", latin:"Phalanges manus",
+  resumen:"Catorce huesos de los dedos: dos en el pulgar (proximal y distal) y tres en cada uno de los demás (proximal, media y distal).",
+  partes:"Cada falange tiene base, cuerpo y cabeza (tróclea); la distal termina en la tuberosidad ungueal bajo la uña.",
+  articula:"Con los metacarpianos (metacarpofalángicas) y entre sí en las interfalángicas proximales y distales, que funcionan como bisagras.",
+  clinica:"La fractura en penacho de la falange distal ocurre por aplastamiento (puertas, martillo). El dedo en martillo es el arrancamiento del tendón extensor en la base de la falange distal."},
+
+/* ---------------- ANTEBRAZO · COMPARTIMENTO ANTERIOR ---------------- */
+flexor_radial_carpo:{cat:"musculo", capa:"Superficial", grupo:"Compartimento anterior del antebrazo", nombre:"Flexor radial del carpo", latin:"Musculus flexor carpi radialis",
+  resumen:"Músculo superficial que cruza el antebrazo en diagonal hacia la base del índice. Su tendón es la guía para encontrar el pulso radial.",
+  origen:"Epicóndilo medial del húmero (tendón flexor común).",
+  insercion:"Base del 2.º metacarpiano (y a veces del 3.º), por su cara palmar.",
+  inervacion:"Nervio mediano (C6–C7).",
+  irrigacion:"Arteria radial.",
+  accion:"Flexiona la muñeca y la desvía hacia el lado radial (abducción). Ayuda a la pronación.",
+  clinica:"La arteria radial se palpa justo lateral a su tendón. El espacio entre su tendón y la arteria es la vía de Henry para operar fracturas del radio distal.",
+  prueba:"Flexionar la muñeca con desviación radial contra resistencia y palpar el tendón."},
+palmar_largo:{cat:"musculo", capa:"Superficial", grupo:"Compartimento anterior del antebrazo", nombre:"Palmar largo", latin:"Musculus palmaris longus",
+  resumen:"Músculo pequeño de vientre corto y tendón largo y delgado que tensa la aponeurosis de la palma. Falta en una de cada siete personas.",
+  origen:"Epicóndilo medial del húmero (tendón flexor común).",
+  insercion:"Retináculo de los flexores y aponeurosis palmar.",
+  inervacion:"Nervio mediano (C7–C8).",
+  irrigacion:"Arteria cubital.",
+  accion:"Flexión débil de la muñeca y tensa la aponeurosis palmar.",
+  clinica:"Falta en cerca del 15 % de las personas sin que se note. Su tendón se usa como injerto para reconstruir tendones y ligamentos. El nervio mediano está justo debajo de él en la muñeca.",
+  prueba:"Juntar las puntas del pulgar y el meñique y flexionar la muñeca: el tendón resalta en el centro (signo de Schaeffer)."},
+flexor_cubital_carpo:{cat:"musculo", capa:"Superficial", grupo:"Compartimento anterior del antebrazo", nombre:"Flexor cubital del carpo", latin:"Musculus flexor carpi ulnaris",
+  resumen:"El flexor más medial del antebrazo. Tiene dos cabezas y entre ellas pasa el nervio cubital.",
+  origen:"Cabeza humeral: epicóndilo medial. Cabeza cubital: borde medial del olécranon y borde posterior del cúbito.",
+  insercion:"Pisiforme, y por los ligamentos pisoganchoso y pisometacarpiano, gancho del ganchoso y base del 5.º metacarpiano.",
+  inervacion:"Nervio cubital (C7–C8).",
+  irrigacion:"Arteria cubital y arterias recurrentes cubitales.",
+  accion:"Flexiona la muñeca y la desvía hacia el lado cubital (aducción). Estabiliza el pisiforme para el abductor del meñique.",
+  clinica:"El nervio cubital entra al antebrazo entre sus dos cabezas (túnel cubital); la compresión ahí produce hormigueo en el meñique y debilidad de la mano.",
+  prueba:"Flexionar la muñeca con desviación cubital contra resistencia y palpar el tendón hasta el pisiforme."},
+flexor_superficial_dedos:{cat:"musculo", capa:"Intermedia", grupo:"Compartimento anterior del antebrazo", nombre:"Flexor superficial de los dedos", latin:"Musculus flexor digitorum superficialis",
+  resumen:"El músculo más grande del plano intermedio. Manda cuatro tendones a las falanges medias de los dedos 2 a 5.",
+  origen:"Cabeza humerocubital: epicóndilo medial y apófisis coronoides del cúbito. Cabeza radial: línea oblicua anterior del radio.",
+  insercion:"Lados de las falanges medias de los dedos 2–5; cada tendón se abre en dos para dejar pasar al tendón del flexor profundo.",
+  inervacion:"Nervio mediano (C7–T1).",
+  irrigacion:"Arterias cubital y radial.",
+  accion:"Flexiona las interfalángicas proximales de los dedos 2–5 y ayuda a flexionar las metacarpofalángicas y la muñeca.",
+  clinica:"El nervio mediano baja pegado a su cara profunda. Cortes en la palma o en los dedos pueden seccionar sus tendones junto con los del flexor profundo.",
+  prueba:"Mantener los otros dedos extendidos (así se bloquea el flexor profundo) y pedir que flexione la articulación media del dedo explorado."},
+flexor_profundo_dedos:{cat:"musculo", capa:"Profundo", grupo:"Compartimento anterior del antebrazo", nombre:"Flexor profundo de los dedos", latin:"Musculus flexor digitorum profundus",
+  resumen:"Músculo profundo sobre el cúbito. Es el único capaz de doblar la punta de los dedos 2 a 5.",
+  origen:"Tres cuartos proximales de las caras anterior y medial del cúbito y membrana interósea.",
+  insercion:"Bases de las falanges distales de los dedos 2–5, por su cara palmar.",
+  inervacion:"Doble: porción lateral (índice y medio) por el nervio interóseo anterior (mediano); porción medial (anular y meñique) por el nervio cubital (C8–T1).",
+  irrigacion:"Arterias interósea anterior y cubital.",
+  accion:"Flexiona las interfalángicas distales y, después, las proximales, las metacarpofalángicas y la muñeca.",
+  clinica:"El «dedo de jersey» es el arrancamiento de su tendón en la falange distal, casi siempre del anular, al jalar la camiseta de un rival. En lesiones altas del cubital no se puede flexionar la punta del anular y el meñique.",
+  prueba:"Sujetar la falange media y pedir que doble solo la punta del dedo."},
+flexor_largo_pulgar:{cat:"musculo", capa:"Profundo", grupo:"Compartimento anterior del antebrazo", nombre:"Flexor largo del pulgar", latin:"Musculus flexor pollicis longus",
+  resumen:"Músculo profundo sobre la cara anterior del radio que dobla la punta del pulgar. Su tendón cruza el túnel carpiano.",
+  origen:"Cara anterior del radio y membrana interósea adyacente (a veces un fascículo de la apófisis coronoides).",
+  insercion:"Base de la falange distal del pulgar, por su cara palmar.",
+  inervacion:"Nervio interóseo anterior, rama del mediano (C7–C8).",
+  irrigacion:"Arteria interósea anterior.",
+  accion:"Flexiona la interfalángica del pulgar y ayuda a flexionar la metacarpofalángica y la trapeciometacarpiana.",
+  clinica:"En el síndrome del interóseo anterior no se puede hacer el «OK» redondo: la pinza queda plana porque fallan este músculo y el flexor profundo del índice. No hay pérdida de sensibilidad.",
+  prueba:"Sujetar la falange proximal del pulgar y pedir que doble la punta."},
+pronador_cuadrado:{cat:"musculo", capa:"Profundo", grupo:"Compartimento anterior del antebrazo", nombre:"Pronador cuadrado", latin:"Musculus pronator quadratus",
+  resumen:"Músculo plano y cuadrado en la parte distal del antebrazo, el más profundo del compartimento anterior. Es el principal pronador.",
+  origen:"Cuarta parte distal de la cara anterior del cúbito.",
+  insercion:"Cuarta parte distal de la cara anterior del radio.",
+  inervacion:"Nervio interóseo anterior (C7–C8).",
+  irrigacion:"Arteria interósea anterior.",
+  accion:"Inicia y mantiene la pronación (girar la palma hacia abajo) y mantiene unidos el radio y el cúbito en la muñeca.",
+  clinica:"Se separa del radio para colocar placas en las fracturas del radio distal (fractura de Colles).",
+  prueba:"Pronar contra resistencia con el codo totalmente flexionado, posición en la que el pronador redondo casi no actúa."},
+
+/* ---------------- ANTEBRAZO · COMPARTIMENTO POSTERIOR ---------------- */
+extensor_radial_largo_carpo:{cat:"musculo", capa:"Superficial", grupo:"Compartimento posterior del antebrazo", nombre:"Extensor radial largo del carpo", latin:"Musculus extensor carpi radialis longus",
+  resumen:"Músculo del borde lateral del antebrazo, junto al braquiorradial. Mantiene la muñeca extendida al cerrar el puño.",
+  origen:"Tercio distal de la cresta supracondílea lateral del húmero.",
+  insercion:"Base del 2.º metacarpiano, por su cara dorsal.",
+  inervacion:"Nervio radial (C6–C7), antes de dividirse.",
+  irrigacion:"Arterias radial y recurrente radial.",
+  accion:"Extiende la muñeca y la desvía hacia el lado radial. Fija la muñeca para que los flexores de los dedos tengan fuerza.",
+  clinica:"Con el extensor radial corto pasa por el 2.º compartimento extensor; donde lo cruzan los músculos del pulgar puede inflamarse (síndrome de intersección), con dolor y crujido al mover la muñeca.",
+  prueba:"Extender la muñeca con desviación radial contra resistencia."},
+extensor_radial_corto_carpo:{cat:"musculo", capa:"Superficial", grupo:"Compartimento posterior del antebrazo", nombre:"Extensor radial corto del carpo", latin:"Musculus extensor carpi radialis brevis",
+  resumen:"Extensor de la muñeca que nace del epicóndilo lateral. Su origen es el que se lesiona en el «codo de tenista».",
+  origen:"Epicóndilo lateral del húmero (tendón extensor común).",
+  insercion:"Base del 3.er metacarpiano, por su cara dorsal.",
+  inervacion:"Ramo profundo del nervio radial (C7–C8).",
+  irrigacion:"Arteria radial.",
+  accion:"Extiende la muñeca y la desvía hacia el lado radial.",
+  clinica:"La epicondilitis lateral («codo de tenista») es la degeneración de su origen por esfuerzos repetidos al agarrar y extender la muñeca: duele el epicóndilo al cargar objetos.",
+  prueba:"Prueba de Cozen: con el puño cerrado, extender la muñeca contra resistencia reproduce el dolor en el epicóndilo."},
+extensor_dedos:{cat:"musculo", capa:"Superficial", grupo:"Compartimento posterior del antebrazo", nombre:"Extensor de los dedos", latin:"Musculus extensor digitorum",
+  resumen:"Principal extensor de los dedos. En el dorso de la mano se divide en cuatro tendones unidos entre sí por puentes.",
+  origen:"Epicóndilo lateral del húmero (tendón extensor común).",
+  insercion:"Expansiones extensoras de los dedos 2–5: la banda central llega a la base de la falange media y las bandas laterales a la base de la distal. Los tendones se unen en el dorso de la mano por conexiones intertendinosas.",
+  inervacion:"Nervio interóseo posterior, rama del radial (C7–C8).",
+  irrigacion:"Arteria interósea posterior.",
+  accion:"Extiende las metacarpofalángicas y, junto con lumbricales e interóseos, las interfalángicas. Ayuda a extender la muñeca.",
+  clinica:"Si se rompe la banda central sobre la articulación media se forma el dedo en ojal (boutonnière); si se arranca en la falange distal, el dedo en martillo.",
+  prueba:"Extender los dedos contra resistencia aplicada sobre las falanges proximales."},
+extensor_menique:{cat:"musculo", capa:"Superficial", grupo:"Compartimento posterior del antebrazo", nombre:"Extensor del meñique", latin:"Musculus extensor digiti minimi",
+  resumen:"Músculo delgado, a veces unido al extensor de los dedos, que permite extender el meñique por sí solo.",
+  origen:"Epicóndilo lateral del húmero (tendón extensor común).",
+  insercion:"Expansión extensora del meñique.",
+  inervacion:"Nervio interóseo posterior (C7–C8).",
+  irrigacion:"Arteria interósea posterior.",
+  accion:"Extiende el meñique y ayuda a extender la muñeca.",
+  clinica:"Pasa por el 5.º compartimento extensor, sobre el cúbito distal. En la artritis reumatoide puede romperse por roce con el cúbito (síndrome de Vaughan-Jackson).",
+  prueba:"Con los demás dedos en puño, extender solo el meñique."},
+extensor_cubital_carpo:{cat:"musculo", capa:"Superficial", grupo:"Compartimento posterior del antebrazo", nombre:"Extensor cubital del carpo", latin:"Musculus extensor carpi ulnaris",
+  resumen:"El extensor más medial del antebrazo; corre en un surco del cúbito hasta la base del 5.º metacarpiano.",
+  origen:"Epicóndilo lateral del húmero y borde posterior del cúbito.",
+  insercion:"Tubérculo de la base del 5.º metacarpiano.",
+  inervacion:"Nervio interóseo posterior (C7–C8).",
+  irrigacion:"Arterias cubital e interósea posterior.",
+  accion:"Extiende la muñeca y la desvía hacia el lado cubital (aducción).",
+  clinica:"Su tendón puede salirse de su surco en el cúbito al supinar (chasquido doloroso, frecuente en tenistas). Se inflama en el lado cubital de la muñeca.",
+  prueba:"Extender la muñeca con desviación cubital contra resistencia."},
+abductor_largo_pulgar:{cat:"musculo", capa:"Profundo", grupo:"Compartimento posterior del antebrazo", nombre:"Abductor largo del pulgar", latin:"Musculus abductor pollicis longus",
+  resumen:"Músculo profundo del dorso del antebrazo que sale por el borde lateral hacia la base del pulgar.",
+  origen:"Caras posteriores del cúbito y del radio y membrana interósea.",
+  insercion:"Base del 1.er metacarpiano, por su lado lateral.",
+  inervacion:"Nervio interóseo posterior (C7–C8).",
+  irrigacion:"Arteria interósea posterior.",
+  accion:"Abduce y extiende el pulgar en la articulación trapeciometacarpiana; ayuda a desviar la muñeca hacia el lado radial.",
+  clinica:"Comparte con el extensor corto del pulgar el 1.er compartimento extensor. Su inflamación es la tenosinovitis de De Quervain: dolor en la apófisis estiloides del radio, frecuente en madres recientes y al usar el celular con el pulgar.",
+  prueba:"Prueba de Finkelstein: pulgar dentro del puño y desviar la muñeca hacia el lado cubital reproduce el dolor."},
+extensor_corto_pulgar:{cat:"musculo", capa:"Profundo", grupo:"Compartimento posterior del antebrazo", nombre:"Extensor corto del pulgar", latin:"Musculus extensor pollicis brevis",
+  resumen:"Pequeño extensor del pulgar que, con el abductor largo, forma el borde anterior de la tabaquera anatómica.",
+  origen:"Cara posterior del tercio distal del radio y membrana interósea.",
+  insercion:"Base de la falange proximal del pulgar, por su cara dorsal.",
+  inervacion:"Nervio interóseo posterior (C7–C8).",
+  irrigacion:"Arteria interósea posterior.",
+  accion:"Extiende la metacarpofalángica y la trapeciometacarpiana del pulgar.",
+  clinica:"Límite lateral (anterior) de la tabaquera anatómica, donde se palpan el escafoides y la arteria radial. Se afecta en la tenosinovitis de De Quervain.",
+  prueba:"Extender el pulgar contra resistencia sobre la falange proximal; se marca el borde de la tabaquera."},
+extensor_largo_pulgar:{cat:"musculo", capa:"Profundo", grupo:"Compartimento posterior del antebrazo", nombre:"Extensor largo del pulgar", latin:"Musculus extensor pollicis longus",
+  resumen:"Su tendón gira alrededor del tubérculo dorsal del radio (de Lister) como una polea y forma el borde posterior de la tabaquera anatómica.",
+  origen:"Tercio medio de la cara posterior del cúbito y membrana interósea.",
+  insercion:"Base de la falange distal del pulgar, por su cara dorsal.",
+  inervacion:"Nervio interóseo posterior (C7–C8).",
+  irrigacion:"Arteria interósea posterior.",
+  accion:"Extiende todas las articulaciones del pulgar y lo lleva hacia atrás (retroposición).",
+  clinica:"Puede romperse semanas después de una fractura de Colles, incluso sin desplazamiento, por roce o mala irrigación junto al tubérculo de Lister. Se repara transfiriendo el extensor del índice.",
+  prueba:"Con la mano plana sobre la mesa, levantar el pulgar hacia arriba."},
+extensor_indice:{cat:"musculo", capa:"Profundo", grupo:"Compartimento posterior del antebrazo", nombre:"Extensor del índice", latin:"Musculus extensor indicis",
+  resumen:"Músculo profundo que permite extender el índice por separado, por ejemplo para señalar.",
+  origen:"Cara posterior del tercio distal del cúbito y membrana interósea.",
+  insercion:"Expansión extensora del índice, medial al tendón del extensor de los dedos.",
+  inervacion:"Nervio interóseo posterior (C7–C8).",
+  irrigacion:"Arteria interósea posterior.",
+  accion:"Extiende el índice y ayuda a extender la muñeca.",
+  clinica:"Su tendón es el más usado en transferencias tendinosas, por ejemplo para reemplazar un extensor largo del pulgar roto.",
+  prueba:"Con el puño cerrado, extender solo el índice."},
+
+/* ---------------- MANO · TENAR, HIPOTENAR E INTRÍNSECOS ---------------- */
+abductor_corto_pulgar:{cat:"musculo", capa:"Superficial", grupo:"Eminencia tenar", nombre:"Abductor corto del pulgar", latin:"Musculus abductor pollicis brevis",
+  resumen:"El músculo más superficial de la eminencia tenar. Separa el pulgar de la palma hacia delante.",
+  origen:"Retináculo de los flexores y tubérculos del escafoides y del trapecio.",
+  insercion:"Lado lateral de la base de la falange proximal del pulgar.",
+  inervacion:"Ramo recurrente del nervio mediano (C8–T1).",
+  irrigacion:"Rama palmar superficial de la arteria radial.",
+  accion:"Abduce el pulgar (lo separa de la palma en ángulo recto) y ayuda a la oposición.",
+  clinica:"Es el primero en atrofiarse en el síndrome del túnel carpiano, con aplanamiento de la eminencia tenar. Es el mejor músculo para valorar el nervio mediano.",
+  prueba:"Con la palma hacia arriba, levantar el pulgar hacia el techo contra resistencia."},
+flexor_corto_pulgar:{cat:"musculo", capa:"Superficial", grupo:"Eminencia tenar", nombre:"Flexor corto del pulgar", latin:"Musculus flexor pollicis brevis",
+  resumen:"Músculo tenar medial al abductor corto, con dos cabezas que a menudo tienen distinta inervación.",
+  origen:"Cabeza superficial: retináculo de los flexores y trapecio. Cabeza profunda: trapezoide y hueso grande.",
+  insercion:"Base de la falange proximal del pulgar, por el sesamoideo lateral.",
+  inervacion:"Cabeza superficial: ramo recurrente del nervio mediano. Cabeza profunda: con frecuencia ramo profundo del nervio cubital (C8–T1).",
+  irrigacion:"Rama palmar superficial de la arteria radial.",
+  accion:"Flexiona la metacarpofalángica del pulgar y ayuda a la oposición.",
+  clinica:"Por su doble inervación, la oposición puede conservarse en parte aunque se lesione el mediano.",
+  prueba:"Flexionar la metacarpofalángica del pulgar manteniendo la punta extendida."},
+oponente_pulgar:{cat:"musculo", capa:"Profundo", grupo:"Eminencia tenar", nombre:"Oponente del pulgar", latin:"Musculus opponens pollicis",
+  resumen:"Músculo tenar profundo que gira el pulgar para enfrentarlo a los demás dedos. Es lo que hace única a la mano humana.",
+  origen:"Retináculo de los flexores y tubérculo del trapecio.",
+  insercion:"Todo el borde lateral del 1.er metacarpiano.",
+  inervacion:"Ramo recurrente del nervio mediano (C8–T1).",
+  irrigacion:"Rama palmar superficial de la arteria radial.",
+  accion:"Oposición: flexiona y rota el 1.er metacarpiano para que el pulpejo del pulgar mire al de los otros dedos.",
+  clinica:"Sin oposición no hay pinza fina; en lesiones altas del mediano el pulgar queda al lado de los dedos (mano de simio).",
+  prueba:"Tocar la punta del meñique con la punta del pulgar y resistir mientras se intenta separarlos."},
+aductor_pulgar:{cat:"musculo", capa:"Profundo", grupo:"Compartimento aductor", nombre:"Aductor del pulgar", latin:"Musculus adductor pollicis",
+  resumen:"Músculo profundo en abanico entre el pulgar y el 3.er metacarpiano, con cabezas oblicua y transversa.",
+  origen:"Cabeza oblicua: hueso grande y bases del 2.º y 3.er metacarpianos. Cabeza transversa: cara palmar del cuerpo del 3.er metacarpiano.",
+  insercion:"Lado medial de la base de la falange proximal del pulgar, por el sesamoideo medial.",
+  inervacion:"Ramo profundo del nervio cubital (C8–T1).",
+  irrigacion:"Arco palmar profundo.",
+  accion:"Aduce el pulgar (lo acerca a la palma) y da fuerza a la pinza lateral, como al sujetar una llave.",
+  clinica:"Signo de Froment: en una lesión del cubital, al sujetar un papel entre pulgar e índice, la punta del pulgar se dobla porque el flexor largo intenta suplir al aductor.",
+  prueba:"Sujetar una hoja entre el pulgar y el borde del índice mientras el examinador la jala (signo de Froment)."},
+abductor_menique:{cat:"musculo", capa:"Superficial", grupo:"Eminencia hipotenar", nombre:"Abductor del meñique", latin:"Musculus abductor digiti minimi manus",
+  resumen:"El músculo más superficial y medial de la eminencia hipotenar. Separa el meñique.",
+  origen:"Pisiforme y tendón del flexor cubital del carpo.",
+  insercion:"Lado medial de la base de la falange proximal del meñique y su expansión extensora.",
+  inervacion:"Ramo profundo del nervio cubital (C8–T1).",
+  irrigacion:"Rama palmar profunda de la arteria cubital.",
+  accion:"Abduce el meñique y ayuda a flexionar su metacarpofalángica.",
+  clinica:"Signo de Wartenberg: en una lesión cubital el meñique queda separado de los demás dedos porque su extensor actúa sin oposición.",
+  prueba:"Separar el meñique contra resistencia."},
+flexor_corto_menique:{cat:"musculo", capa:"Superficial", grupo:"Eminencia hipotenar", nombre:"Flexor corto del meñique", latin:"Musculus flexor digiti minimi brevis manus",
+  resumen:"Pequeño músculo hipotenar, lateral al abductor del meñique; a veces falta o está fusionado.",
+  origen:"Gancho del ganchoso y retináculo de los flexores.",
+  insercion:"Base de la falange proximal del meñique.",
+  inervacion:"Ramo profundo del nervio cubital (C8–T1).",
+  irrigacion:"Rama palmar profunda de la arteria cubital.",
+  accion:"Flexiona la metacarpofalángica del meñique.",
+  clinica:"Se atrofia junto con el resto de la eminencia hipotenar cuando se comprime el nervio cubital en el canal de Guyon.",
+  prueba:"Flexionar la metacarpofalángica del meñique manteniendo sus articulaciones distales extendidas."},
+oponente_menique:{cat:"musculo", capa:"Profundo", grupo:"Eminencia hipotenar", nombre:"Oponente del meñique", latin:"Musculus opponens digiti minimi",
+  resumen:"Músculo hipotenar profundo que adelanta y gira el 5.º metacarpiano para ahuecar la palma.",
+  origen:"Gancho del ganchoso y retináculo de los flexores.",
+  insercion:"Borde medial del 5.º metacarpiano.",
+  inervacion:"Ramo profundo del nervio cubital (C8–T1).",
+  irrigacion:"Rama palmar profunda de la arteria cubital.",
+  accion:"Lleva el 5.º metacarpiano hacia delante y lo rota, acercando el meñique al pulgar.",
+  clinica:"Contribuye a ahuecar la mano para beber agua o sujetar objetos redondos.",
+  prueba:"Juntar las puntas del pulgar y el meñique ahuecando la palma."},
+palmar_corto:{cat:"musculo", capa:"Superficial", grupo:"Eminencia hipotenar", nombre:"Palmar corto", latin:"Musculus palmaris brevis",
+  resumen:"Músculo cutáneo muy delgado y superficial sobre la eminencia hipotenar.",
+  origen:"Aponeurosis palmar y retináculo de los flexores.",
+  insercion:"Piel del borde medial de la palma.",
+  inervacion:"Ramo superficial del nervio cubital (C8).",
+  irrigacion:"Arteria cubital.",
+  accion:"Arruga la piel de la eminencia hipotenar, mejora el agarre y protege el nervio y la arteria cubitales.",
+  clinica:"Si se forma su hoyuelo al separar con fuerza el meñique, el ramo superficial del cubital funciona.",
+  prueba:"Separar el meñique con fuerza y observar las arrugas en la eminencia hipotenar."},
+lumbricales:{cat:"musculo", capa:"Profundo", grupo:"Músculos intrínsecos de la mano", nombre:"Lumbricales", latin:"Musculi lumbricales manus",
+  resumen:"Cuatro músculos pequeños con forma de lombriz que nacen de los tendones del flexor profundo dentro de la palma.",
+  origen:"Tendones del flexor profundo de los dedos: el 1.º y 2.º de un solo tendón (unipennados); el 3.º y 4.º de dos tendones vecinos (bipennados).",
+  insercion:"Lado radial (lateral) de las expansiones extensoras de los dedos 2–5.",
+  inervacion:"1.º y 2.º: nervio mediano (digitales palmares). 3.º y 4.º: ramo profundo del nervio cubital.",
+  irrigacion:"Arcos palmares superficial y profundo.",
+  accion:"Flexionan las metacarpofalángicas y extienden las interfalángicas a la vez (posición de escribir o de «mesa»).",
+  clinica:"En una lesión del cubital, anular y meñique quedan en garra (nudillos extendidos y dedos doblados) porque fallan sus lumbricales. Índice y medio se salvan porque sus lumbricales dependen del mediano.",
+  prueba:"Flexionar los nudillos con los dedos extendidos contra resistencia."},
+interoseos_dorsales:{cat:"musculo", capa:"Profundo", grupo:"Músculos intrínsecos de la mano", nombre:"Interóseos dorsales", latin:"Musculi interossei dorsales manus",
+  resumen:"Cuatro músculos bipennados que llenan los espacios entre los metacarpianos. Separan los dedos en abanico.",
+  origen:"Lados vecinos de los dos metacarpianos de cada espacio.",
+  insercion:"Bases de las falanges proximales y expansiones extensoras: lado lateral del índice, ambos lados del medio y lado medial del anular.",
+  inervacion:"Ramo profundo del nervio cubital (C8–T1).",
+  irrigacion:"Arco palmar profundo y arterias metacarpianas dorsales.",
+  accion:"Abducen los dedos alejándolos del eje del dedo medio. Ayudan a flexionar los nudillos y extender las interfalángicas.",
+  clinica:"La atrofia del 1.er interóseo dorsal deja un hueco visible entre pulgar e índice, signo típico de lesión del nervio cubital. Mnemotecnia: dorsales separan, palmares juntan.",
+  prueba:"Separar los dedos en abanico contra resistencia, palpando el 1.er interóseo al separar el índice."},
+interoseos_palmares:{cat:"musculo", capa:"Profundo", grupo:"Músculos intrínsecos de la mano", nombre:"Interóseos palmares", latin:"Musculi interossei palmares",
+  resumen:"Tres músculos unipennados en la cara palmar de los metacarpianos. Juntan los dedos hacia el dedo medio.",
+  origen:"Cara medial del 2.º metacarpiano y caras laterales del 4.º y del 5.º.",
+  insercion:"Falange proximal y expansión extensora del mismo dedo: índice, anular y meñique.",
+  inervacion:"Ramo profundo del nervio cubital (C8–T1).",
+  irrigacion:"Arco palmar profundo y arterias metacarpianas palmares.",
+  accion:"Aducen los dedos acercándolos al eje del dedo medio. Ayudan a flexionar los nudillos y extender las interfalángicas.",
+  clinica:"En una lesión del cubital la persona no puede sostener una tarjeta entre los dedos juntos y extendidos.",
+  prueba:"Sujetar una tarjeta entre dos dedos extendidos mientras el examinador intenta sacarla."},
+
+/* ---------------- LIGAMENTOS Y RETINÁCULOS ---------------- */
+retinaculo_flexores:{cat:"ligamento", grupo:"Muñeca", nombre:"Retináculo de los flexores", latin:"Retinaculum musculorum flexorum",
+  resumen:"Banda fibrosa gruesa (ligamento transverso del carpo) que cierra por delante el surco de los huesos del carpo y forma el túnel carpiano.",
+  une:"Tubérculos del escafoides y del trapecio (lado lateral) con el pisiforme y el gancho del ganchoso (lado medial).",
+  funcion:"Forma el túnel carpiano, por donde pasan el nervio mediano y nueve tendones (cuatro del flexor superficial, cuatro del profundo y el flexor largo del pulgar). Sirve de polea a los flexores y de origen a músculos tenares e hipotenares.",
+  clinica:"Síndrome del túnel carpiano: compresión del mediano con hormigueo nocturno en pulgar, índice, medio y mitad del anular. Las pruebas de Phalen (muñecas flexionadas 60 segundos) y Tinel (golpear sobre el túnel) reproducen los síntomas. La cirugía corta este retináculo."},
+retinaculo_extensores:{cat:"ligamento", grupo:"Muñeca", nombre:"Retináculo de los extensores", latin:"Retinaculum musculorum extensorum",
+  resumen:"Banda fibrosa en el dorso de la muñeca que sujeta los tendones extensores y los separa en seis compartimentos.",
+  une:"Borde anterolateral del radio distal con el piramidal, el pisiforme y la apófisis estiloides del cúbito; manda tabiques al radio y al cúbito.",
+  funcion:"Evita que los extensores se separen del hueso al extender la muñeca. Compartimentos: 1) abductor largo y extensor corto del pulgar; 2) extensores radiales del carpo; 3) extensor largo del pulgar; 4) extensor de los dedos y del índice; 5) extensor del meñique; 6) extensor cubital del carpo.",
+  clinica:"Cada compartimento puede inflamarse (tenosinovitis). El más afectado es el primero: tenosinovitis de De Quervain."},
+lig_radiocarpianos_palmares:{cat:"ligamento", grupo:"Articulación radiocarpiana", nombre:"Ligamentos radiocarpianos palmares", latin:"Ligamenta radiocarpalia palmaria",
+  resumen:"Grupo de ligamentos fuertes en la cara anterior de la muñeca: radioescafogrande, radiosemilunar largo y radiosemilunar corto.",
+  une:"Borde anterior del radio distal con el escafoides, el semilunar y el hueso grande.",
+  funcion:"Son los principales estabilizadores de la muñeca: impiden que el carpo se deslice hacia el lado cubital y hacia delante, y guían la flexión y la extensión.",
+  clinica:"Su lesión junto con la del ligamento escafosemilunar, en caídas sobre la mano, causa inestabilidad del carpo y artrosis precoz si no se trata."},
+lig_radiocarpianos_dorsales:{cat:"ligamento", grupo:"Articulación radiocarpiana", nombre:"Ligamento radiocarpiano dorsal", latin:"Ligamentum radiocarpale dorsale",
+  resumen:"Ligamento oblicuo en el dorso de la muñeca que baja del radio al semilunar y al piramidal.",
+  une:"Borde posterior del radio distal con el semilunar y el piramidal.",
+  funcion:"Limita la flexión de la muñeca y hace que la mano acompañe al radio durante la pronación y la supinación.",
+  clinica:"Cerca de él, sobre todo junto al ligamento escafosemilunar, nacen los gangliones dorsales (quistes sinoviales), los bultos más frecuentes de la muñeca."},
+lig_colateral_radial_carpo:{cat:"ligamento", grupo:"Articulación radiocarpiana", nombre:"Ligamento colateral radial del carpo", latin:"Ligamentum collaterale carpi radiale",
+  resumen:"Refuerzo lateral de la cápsula de la muñeca.",
+  une:"Apófisis estiloides del radio con el tubérculo del escafoides y el trapecio.",
+  funcion:"Limita la desviación cubital (aducción) de la muñeca.",
+  clinica:"Se lesiona en esguinces de muñeca. La arteria radial pasa muy cerca, en el fondo de la tabaquera anatómica."},
+lig_colateral_cubital_carpo:{cat:"ligamento", grupo:"Articulación radiocarpiana", nombre:"Ligamento colateral cubital del carpo", latin:"Ligamentum collaterale carpi ulnare",
+  resumen:"Refuerzo medial de la cápsula de la muñeca, en forma de abanico.",
+  une:"Apófisis estiloides del cúbito con el piramidal y el pisiforme.",
+  funcion:"Limita la desviación radial (abducción) de la muñeca.",
+  clinica:"Forma parte, con el fibrocartílago triangular, del complejo estabilizador del lado cubital de la muñeca."},
+fibrocartilago_triangular:{cat:"ligamento", grupo:"Articulación radiocubital distal", nombre:"Fibrocartílago triangular", latin:"Discus articularis (complexus fibrocartilagineus triangularis)",
+  resumen:"Disco de cartílago fibroso entre la cabeza del cúbito y el carpo, centro del complejo del fibrocartílago triangular.",
+  une:"Borde medial de la escotadura cubital del radio con la base de la apófisis estiloides del cúbito.",
+  funcion:"Separa el cúbito de la articulación radiocarpiana, amortigua cerca del 20 % de la carga de la muñeca y estabiliza la articulación radiocubital distal.",
+  clinica:"Se lesiona en caídas o giros forzados (raqueta, golf): dolor en el lado cubital de la muñeca al girar la llave o apoyarse en la mano. Se ve con resonancia o artroscopia."},
+aponeurosis_palmar:{cat:"ligamento", grupo:"Palma de la mano", nombre:"Aponeurosis palmar", latin:"Aponeurosis palmaris",
+  resumen:"Lámina fibrosa triangular bajo la piel de la palma, con el vértice en la muñeca y bandas hacia los dedos.",
+  une:"Tendón del palmar largo y retináculo de los flexores con las bases de los dedos 2–5 (bandas pretendinosas) y con la piel de la palma.",
+  funcion:"Protege los tendones, vasos y nervios de la palma y fija la piel para un agarre firme.",
+  clinica:"Contractura de Dupuytren: se engrosa y forma cordones que doblan poco a poco anular y meñique hasta que no se pueden extender. Es más frecuente en hombres mayores, con diabetes o antecedentes familiares."},
+poleas_flexoras:{cat:"ligamento", grupo:"Dedos", nombre:"Poleas flexoras (vainas fibrosas)", latin:"Vaginae fibrosae digitorum manus",
+  resumen:"Anillos fibrosos que sujetan los tendones flexores contra las falanges como las guías de una caña de pescar.",
+  une:"Poleas anulares A1–A5 y cruciformes C1–C3 entre los bordes de las falanges y las placas palmares de las articulaciones.",
+  funcion:"Mantienen los tendones flexores pegados al hueso para que no se despeguen como cuerda de arco al flexionar. Las más importantes son A2 (falange proximal) y A4 (falange media).",
+  clinica:"Dedo en gatillo: el tendón engrosado se traba en la polea A1 y el dedo se queda doblado o se suelta de golpe. Se trata con infiltración o abriendo la polea A1. Los escaladores pueden romper la A2."},
+lig_colaterales_dedos:{cat:"ligamento", grupo:"Dedos", nombre:"Ligamentos colaterales de los dedos", latin:"Ligamenta collateralia articulationum manus",
+  resumen:"Pares de ligamentos a los lados de cada articulación metacarpofalángica e interfalángica.",
+  une:"Cabeza del hueso proximal con la base del hueso distal, a cada lado de la articulación, junto con la placa palmar.",
+  funcion:"Dan estabilidad lateral a los dedos. Los de las metacarpofalángicas se tensan en flexión; por eso la mano se inmoviliza con los nudillos doblados.",
+  clinica:"El «pulgar del esquiador» es la rotura del colateral cubital de la metacarpofalángica del pulgar; si el aductor queda atrapado entre los cabos (lesión de Stener) necesita cirugía."},
+lig_metacarpiano_transverso_profundo:{cat:"ligamento", grupo:"Palma de la mano", nombre:"Ligamento metacarpiano transverso profundo", latin:"Ligamentum metacarpale transversum profundum",
+  resumen:"Bandas cortas que unen las cabezas de los metacarpianos 2 a 5 por la cara palmar.",
+  une:"Placas palmares de las metacarpofalángicas de los dedos 2–5.",
+  funcion:"Mantiene unidas las cabezas de los metacarpianos y forma el arco transverso de la mano. Los lumbricales pasan por delante y los interóseos por detrás.",
+  clinica:"Por este ligamento, las fracturas de los metacarpianos centrales (3.º y 4.º) se desplazan poco."},
+
+/* ---------------- NERVIOS ---------------- */
+n_interoseo_anterior:{cat:"nervio", grupo:"Ramos del nervio mediano", nombre:"Nervio interóseo anterior", latin:"Nervus interosseus antebrachii anterior",
+  resumen:"Ramo motor del nervio mediano que baja sobre la membrana interósea hacia la muñeca.",
+  raices:"C7–C8, a través del nervio mediano.",
+  trayecto:"Nace del mediano entre las cabezas del pronador redondo y baja sobre la membrana interósea, con la arteria interósea anterior, entre el flexor profundo y el flexor largo del pulgar, hasta el pronador cuadrado.",
+  inerva:"Flexor largo del pulgar, mitad lateral del flexor profundo de los dedos (índice y medio) y pronador cuadrado; ramos articulares para la muñeca.",
+  clinica:"En el síndrome del interóseo anterior no se puede hacer el «OK» redondo: la pinza de pulgar e índice queda plana. No hay pérdida de sensibilidad porque el nervio es solo motor."},
+n_digitales_palmares:{cat:"nervio", grupo:"Nervios de la mano", nombre:"Nervios digitales palmares", latin:"Nervi digitales palmares communes et proprii",
+  resumen:"Nervios sensitivos que recorren cada lado de los dedos por su cara palmar. Dan la sensibilidad fina del tacto.",
+  raices:"C6–C8, a través de los nervios mediano y cubital.",
+  trayecto:"Los nervios digitales comunes nacen en la palma (tres del mediano y uno del ramo superficial del cubital), por debajo del arco palmar superficial. En las comisuras se dividen en digitales propios, que corren por los lados palmares de cada dedo hasta la punta.",
+  inerva:"Piel palmar de los dedos y su dorso distal (alrededor de la uña). El mediano da pulgar, índice, medio y mitad lateral del anular; el cubital, mitad medial del anular y meñique. Los del mediano también inervan los lumbricales 1.º y 2.º.",
+  clinica:"Se cortan con facilidad en heridas de los dedos, con pérdida de sensibilidad en un lado del pulpejo. La anestesia de un dedo (bloqueo en anillo) se aplica en su base, donde pasan."},
+
+/* ---------------- ARTERIAS ---------------- */
+a_radial:{cat:"arteria", grupo:"Antebrazo y mano", nombre:"Arteria radial", latin:"Arteria radialis",
+  resumen:"Rama lateral de la braquial. En la muñeca es la arteria del pulso; luego cruza al dorso y entra en la palma para formar el arco profundo.",
+  origen:"Rama terminal lateral de la arteria braquial en la fosa del codo, a la altura del cuello del radio.",
+  trayecto:"Baja bajo el braquiorradial; en la muñeca queda superficial entre el tendón del flexor radial del carpo y el radio. Pasa por la tabaquera anatómica hacia el dorso y entra en la palma entre las cabezas del 1.er interóseo dorsal.",
+  ramas:"Recurrente radial, palmar superficial (completa el arco superficial), carpianas palmar y dorsal, principal del pulgar y radial del índice.",
+  irriga:"Músculos laterales del antebrazo, muñeca, pulgar y lado lateral del índice; forma el arco palmar profundo.",
+  clinica:"Es el sitio habitual para tomar el pulso, sacar gasometrías y hacer cateterismos cardíacos. Antes se comprueba con la prueba de Allen que la cubital irriga bien la mano."},
+a_cubital:{cat:"arteria", grupo:"Antebrazo y mano", nombre:"Arteria cubital", latin:"Arteria ulnaris",
+  resumen:"La mayor de las dos ramas terminales de la braquial. Baja por el lado medial del antebrazo y forma el arco palmar superficial.",
+  origen:"Rama terminal medial de la arteria braquial en la fosa del codo.",
+  trayecto:"Pasa por debajo del pronador redondo, baja junto al nervio cubital bajo el flexor cubital del carpo y entra en la mano por el canal de Guyon, lateral al pisiforme.",
+  ramas:"Recurrentes cubitales anterior y posterior, interósea común, carpianas palmar y dorsal, rama palmar profunda.",
+  irriga:"Músculos mediales del antebrazo y, por el arco superficial, la mayor parte de los dedos.",
+  clinica:"Síndrome del martillo hipotenar: usar la palma como martillo daña la arteria en el canal de Guyon y deja dolor, frialdad y palidez en anular y meñique."},
+a_interosea_comun:{cat:"arteria", grupo:"Antebrazo y mano", nombre:"Arteria interósea común", latin:"Arteria interossea communis",
+  resumen:"Tronco corto de la arteria cubital que se divide en las arterias interóseas anterior y posterior.",
+  origen:"Arteria cubital, poco después de su nacimiento.",
+  trayecto:"Llega al borde superior de la membrana interósea y se divide: la interósea anterior baja sobre la membrana con el nervio interóseo anterior; la posterior pasa por encima de la membrana al compartimento posterior.",
+  ramas:"Interósea anterior (da la arteria del nervio mediano), interósea posterior e interósea recurrente.",
+  irriga:"Músculos profundos de ambos compartimentos del antebrazo, el radio y el cúbito.",
+  clinica:"La arteria interósea posterior se usa para colgajos que cubren heridas del dorso de la mano."},
+arco_palmar_superficial:{cat:"arteria", grupo:"Arcos de la mano", nombre:"Arco palmar superficial", latin:"Arcus palmaris superficialis",
+  resumen:"Arco arterial bajo la aponeurosis palmar, formado sobre todo por la arteria cubital.",
+  origen:"Continuación de la arteria cubital, completada por la rama palmar superficial de la radial.",
+  trayecto:"Forma una curva convexa hacia los dedos, a la altura del borde distal del pulgar en abducción; está sobre los tendones flexores y bajo la aponeurosis palmar.",
+  ramas:"Tres arterias digitales palmares comunes y la digital propia del lado medial del meñique.",
+  irriga:"La mayor parte de los dedos.",
+  clinica:"Los cortes profundos en el centro de la palma sangran mucho por este arco. En cirugía se localiza con la línea cardinal de Kaplan."},
+arco_palmar_profundo:{cat:"arteria", grupo:"Arcos de la mano", nombre:"Arco palmar profundo", latin:"Arcus palmaris profundus",
+  resumen:"Arco arterial profundo de la palma, formado sobre todo por la arteria radial.",
+  origen:"Terminación de la arteria radial, completada por la rama palmar profunda de la cubital.",
+  trayecto:"Cruza la palma a la altura de las bases de los metacarpianos, por detrás de los tendones flexores y alrededor de 1 cm proximal al arco superficial, junto al ramo profundo del nervio cubital.",
+  ramas:"Arterias metacarpianas palmares, ramas perforantes al dorso y ramas recurrentes al carpo.",
+  irriga:"Músculos interóseos, huesos y articulaciones de la mano; se une con el arco superficial.",
+  clinica:"La doble circulación por los dos arcos es la base de la prueba de Allen: si se comprimen ambas arterias y se suelta una, la mano debe recuperar su color."},
+a_digitales_palmares:{cat:"arteria", grupo:"Arcos de la mano", nombre:"Arterias digitales palmares", latin:"Arteriae digitales palmares communes et propriae",
+  resumen:"Arterias que irrigan los dedos; corren por sus lados palmares junto a los nervios digitales.",
+  origen:"Arco palmar superficial (digitales comunes), unidas a las arterias metacarpianas palmares del arco profundo.",
+  trayecto:"Las comunes bajan a las comisuras y se dividen en digitales propias, que recorren cada lado palmar del dedo hasta la punta.",
+  ramas:"Ramas dorsales para la piel alrededor de la uña y ramas articulares.",
+  irriga:"Los dedos.",
+  clinica:"En el fenómeno de Raynaud estas arterias se contraen con el frío y los dedos se ponen blancos y luego morados."},
+
+/* ---------------- VENAS ---------------- */
+v_red_dorsal_mano:{cat:"vena", grupo:"Venas superficiales", nombre:"Red venosa dorsal de la mano", latin:"Rete venosum dorsale manus",
+  resumen:"Red de venas visible bajo la piel del dorso de la mano, donde nacen las venas cefálica y basílica.",
+  trayecto:"Las venas metacarpianas dorsales suben desde las comisuras y forman un arco en el dorso. Su extremo lateral da la vena cefálica y su extremo medial la basílica.",
+  drena:"Venas cefálica y basílica.",
+  clinica:"Es un sitio frecuente para colocar catéteres venosos porque las venas se ven bien y están fijas."},
+v_mediana_antebraquial:{cat:"vena", grupo:"Venas superficiales", nombre:"Vena mediana del antebrazo", latin:"Vena mediana antebrachii",
+  resumen:"Vena superficial que sube por el centro de la cara anterior del antebrazo.",
+  trayecto:"Nace de la red venosa de la palma y sube por la cara anterior del antebrazo hasta la fosa del codo.",
+  drena:"Vena basílica o vena mediana del codo (muy variable).",
+  clinica:"Su recorrido cambia mucho entre personas; junto con las demás puede formar una «M» en el codo, útil para sacar sangre."}
+});
+
+/* Regiones a las que pertenece cada estructura (por defecto: hombro) */
+var REG_COMPARTIDAS = ["humero", "radio", "cubito", "braquiorradial", "pronador_redondo", "supinador", "anconeo", "lig_colateral_cubital", "lig_colateral_radial", "lig_anular_radio", "membrana_interosea",
+  "n_mediano", "n_cubital", "n_radial", "n_musculocutaneo", "a_braquial", "v_cefalica", "v_basilica", "v_mediana_cubital"];
+(function(){
+  var nuevos = ["escafoides", "semilunar", "piramidal", "pisiforme", "hueso_trapecio", "trapezoide", "hueso_grande", "ganchoso", "metacarpianos", "falanges",
+    "flexor_radial_carpo", "palmar_largo", "flexor_cubital_carpo", "flexor_superficial_dedos", "flexor_profundo_dedos", "flexor_largo_pulgar", "pronador_cuadrado",
+    "extensor_radial_largo_carpo", "extensor_radial_corto_carpo", "extensor_dedos", "extensor_menique", "extensor_cubital_carpo", "abductor_largo_pulgar", "extensor_corto_pulgar", "extensor_largo_pulgar", "extensor_indice",
+    "abductor_corto_pulgar", "flexor_corto_pulgar", "oponente_pulgar", "aductor_pulgar", "abductor_menique", "flexor_corto_menique", "oponente_menique", "palmar_corto", "lumbricales", "interoseos_dorsales", "interoseos_palmares",
+    "retinaculo_flexores", "retinaculo_extensores", "lig_radiocarpianos_palmares", "lig_radiocarpianos_dorsales", "lig_colateral_radial_carpo", "lig_colateral_cubital_carpo", "fibrocartilago_triangular", "aponeurosis_palmar", "poleas_flexoras", "lig_colaterales_dedos", "lig_metacarpiano_transverso_profundo",
+    "n_interoseo_anterior", "n_digitales_palmares", "a_radial", "a_cubital", "a_interosea_comun", "arco_palmar_superficial", "arco_palmar_profundo", "a_digitales_palmares", "v_red_dorsal_mano", "v_mediana_antebraquial"];
+  Object.keys(DATA).forEach(function(id){ DATA[id].reg = ["hombro"]; });
+  nuevos.forEach(function(id){ if(DATA[id]) DATA[id].reg = ["antebrazo"]; });
+  REG_COMPARTIDAS.forEach(function(id){ if(DATA[id]) DATA[id].reg = ["hombro", "antebrazo"]; });
+  REGIONES.forEach(function(r){ if(r.id === "antebrazo") r.listo = true; });
+})();
+var RINFO = {
+  hombro:{nombre:"Hombro y brazo", n:1, sub:"Miembro superior", desc:"Cintura escapular, articulación del hombro, brazo y codo derechos, segmentados estructura por estructura sobre un tórax de referencia.",
+    inicio:["deltoides", "supraespinoso", "biceps_braquial", "plexo_braquial", "lig_conoide", "a_axilar"], home:{tx:14.5, ty:-16, tz:-4, dist:100, yaw:.5, pitch:.1}},
+  antebrazo:{nombre:"Antebrazo y mano", n:2, sub:"Miembro superior", desc:"Compartimentos anterior y posterior del antebrazo, muñeca, carpo y mano derechos: 27 músculos con sus tendones hasta cada dedo, retináculos, arcos palmares y nervios digitales.",
+    inicio:["retinaculo_flexores", "flexor_profundo_dedos", "extensor_dedos", "abductor_corto_pulgar", "escafoides", "arco_palmar_superficial"], home:{tx:24, ty:-55, tz:-2.4, dist:74, yaw:.3, pitch:.06}}
+};
 
 /* =====================================================================
    GEOMETRÍA: tubos de radio variable, elipsoides, toroides, placas, lofts
@@ -1667,8 +2124,7 @@ var MODEL = (function(){
   vessel("a_subescapular", [{pts:[[13.6, -6.4, -2.6], [13.8, -9.6, -6.4], [13.6, -14, -9.4]], t0:20}, {pts:[[13.8, -9.6, -6.4], [13.4, -10.6, -11.0]], r:.18, t0:25}], .26);
   vessel("a_circunfleja_humeral_posterior", [{pts:[[15.2, -8.8, -2.6], [16.4, -8.6, -6.8], [19, -8.4, -6.6], [20.6, -8.0, -4.8]], t0:22}], .24);
   vessel("a_circunfleja_humeral_anterior", [{pts:[[15.4, -9.0, -2.2], [17.2, -8.2, -1.0], [18.8, -7.4, -.6]], t0:22}], .18);
-  vessel("a_braquial", [{pts:[[16.4, -11, -2.4], [17.2, -17, -2.2], [18.0, -24, -1.8], [19.0, -30, -1.2], [19.8, -33.4, -.8], [20.6, -35.6, -.9]], t0:26},
-    {pts:[[20.6, -35.6, -.9], [22.2, -40, -.6], [24, -48, -.4], [25.6, -55.4, -.6]], r:.32, t0:52}, {pts:[[20.6, -35.6, -.9], [19.6, -38.6, -1.2], [19.8, -46, -1.8], [21.4, -55.6, -1.6]], r:.34, t0:52}], .45);
+  vessel("a_braquial", [{pts:[[16.4, -11, -2.4], [17.2, -17, -2.2], [18.0, -24, -1.8], [19.0, -30, -1.2], [19.8, -33.4, -.8], [20.6, -35.6, -.9]], t0:26}], .45);
   vessel("a_braquial_profunda", [{pts:[[17.0, -13.6, -2.8], [18.0, -14.6, -5.6], [20.2, -18, -5.4], [22.2, -22.4, -3.6], [22.8, -27, -2.6]], t0:28}], .25);
   vessel("a_supraescapular", [[[3.6, 3.6, -3.2], [6.4, 2.2, -6], [9.4, .2, -10.4], [11.0, -1.2, -12.4], [12.8, -3.2, -12.6], [14.0, -6.0, -12.4]]], .2);
   vessel("v_cefalica", [[[26.0, -55.6, .4], [25.2, -48, .8], [24.2, -40, 1.0], [23.6, -34, .8], [22.4, -27, 1.6], [21.6, -20, 2.0], [19.8, -12, 2.6], [17.4, -6, 3.0], [14.6, -3.4, 2.4], [12.6, -3.0, .4], [11.6, -3.4, -1.4]]], .3, true);
@@ -1688,12 +2144,230 @@ var MODEL = (function(){
     var rf = function(u){ for(var i = 1; i < prof.length; i++) if(u <= prof[i][0]){ var a = prof[i - 1], b = prof[i], k = (u - a[0]) / (b[0] - a[0]); return a[1] + (b[1] - a[1]) * k; } return 2.6; };
     [1, -1].forEach(function(s){
       G.tube(g, arm.map(function(p){ return [p[0] * s, p[1], p[2]]; }), {r:rf, col:COL.skin, rad:22});
-      G.ell(g, [26.4 * s, -63.6, -1.8], 3.8, 7.4, 1.6, COL.skin, 14, 20);
     });
     push("piel", g, {layer:"piel", glass:true, op:1, pickable:false});
   })();
 
   return {list:out, COL:COL};
+})();
+
+/* =====================================================================
+   MODELO · REGIÓN 2: ANTEBRAZO Y MANO DERECHOS
+   Continúa la escena del hombro (cm; x lateral, y arriba, z anterior).
+   Posición anatómica: palma hacia delante, pulgar lateral.
+   ===================================================================== */
+(function(){
+  var V = G.v, add = V.add, sub = V.sub, sc = V.sc, nrm = V.nrm, lerp = V.lerp, COL = MODEL.COL, L = MODEL.list;
+  function gOf(id){ for(var i = 0; i < L.length; i++) if(L[i].id === id) return L[i].g; return null; }
+  function push(id, g, opt){ L.push({id:id, g:g, opt:opt || {}}); }
+
+  /* ---------- esqueleto de la mano ---------- */
+  var MC = [ // base, cabeza (pulgar → meñique)
+    [[27.4, -62.0, -1.6], null],
+    [[25.6, -62.3, -2.6], [26.2, -69.0, -2.4]],
+    [[24.3, -62.5, -2.7], [24.3, -69.1, -2.5]],
+    [[23.1, -62.4, -2.5], [22.6, -68.3, -2.3]],
+    [[22.0, -62.2, -2.2], [21.0, -67.5, -2.0]]
+  ];
+  var dT = nrm([.458, -.835, .305]); MC[0][1] = add(MC[0][0], sc(dT, 4.4));
+  var DIRS = [nrm([.36, -.9, .25]), nrm([.1, -1, .06]), nrm([0, -1, .06]), nrm([-.1, -1, .06]), nrm([-.2, -1, .06])];
+  var LENS = [[3.0, 0, 2.3], [3.9, 2.4, 1.8], [4.4, 2.8, 1.9], [4.1, 2.7, 1.9], [3.3, 2.0, 1.7]];
+  var F = MC.map(function(m, k){
+    var d = DIRS[k], mcp = add(m[1], sc(d, .35)), pip = add(mcp, sc(d, LENS[k][0])), dip = k ? add(pip, sc(d, LENS[k][1])) : pip, tip = add(dip, sc(d, LENS[k][2]));
+    var pal = k ? [0, 0, .5] : sc(nrm([-.55, -.1, .8]), .5), dor = sc(pal, -1), lat = k ? [1, 0, 0] : nrm([.8, .2, .55]);
+    return {b:m[0], h:m[1], mcp:mcp, pip:pip, dip:dip, tip:tip, d:d, pal:pal, dor:dor, lat:lat};
+  });
+  function P(k, joint, f, off){ var J = F[k]; var p = add(J[joint], sc(J.d, f || 0)); return off ? add(p, off) : p; }
+  function pal(k, s){ return sc(F[k].pal, s == null ? 1 : s); }
+  function dor(k, s){ return sc(F[k].dor, s == null ? 1 : s); }
+  function lat(k, s){ return sc(F[k].lat, s); }
+
+  /* =================== HUESOS =================== */
+  var g;
+  function carp(id, fn){ var gg = G.B(); fn(gg); push(id, gg, {layer:"hueso", reg:"antebrazo"}); }
+  carp("escafoides", function(gg){ G.ellBetween(gg, [26.9, -58.7, -2.3], [25.5, -60.1, -1.6], .52, .5, COL.bone); G.ell(gg, [26.0, -60.0, -1.3], .3, .3, .3, COL.bone, 6, 8); });
+  carp("semilunar", function(gg){ G.ell(gg, [24.5, -59.0, -2.4], .68, .52, .75, COL.bone, 10, 12); });
+  carp("piramidal", function(gg){ G.ell(gg, [23.0, -59.3, -2.6], .6, .5, .62, COL.bone, 10, 12); });
+  carp("pisiforme", function(gg){ G.ell(gg, [22.6, -59.6, -1.45], .38, .44, .36, COL.bone, 8, 10); });
+  carp("hueso_trapecio", function(gg){ G.ell(gg, [27.0, -61.1, -1.9], .66, .6, .62, COL.bone, 10, 12); G.ell(gg, [26.9, -61.0, -1.2], .26, .3, .26, COL.bone, 6, 8); });
+  carp("trapezoide", function(gg){ G.ell(gg, [25.75, -61.25, -2.5], .5, .55, .56, COL.bone, 8, 10); });
+  carp("hueso_grande", function(gg){ G.ellBetween(gg, [24.35, -59.6, -2.45], [24.3, -62.1, -2.5], .66, .72, COL.bone); });
+  carp("ganchoso", function(gg){ G.ell(gg, [22.85, -61.2, -2.4], .64, .76, .68, COL.bone, 10, 12); G.ellBetween(gg, [22.8, -61.0, -1.8], [22.6, -61.5, -1.15], .22, .26, COL.bone); });
+  // Metacarpianos
+  g = G.B();
+  MC.forEach(function(m, k){
+    var base = m[0], head = m[1];
+    G.tube(g, [base, lerp(base, head, .5), head], {r:function(u){ return u < .14 ? .48 - u * 1.1 : u > .82 ? .33 + (u - .82) * .7 : .33; }, col:COL.bone, rad:9, caps:true});
+    G.ell(g, head, .47, .47, .5, COL.bone, 8, 10);
+  });
+  push("metacarpianos", g, {layer:"hueso", reg:"antebrazo"});
+  // Falanges
+  g = G.B();
+  F.forEach(function(J, k){
+    var segs = k ? [[J.mcp, J.pip, .38], [J.pip, J.dip, .32], [J.dip, J.tip, .27]] : [[J.mcp, J.pip, .4], [J.pip, J.tip, .33]];
+    segs.forEach(function(s, i){
+      var a = add(s[0], sc(J.d, .12)), b = add(s[1], sc(J.d, -.12)), r = s[2];
+      G.tube(g, [a, lerp(a, b, .5), b], {r:function(u){ return u < .15 ? r * 1.25 - u * 1.2 * r : u > .85 ? r * .9 + (u - .85) * (i === segs.length - 1 ? -2 : 1.6) * r : r * .82; }, col:COL.bone, rad:8, caps:true});
+      if(i === segs.length - 1) G.ell(g, add(b, sc(J.d, -.05)), r * .95, r * .95, r * .7, COL.bone, 6, 8);
+    });
+  });
+  push("falanges", g, {layer:"hueso", reg:"antebrazo"});
+
+  /* =================== MÚSCULOS =================== */
+  var seed = 977;
+  function mus(id, deep, parts){ var gg = G.B(); G.muscle(gg, {parts:parts}, seed += 131, {m:deep ? COL.musDeep : COL.mus, t:COL.ten}); push(id, gg, {layer:deep ? "profundo" : "superficial", reg:"antebrazo"}); }
+  function v1(p){ return [p]; }
+  // x de cada tendón flexor en el túnel carpiano (índice → meñique)
+  var TX = [0, 25.0, 24.4, 23.8, 23.2];
+  /* --- Compartimento anterior --- */
+  mus("flexor_radial_carpo", false, [{o:[[16.6, -31.6, -3.2], [16.9, -32.2, -2.8]], v:[v1([19.4, -38, .4]), v1([22.4, -46, .7]), v1([24.6, -53, .2]), v1([25.7, -58.0, -.9]), v1([25.8, -60.6, -1.6])], i:[[25.6, -62.6, -1.9]], n:5, r:.78, belly:[.05, .5], rt:.2, seg:60}]);
+  mus("palmar_largo", false, [{o:[[16.4, -31.4, -3.0]], v:[v1([19.0, -37, 1.0]), v1([21.6, -45, 1.25]), v1([23.6, -53, .95]), v1([24.2, -58, .4])], i:[[24.2, -60.9, -.25]], n:3, r:.5, belly:[.05, .42], rt:.14, seg:60}]);
+  mus("flexor_cubital_carpo", false, [{o:[[16.0, -31.4, -3.6], [17.6, -33.0, -6.2], [18.6, -37, -5.6], [19.2, -42, -5.0]], v:[[[17.6, -36, -2.0], [18.0, -39, -2.6], [18.6, -42, -3.4], [19.2, -45, -3.8]], v1([20.4, -50, -1.5]), v1([21.8, -56, -1.0])], i:[[22.55, -59.3, -1.05]], n:8, r:.85, belly:[.04, .72], rt:.22, seg:60}]);
+  var fds = [], fdp = [], ed = [], lum = [];
+  [1, 2, 3, 4].forEach(function(k){
+    var x = TX[k], m = (k - 2.5) * .5;
+    fds.push({o:[[16.8 + m * .2, -32.0, -3.0], [18.6 + m * .3, -35.0, -1.8], [22.4, -38.4, -1.0]].slice(k === 1 ? 1 : 0, k === 1 ? 3 : 2),
+      v:[v1([20.6 - m, -42, -.3]), v1([22.8 - m * .6, -51, -.4]), v1([x, -58, -1.0]), v1([x, -60.6, -1.0]), v1(lerp([x, -62.6, -1.2], add(F[k].mcp, pal(k, 1.05)), .55)), v1(add(F[k].mcp, pal(k, 1.0))), v1(P(k, "mcp", 2, pal(k, .9)))],
+      i:[P(k, "pip", .35, pal(k, .7))], n:3, r:.72, belly:[.03, .4], rt:.14, seg:90});
+    fdp.push({o:[[19.0, -36 - k * .6, -2.9], [19.6, -43 - k * .4, -2.6], [20.6, -48, -2.5]],
+      v:[v1([21.4 - m * .4, -47, -1.7]), v1([22.6 - m * .5, -53, -1.6]), v1([x, -58, -1.6]), v1([x, -60.6, -1.6]), v1(lerp([x, -62.6, -1.6], add(F[k].mcp, pal(k, .75)), .55)), v1(add(F[k].mcp, pal(k, .72))), v1(P(k, "pip", 0, pal(k, .72))), v1(P(k, "pip", 1.2, pal(k, .62)))],
+      i:[P(k, "dip", .3, pal(k, .55))], n:3, r:.74, belly:[.02, .4], rt:.14, seg:100});
+    var ex = [0, 24.9, 24.2, 23.5, 22.9][k];
+    ed.push({o:[[23.4, -31.6, -4.4], [23.2, -32.4, -4.8]], v:[v1([23.8 - m * .4, -38, -6.1]), v1([23.8 - m * .5, -46, -5.5]), v1([ex, -54, -4.7]), v1([ex, -57, -4.5]), v1(lerp([ex, -60, -3.8], add(F[k].mcp, dor(k, 1.05)), .5)), v1(add(F[k].mcp, dor(k, 1.05))), v1(P(k, "mcp", 2, dor(k, .9)))],
+      i:[P(k, "pip", .35, dor(k, .78))], n:3, r:.62, belly:[.03, .44], rt:.13, seg:90});
+    lum.push({o:[lerp([x, -62.8, -1.6], add(F[k].mcp, pal(k, .72)), .45)], v:[v1(add(add(F[k].mcp, lat(k, .5)), pal(k, .55)))], i:[P(k, "mcp", 1.4, add(lat(k, .45), [0, 0, -.1]))], n:2, r:.3, belly:[.08, .78], rt:.08});
+  });
+  mus("flexor_superficial_dedos", false, fds);
+  mus("flexor_profundo_dedos", true, fdp);
+  mus("flexor_largo_pulgar", true, [{o:[[23.0, -39, -1.6], [24.0, -45, -1.4], [24.8, -50, -1.4]], v:[v1([25.2, -53, -1.2]), v1([25.6, -58, -1.35]), v1([26.3, -61, -1.25]), v1(add(lerp(F[0].b, F[0].h, .5), pal(0, 1))), v1(add(F[0].mcp, pal(0, .8)))], i:[P(0, "pip", .3, pal(0, .6))], n:4, r:.62, belly:[.03, .5], rt:.15, seg:80}]);
+  mus("pronador_cuadrado", true, [{o:[[21.8, -51.8, -2.3], [22.2, -55.2, -2.4]], i:[[25.0, -51.6, -1.7], [25.9, -55.2, -1.8]], b:[0, 0, .65], n:9, r:.42, belly:[.06, .95], rt:.2}]);
+  /* --- Compartimento posterior --- */
+  mus("extensor_radial_largo_carpo", false, [{o:[[23.0, -27.5, -3.4], [23.4, -29.8, -3.4]], v:[v1([25.5, -34, -2.9]), v1([26.1, -41, -2.7]), v1([26.5, -50, -3.3]), v1([26.5, -56, -3.7]), v1([25.95, -59.2, -3.45])], i:[[25.7, -62.6, -3.15]], n:5, r:.85, belly:[.04, .42], rt:.2, seg:70}]);
+  mus("extensor_radial_corto_carpo", false, [{o:[[23.4, -31.8, -4.0], [23.5, -32.4, -4.3]], v:[v1([25.0, -36, -4.6]), v1([25.8, -43, -4.4]), v1([25.8, -50, -4.2]), v1([25.2, -56, -4.3]), v1([24.75, -59.2, -3.45])], i:[[24.5, -62.8, -3.15]], n:5, r:.8, belly:[.04, .48], rt:.2, seg:70}]);
+  mus("extensor_dedos", false, ed);
+  mus("extensor_menique", false, [{o:[[23.2, -32.0, -4.8]], v:[v1([22.5, -38, -6.3]), v1([22.1, -46, -5.6]), v1([21.9, -54, -4.65]), v1([22.1, -57, -4.3]), v1(lerp([22.0, -60, -3.6], add(F[4].mcp, dor(4, 1.05)), .5)), v1(add(F[4].mcp, add(dor(4, 1.05), [-.25, 0, 0]))), v1(P(4, "mcp", 1.6, dor(4, .9)))], i:[P(4, "pip", .3, dor(4, .78))], n:3, r:.5, belly:[.04, .48], rt:.12, seg:90}]);
+  mus("extensor_cubital_carpo", false, [{o:[[23.0, -32.2, -4.8], [20.6, -38, -5.9], [20.8, -44, -5.1]], v:[v1([21.3, -42, -6.1]), v1([21.8, -50, -4.9]), v1([21.55, -56, -4.1]), v1([21.4, -59, -3.25])], i:[[21.7, -62.3, -2.8]], n:6, r:.76, belly:[.04, .62], rt:.2, seg:60}]);
+  mus("abductor_largo_pulgar", true, [{o:[[21.8, -41, -4.2], [23.0, -42, -3.7], [24.0, -43, -3.6]], v:[v1([24.9, -47, -4.9]), v1([26.3, -52, -3.75]), v1([27.45, -56, -2.3]), v1([27.95, -58.6, -1.85])], i:[[27.75, -62.1, -1.85]], n:5, r:.6, belly:[.04, .62], rt:.17, seg:60}]);
+  mus("extensor_corto_pulgar", true, [{o:[[24.0, -45, -3.8], [24.4, -47, -3.8]], v:[v1([25.5, -50, -4.7]), v1([26.7, -53, -3.5]), v1([27.6, -56.6, -2.1]), v1([28.1, -59, -1.95]), v1(add(lerp(F[0].b, F[0].h, .5), dor(0, 1.1)))], i:[P(0, "mcp", .35, dor(0, .8))], n:3, r:.46, belly:[.05, .5], rt:.12, seg:80}]);
+  mus("extensor_largo_pulgar", true, [{o:[[21.4, -43, -4.0], [21.8, -46, -3.8]], v:[v1([22.8, -50, -4.45]), v1([24.4, -55, -4.45]), v1([25.25, -57.6, -3.9]), v1([26.5, -60, -3.1]), v1(add(lerp(F[0].b, F[0].h, .6), add(dor(0, 1.0), [-.25, 0, 0]))), v1(add(F[0].mcp, dor(0, .85)))], i:[P(0, "pip", .35, dor(0, .7))], n:3, r:.5, belly:[.04, .48], rt:.12, seg:90}]);
+  mus("extensor_indice", true, [{o:[[21.8, -48, -3.8], [22.2, -51, -3.6]], v:[v1([23.4, -53, -4.4]), v1([24.35, -57, -4.35]), v1(lerp([25.2, -60.6, -3.6], add(F[1].mcp, dor(1, 1.05)), .5)), v1(add(F[1].mcp, add(dor(1, 1.1), [.2, 0, 0])))], i:[P(1, "mcp", 1.2, dor(1, .85))], n:3, r:.44, belly:[.04, .55], rt:.12, seg:80}]);
+  /* --- Mano: eminencia tenar --- */
+  var tB = F[0].mcp;
+  mus("abductor_corto_pulgar", false, [{o:[[26.4, -60.4, -.45], [27.2, -60.6, -.8]], v:[v1([28.3, -62.6, -.35])], i:[add(tB, add(lat(0, .38), pal(0, .35))), add(add(tB, sc(F[0].d, .4)), lat(0, .38))], n:6, r:.55, belly:[.05, .9], rt:.12}]);
+  mus("flexor_corto_pulgar", false, [{o:[[25.9, -60.8, -.6], [26.6, -61.0, -.8]], v:[v1([27.3, -63.1, -.25])], i:[add(tB, pal(0, .75)), add(add(tB, sc(F[0].d, .3)), pal(0, .7))], n:5, r:.5, belly:[.05, .9], rt:.12}]);
+  mus("oponente_pulgar", true, [{o:[[26.8, -61.0, -1.0], [26.4, -61.4, -.95]], i:[add(lerp(F[0].b, F[0].h, .3), add(lat(0, .35), pal(0, .35))), add(lerp(F[0].b, F[0].h, .95), add(lat(0, .35), pal(0, .35)))], b:[.35, 0, .35], n:7, r:.45, belly:[.05, .95], rt:.12}]);
+  mus("aductor_pulgar", true, [
+    {o:[[24.4, -62.1, -1.65], [25.2, -62.7, -1.7]], v:[v1([26.2, -63.6, -1.4])], i:[add(tB, add(lat(0, -.35), pal(0, .15)))], n:5, r:.45, belly:[.05, .9], rt:.12},
+    {o:[[24.35, -64.2, -1.8], [24.35, -67.2, -1.8]], v:[[[25.8, -64.6, -1.5], [26.2, -66, -1.4]]], i:[add(tB, add(lat(0, -.38), pal(0, .1)))], n:7, r:.42, belly:[.05, .9], rt:.12}]);
+  /* --- Mano: eminencia hipotenar --- */
+  var lB = F[4].mcp;
+  mus("abductor_menique", false, [{o:[[22.4, -59.8, -1.05], [22.2, -60.3, -1.05]], v:[v1([20.75, -63, -1.65])], i:[add(add(lB, sc(F[4].d, .3)), [-.42, 0, -.05])], n:6, r:.52, belly:[.05, .9], rt:.12}]);
+  mus("flexor_corto_menique", false, [{o:[[22.6, -61.4, -.95], [22.4, -61.8, -.9]], v:[v1([21.6, -64.2, -1.0])], i:[add(add(lB, sc(F[4].d, .3)), [-.15, 0, .4])], n:4, r:.42, belly:[.05, .9], rt:.12}]);
+  mus("oponente_menique", true, [{o:[[22.8, -61.45, -1.15], [22.7, -61.9, -1.15]], i:[add(lerp(F[4].b, F[4].h, .3), [-.35, 0, .2]), add(lerp(F[4].b, F[4].h, .98), [-.35, 0, .2])], b:[-.35, 0, .25], n:7, r:.4, belly:[.05, .95], rt:.1}]);
+  mus("palmar_corto", false, [{o:[[23.0, -61.4, -.15], [23.0, -63.6, -.2]], i:[[20.5, -61.9, -.85], [20.3, -63.9, -.95]], b:[0, 0, .2], n:5, r:.17, belly:[.06, .94], rt:.08}]);
+  /* --- Mano: lumbricales e interóseos --- */
+  mus("lumbricales", true, lum);
+  var mid = function(a, b, t){ return lerp(a, b, t); };
+  mus("interoseos_dorsales", true, [
+    {o:[mid(F[0].b, F[0].h, .3), mid(F[0].b, F[0].h, .8)], v:[[mid(F[1].b, F[1].h, .3), mid(F[1].b, F[1].h, .85)].map(function(p){ return add(p, [.55, 0, -.35]); })], i:[P(1, "mcp", .5, [.42, 0, -.1])], n:8, r:.4, belly:[.04, .86], rt:.1},
+    {o:[add(mid(F[1].b, F[1].h, .2), [-.4, 0, -.3]), add(mid(F[2].b, F[2].h, .8), [.4, 0, -.3])], i:[P(2, "mcp", .5, [.42, 0, -.1])], b:[0, 0, -.25], n:5, r:.33, belly:[.04, .86], rt:.09},
+    {o:[add(mid(F[3].b, F[3].h, .2), [.4, 0, -.3]), add(mid(F[2].b, F[2].h, .8), [-.4, 0, -.3])], i:[P(2, "mcp", .5, [-.42, 0, -.1])], b:[0, 0, -.25], n:5, r:.33, belly:[.04, .86], rt:.09},
+    {o:[add(mid(F[4].b, F[4].h, .2), [.4, 0, -.3]), add(mid(F[3].b, F[3].h, .8), [-.4, 0, -.3])], i:[P(3, "mcp", .5, [-.42, 0, -.1])], b:[0, 0, -.25], n:5, r:.33, belly:[.04, .86], rt:.09}]);
+  mus("interoseos_palmares", true, [
+    {o:[add(mid(F[1].b, F[1].h, .3), [-.35, 0, .3]), add(mid(F[1].b, F[1].h, .85), [-.35, 0, .3])], i:[P(1, "mcp", .5, [-.42, 0, .05])], n:3, r:.3, belly:[.04, .86], rt:.08},
+    {o:[add(mid(F[3].b, F[3].h, .3), [.35, 0, .3]), add(mid(F[3].b, F[3].h, .85), [.35, 0, .3])], i:[P(3, "mcp", .5, [.42, 0, .05])], n:3, r:.3, belly:[.04, .86], rt:.08},
+    {o:[add(mid(F[4].b, F[4].h, .3), [.35, 0, .3]), add(mid(F[4].b, F[4].h, .85), [.35, 0, .3])], i:[P(4, "mcp", .5, [.42, 0, .05])], n:3, r:.28, belly:[.04, .86], rt:.08}]);
+
+  /* =================== LIGAMENTOS Y RETINÁCULOS =================== */
+  function lig(id, list, opt){
+    var gg = G.B();
+    list.forEach(function(Lg){
+      if(Lg.fan) G.muscle(gg, {parts:[Lg.fan]}, 7, {m:COL.lig, t:COL.ligT});
+      else if(Lg.torus) G.torus(gg, Lg.torus[0], Lg.torus[1], Lg.torus[2], Lg.torus[3], COL.lig, 24, 6, Lg.torus[4]);
+      else if(Lg.ell) G.ell(gg, Lg.ell[0], 0, 0, 0, COL.cart, 10, 16, Lg.ell[1]);
+      else G.tube(gg, Lg.p, {r:Lg.r || .3, col:COL.lig, rad:7, flatX:Lg.flat || 1.6, caps:true});
+    });
+    push(id, gg, Object.assign({layer:"ligamento", reg:"antebrazo"}, opt || {}));
+  }
+  lig("retinaculo_flexores", [{fan:{o:[[26.95, -59.8, -1.05], [26.95, -61.7, -1.05]], v:[[[25.9, -59.8, -.25], [25.9, -61.7, -.25]], [[23.6, -59.8, -.15], [23.6, -61.7, -.15]]], i:[[22.45, -59.8, -.85], [22.5, -61.7, -.85]], n:9, r:.26, belly:[2, 3], rt:.26}}]);
+  lig("retinaculo_extensores", [{fan:{o:[[27.65, -55.4, -2.0], [27.85, -57.4, -2.0]], v:[[[26.6, -55.4, -4.25], [26.6, -57.3, -4.1]], [[23.6, -55.6, -5.05], [23.6, -57.4, -4.85]]], i:[[21.15, -56.0, -3.05], [21.35, -57.8, -2.85]], n:9, r:.22, belly:[2, 3], rt:.22}}], {op:.9});
+  lig("lig_radiocarpianos_palmares", [{fan:{o:[[26.4, -57.8, -1.35], [25.0, -58.0, -1.45]], i:[[24.7, -60.6, -1.6], [24.25, -60.1, -1.55]], n:6, r:.17, belly:[2, 3], rt:.17}}, {fan:{o:[[24.9, -58.0, -1.5], [24.3, -57.9, -1.6]], i:[[23.4, -59.4, -1.95], [23.2, -59.0, -2.0]], n:4, r:.15, belly:[2, 3], rt:.15}}]);
+  lig("lig_radiocarpianos_dorsales", [{fan:{o:[[25.8, -57.8, -3.4], [24.6, -58.0, -3.4]], i:[[23.6, -59.2, -3.3], [23.05, -59.4, -3.2]], n:6, r:.17, belly:[2, 3], rt:.17}}]);
+  lig("lig_colateral_radial_carpo", [{p:[[27.45, -58.25, -2.2], [27.25, -59.0, -2.1], [26.85, -59.55, -2.0]], r:.22}]);
+  lig("lig_colateral_cubital_carpo", [{p:[[22.0, -57.9, -3.25], [21.9, -58.7, -2.65], [22.35, -59.45, -1.85]], r:.22}, {p:[[21.95, -57.95, -3.3], [22.2, -58.8, -3.25], [22.7, -59.3, -3.1]], r:.18}]);
+  lig("fibrocartilago_triangular", [{ell:[[22.85, -57.72, -2.8], [[.95, 0, .05], [0, .13, 0], [0, 0, .72]]]}]);
+  var apoI = [1, 2, 3, 4].map(function(k){ return add(F[k].mcp, add(pal(k, 1.35), sc(F[k].d, -.6))); });
+  lig("aponeurosis_palmar", [{fan:{o:[[24.0, -60.9, -.3], [24.4, -60.9, -.3]], v:[[[25.6, -64.6, -.55], [22.6, -64.6, -.55]]], i:apoI, n:16, r:.11, belly:[2, 3], rt:.11}}], {op:.85});
+  var pol = [];
+  [1, 2, 3, 4].forEach(function(k){ [["mcp", .1, .55], ["mcp", LENS[k][0] * .5, .58], ["pip", LENS[k][1] * .5, .5]].forEach(function(a){ pol.push({torus:[P(k, a[0], a[1], pal(k, .62)), F[k].d, a[2], .09]}); }); });
+  [[0, "mcp", .1], [0, "mcp", LENS[0][0] * .5]].forEach(function(a){ pol.push({torus:[P(0, a[1], a[2], pal(0, .62)), F[0].d, .5, .09]}); });
+  lig("poleas_flexoras", pol);
+  var col = [];
+  [0, 1, 2, 3, 4].forEach(function(k){ (k ? ["mcp", "pip", "dip"] : ["mcp", "pip"]).forEach(function(j){ [1, -1].forEach(function(s){ var side = sc(F[k].lat, .4 * s); col.push({p:[add(P(k, j, -.38), side), add(P(k, j, .38), side)], r:.11, flat:1.2}); }); }); });
+  lig("lig_colaterales_dedos", col);
+  lig("lig_metacarpiano_transverso_profundo", [{p:[1, 2, 3, 4].map(function(k){ return add(F[k].h, [0, -.15, .42]); }), r:.16, flat:1.8}]);
+
+  /* =================== NERVIOS =================== */
+  function nerveTo(id, paths, r){ var gg = gOf(id), isNew = !gg; if(isNew) gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r || .2, col:COL.nerve, rad:6, t0:p.t0 || 0}); }); if(isNew) push(id, gg, {layer:"nervio", flow:1, flowC:[1, .96, .62], speed:.9, reg:"antebrazo"}); }
+  nerveTo("n_mediano", [{pts:[[23.4, -56, -1.4], [24.15, -58.2, -1.05], [24.3, -60.6, -.95], [24.4, -62.3, -1.0]], r:.3, t0:72}, {pts:[[24.35, -61.8, -.95], [25.6, -61.8, -.55], [26.7, -62.3, -.4]], r:.13, t0:78}]);
+  nerveTo("n_cubital", [{pts:[[21.2, -56, -2.2], [21.8, -58.4, -1.2], [22.05, -60.0, -.75], [22.05, -61.2, -.8]], r:.26, t0:70},
+    {pts:[[22.05, -60.4, -.85], [22.35, -61.9, -1.6], [23.4, -63.5, -2.0], [25.2, -63.7, -2.0], [26.3, -63.2, -1.65]], r:.15, t0:76},
+    {pts:[[21.3, -53.6, -2.5], [20.75, -57, -3.6], [21.1, -60, -3.95], [21.4, -64, -3.95], [21.2, -66.6, -3.6]], r:.12, t0:68}]);
+  nerveTo("n_radial", [{pts:[[25.8, -55, -.8], [27.0, -57.6, -2.0], [27.5, -60, -2.9], [27.2, -62.6, -3.5], [26.0, -65.6, -3.6]], r:.14, t0:62}, {pts:[[27.5, -60, -2.9], [28.6, -62.6, -2.3], [29.6, -65.4, -1.4]], r:.11, t0:66},
+    {pts:[[22.6, -45, -3.6], [23.2, -50, -3.45], [23.85, -55.6, -3.4], [24.1, -58.4, -3.3]], r:.16, t0:50}]);
+  nerveTo("n_interoseo_anterior", [[[20.0, -37.2, -1.2], [20.6, -40, -2.0], [21.8, -46, -2.15], [23.0, -52, -2.15], [23.5, -54.4, -2.1]]], .16);
+  var dig = [];
+  function digital(k, side, from, t0){ // nervio digital propio a lo largo de un lado del dedo
+    var s = sc(F[k].lat, .44 * side), pp = add(pal(k, .42), s);
+    var path = [from, add(F[k].mcp, add(sc(F[k].d, -.4), pp)), P(k, "mcp", 1.2, pp), P(k, "pip", 0, pp), k ? P(k, "dip", 0, pp) : P(k, "pip", 1.0, pp), add(F[k].tip, add(sc(F[k].d, -.4), sc(pp, .7)))];
+    dig.push({pts:path, r:.1, t0:t0});
+  }
+  var cleft = function(a, b){ return add(lerp(F[a].h, F[b].h, .5), [0, .35, .95]); };
+  var mEnd = [24.4, -62.3, -1.0], uSup = [22.05, -61.2, -.8];
+  var c01 = add(lerp(F[0].mcp, F[1].h, .5), [-.3, .3, .9]), c12 = cleft(1, 2), c23 = cleft(2, 3), c34 = cleft(3, 4);
+  dig.push({pts:[mEnd, [25.2, -63.8, -1.0], c01], r:.15, t0:80}, {pts:[mEnd, [24.9, -64.6, -1.05], c12], r:.15, t0:80}, {pts:[mEnd, [24.2, -64.8, -1.05], c23], r:.15, t0:80}, {pts:[uSup, [22.4, -64.0, -1.05], c34], r:.14, t0:78});
+  digital(0, 1, c01, 85); digital(0, -1, c01, 85); digital(1, 1, c01, 85); digital(1, -1, c12, 85); digital(2, 1, c12, 85); digital(2, -1, c23, 85); digital(3, 1, c23, 85); digital(3, -1, c34, 83); digital(4, 1, c34, 83);
+  digital(4, -1, add(F[4].h, [-.6, .8, .9]), 82); dig.push({pts:[uSup, [21.6, -63.4, -1.0], add(F[4].h, [-.6, .8, .9])], r:.12, t0:78});
+  nerveTo("n_digitales_palmares", dig);
+
+  /* =================== VASOS =================== */
+  function vesselTo(id, paths, r, vein){ var gg = gOf(id), isNew = !gg; if(isNew) gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r, col:vein ? COL.vein : COL.art, rad:7, revT:!!vein, t0:p.t0 || 0}); }); if(isNew) push(id, gg, {layer:vein ? "vena" : "arteria", flow:1, flowC:vein ? [.6, .78, 1] : [1, .6, .5], speed:vein ? .35 : .75, reg:"antebrazo"}); }
+  vesselTo("a_radial", [{pts:[[20.6, -35.6, -.9], [22.2, -40, -.6], [24, -48, -.4], [25.6, -55.4, -.55], [26.45, -57.6, -.9], [27.7, -59.4, -2.25], [27.0, -61.4, -3.25], [25.8, -62.7, -2.9], [25.25, -63.4, -2.1]], t0:52}], .3);
+  vesselTo("a_cubital", [{pts:[[20.6, -35.6, -.9], [19.6, -38.6, -1.2], [19.8, -46, -1.8], [21.4, -55.6, -1.6], [21.95, -58.6, -.9], [22.35, -60.4, -.65]], t0:52}], .32);
+  vesselTo("a_interosea_comun", [{pts:[[19.8, -38.0, -1.3], [20.6, -39.2, -2.0]], r:.2, t0:56}, {pts:[[20.6, -39.2, -2.0], [21.8, -45, -2.35], [23.0, -51, -2.35], [23.6, -53.6, -2.3]], r:.15, t0:58}, {pts:[[20.6, -39.2, -2.0], [21.2, -40.2, -3.45], [21.8, -45, -4.05], [22.6, -52, -3.95]], r:.15, t0:58}]);
+  vesselTo("arco_palmar_superficial", [{pts:[[22.35, -60.4, -.65], [22.45, -63.2, -.8], [23.4, -65.2, -.85], [25.0, -65.0, -.85], [26.2, -63.6, -.8], [26.65, -62.2, -.7]], t0:76}], .18);
+  vesselTo("arco_palmar_profundo", [{pts:[[25.25, -63.4, -2.1], [24.2, -63.95, -1.9], [23.0, -63.95, -1.9], [22.0, -63.4, -1.9], [21.65, -62.4, -1.65]], t0:80}], .19);
+  var dga = [];
+  [[1, 2], [2, 3], [3, 4]].forEach(function(ab, i){ var from = [[24.6, -65.05, -.85], [23.9, -65.2, -.85], [23.0, -65.0, -.85]][i], cl = add(cleft(ab[0], ab[1]), [0, 0, -.1]); dga.push({pts:[from, cl], r:.12, t0:82});
+    [[ab[0], -1], [ab[1], 1]].forEach(function(ks){ var k = ks[0], pp = add(pal(k, .32), sc(F[k].lat, .36 * ks[1])); dga.push({pts:[cl, P(k, "mcp", 1.2, pp), P(k, "pip", 0, pp), P(k, "dip", 0, pp), add(F[k].tip, add(sc(F[k].d, -.45), sc(pp, .7)))], r:.08, t0:86}); }); });
+  [[1, 1], [4, -1]].forEach(function(ks){ var k = ks[0], pp = add(pal(k, .32), sc(F[k].lat, .36 * ks[1])); dga.push({pts:[ks[0] === 1 ? [26.2, -63.6, -.8] : [22.45, -63.2, -.8], P(k, "mcp", 0, pp), P(k, "pip", 0, pp), P(k, "dip", 0, pp), add(F[k].tip, add(sc(F[k].d, -.45), sc(pp, .7)))], r:.08, t0:84}); });
+  [1, -1].forEach(function(s){ var pp = add(pal(0, .32), sc(F[0].lat, .36 * s)); dga.push({pts:[[26.65, -62.2, -.7], add(F[0].mcp, pp), P(0, "pip", 0, pp), add(F[0].tip, add(sc(F[0].d, -.45), sc(pp, .7)))], r:.09, t0:84}); });
+  vesselTo("a_digitales_palmares", dga);
+  vesselTo("v_red_dorsal_mano", [
+    {pts:[[27.35, -62.6, -3.0], [26.2, -64.2, -3.95], [24.2, -64.85, -4.15], [22.2, -64.0, -3.95], [21.0, -62.4, -3.45]], r:.16},
+    {pts:[[27.35, -62.6, -3.0], [27.65, -60, -2.4], [27.05, -57.4, -1.0], [26.0, -55.6, .4]], r:.2},
+    {pts:[[21.0, -62.4, -3.45], [20.8, -59, -3.2], [21.0, -55.6, -.8]], r:.2},
+    {pts:[add(lerp(F[1].h, F[2].h, .5), [0, -.4, -.95]), [25.3, -64.6, -4.05]], r:.1}, {pts:[add(lerp(F[2].h, F[3].h, .5), [0, -.4, -.95]), [23.4, -64.75, -4.1]], r:.1},
+    {pts:[add(lerp(F[3].h, F[4].h, .5), [0, -.4, -.9]), [22.0, -64.0, -3.95]], r:.1}, {pts:[add(lerp(F[0].mcp, F[1].h, .5), [0, 0, -1.0]), [26.6, -63.4, -3.6]], r:.1}], .16, true);
+  vesselTo("v_mediana_antebraquial", [[[24.0, -59.0, -.05], [23.6, -52, .95], [22.8, -44, 1.25], [22.2, -37, 1.15], [21.3, -33.3, .65]]], .2, true);
+
+  /* =================== PIEL DE LA MANO (ambos lados) =================== */
+  var piel = gOf("piel");
+  [1, -1].forEach(function(s){
+    var m = function(p){ return [p[0] * s, p[1], p[2]]; };
+    G.tube(piel, [m([25.6, -56, -2.0]), m([25.0, -58.2, -2.2]), m([24.6, -60.4, -2.3])], {r:function(u){ return 2.6 - u * .3; }, col:COL.skin, rad:22});
+    G.ell(piel, m([24.2, -64.4, -2.2]), 4.0, 4.6, 1.85, COL.skin, 16, 22);
+    G.ell(piel, m([27.3, -62.9, -1.05]), 1.55, 2.2, 1.25, COL.skin, 10, 14);
+    G.ell(piel, m([21.2, -63.6, -1.6]), 1.15, 2.6, 1.25, COL.skin, 10, 14);
+    F.forEach(function(J, k){
+      var a = k ? add(J.h, sc(J.d, -.3)) : add(lerp(J.b, J.h, .35), [0, 0, .2]), pts = [m(a), m(J.mcp), m(J.pip), m(J.dip), m(add(J.tip, sc(J.d, -.15)))];
+      if(!k) pts.splice(3, 1);
+      var r0 = k ? [.98, .92, .85, .8, .72][k] : 1.15;
+      G.tube(piel, pts, {r:function(u){ return r0 * (1 - u * .22); }, col:COL.skin, rad:16, caps:true});
+    });
+  });
+
+  MODEL.MANO = F;
 })();
 
 /* =====================================================================
@@ -1754,15 +2428,19 @@ var LAYERS = [
   {k:"arteria", n:"Arterias", c:"#e0483d"},
   {k:"vena", n:"Venas", c:"#4f7fe0"}
 ];
-var st = {layers:{}, ctx:true, hidden:{}, sel:null, iso:false, labels:false, flow:true, skin:.85, ltab:"capas", ftab:"ficha", filter:""};
+var st = {layers:{}, ctx:true, hidden:{}, sel:null, iso:false, labels:false, flow:true, skin:.85, ltab:"capas", ftab:"ficha", filter:"", region:"hombro", todo:false};
+st.region = RINFO[LS.get("atlas_region", "hombro")] ? LS.get("atlas_region", "hombro") : "hombro";
+function inReg(id){ return !!(DATA[id] && DATA[id].reg.indexOf(st.region) >= 0); }
+function enVista(id){ return st.todo || inReg(id); }
+function homeR(){ var h = Object.assign({}, RINFO[st.region].home); if(matchMedia("(max-width:860px)").matches) h.dist *= (h.dist < 90 ? 1.32 : 1.12); return h; }
 var saved = LS.get("atlas_vista", null);
 LAYERS.forEach(function(L){ st.layers[L.k] = true; });
-if(saved){ ["layers", "ctx", "skin", "flow", "labels"].forEach(function(k){ if(saved[k] != null) st[k] = saved[k]; }); }
-function persist(){ LS.set("atlas_vista", {layers:st.layers, ctx:st.ctx, skin:st.skin, flow:st.flow, labels:st.labels}); }
+if(saved){ ["layers", "ctx", "skin", "flow", "labels", "todo"].forEach(function(k){ if(saved[k] != null) st[k] = saved[k]; }); }
+function persist(){ LS.set("atlas_vista", {layers:st.layers, ctx:st.ctx, skin:st.skin, flow:st.flow, labels:st.labels, todo:st.todo}); }
 
 function applyVis(){
   E.all().forEach(function(m){
-    var vis = st.layers[m.layer] !== false && !st.hidden[m.id] && !(m.ctx && !st.ctx);
+    var vis = st.layers[m.layer] !== false && !st.hidden[m.id] && !(m.ctx && (!st.ctx || (st.region !== "hombro" && !st.todo))) && (m.layer === "hueso" || !DATA[m.id] || enVista(m.id));
     m.visible = vis;
     if(m.id === "piel"){ m.op = st.skin; m.visible = vis && st.skin > .02; return; }
     var ghost = st.iso && st.sel && m.id !== st.sel && !(STUDY.on);
@@ -1827,10 +2505,11 @@ function renderLeft(){
   if(st.ltab === "capas"){
     h += '<div class="ph">Capas del cuerpo</div>';
     LAYERS.forEach(function(L){
-      var n = E.all().filter(function(m){ return m.layer === L.k && m.pickable; }).length;
+      var n = E.all().filter(function(m){ return m.layer === L.k && m.pickable && enVista(m.id); }).length;
       h += '<div class="layer"><span class="dot" style="--c:' + L.c + '"></span><div><b>' + L.n + '</b>' + (L.note ? '<br><small>' + L.note + '</small>' : "") + '</div><small class="mono">' + (n || "") + '</small><button type="button" class="sw ' + (st.layers[L.k] ? "on" : "") + '" data-layer="' + L.k + '" aria-label="Mostrar ' + L.n + '" aria-pressed="' + !!st.layers[L.k] + '"></button></div>';
     });
     h += '<div class="layer"><span class="dot" style="--c:#7d8796"></span><div><b>Tórax y columna</b><br><small>Esqueleto de referencia</small></div><small></small><button type="button" class="sw ' + (st.ctx ? "on" : "") + '" data-ctx aria-label="Mostrar tórax y columna"></button></div>';
+    h += '<div class="layer"><span class="dot" style="--c:var(--accent)"></span><div><b>Todo el miembro superior</b><br><small>Muestra también las otras regiones</small></div><small></small><button type="button" class="sw ' + (st.todo ? "on" : "") + '" data-todo aria-label="Mostrar todas las regiones"></button></div>';
     h += '<div class="ph">Piel</div><div class="range"><span class="lat" style="font-style:normal;font-family:var(--f-ui);font-size:12.5px">Opacidad</span><input type="range" id="skin" min="0" max="1" step=".05" value="' + st.skin + '" aria-label="Opacidad de la piel"></div>';
     var hid = Object.keys(st.hidden).filter(function(k){ return st.hidden[k]; });
     if(hid.length) h += '<div class="hidden-chip"><span>' + hid.length + (hid.length === 1 ? " estructura oculta" : " estructuras ocultas") + '</span><button type="button" class="btn" id="unhide">Mostrar todas</button></div>';
@@ -1839,7 +2518,7 @@ function renderLeft(){
     h += '<input class="filter" id="filter" placeholder="Filtrar la lista…" value="' + esc(st.filter) + '" aria-label="Filtrar estructuras">';
     var f = fold(st.filter);
     Object.keys(CATS).forEach(function(c){
-      var ids = IDS.filter(function(id){ return DATA[id].cat === c && (!f || fold(DATA[id].nombre + " " + DATA[id].latin + " " + DATA[id].grupo).indexOf(f) >= 0); });
+      var ids = IDS.filter(function(id){ return DATA[id].cat === c && enVista(id) && (!f || fold(DATA[id].nombre + " " + DATA[id].latin + " " + DATA[id].grupo).indexOf(f) >= 0); });
       if(!ids.length) return;
       var grupos = {}; ids.forEach(function(id){ (grupos[DATA[id].grupo] = grupos[DATA[id].grupo] || []).push(id); });
       h += '<details class="grp"' + (f || c === "musculo" ? " open" : "") + '><summary><span class="dot" style="--c:' + CATS[c].color + '"></span>' + CATS[c].nombre + '<span>' + ids.length + '</span></summary>';
@@ -1861,6 +2540,7 @@ $("#left .tabs").addEventListener("click", function(e){ var b = e.target.closest
 $("#leftBody").addEventListener("click", function(e){
   var l = e.target.closest("[data-layer]"); if(l){ st.layers[l.dataset.layer] = !st.layers[l.dataset.layer]; applyVis(); renderLeft(); persist(); return; }
   if(e.target.closest("[data-ctx]")){ st.ctx = !st.ctx; applyVis(); renderLeft(); persist(); return; }
+  if(e.target.closest("[data-todo]")){ st.todo = !st.todo; applyVis(); renderLeft(); if(!st.sel) renderFicha(); persist(); toast(st.todo ? "Se muestran todas las regiones" : "Solo la región " + RINFO[st.region].nombre); return; }
   if(e.target.closest("#unhide")){ st.hidden = {}; applyVis(); renderLeft(); toast("Se muestran todas las estructuras"); return; }
   var s = e.target.closest("[data-sel]"); if(s){ select(s.dataset.sel, true); if(mobile()) openSheet("right"); }
 });
@@ -1877,11 +2557,15 @@ Object.assign(ALIAS, {
   a_braquial:["arteria braquial"], a_braquial_profunda:["braquial profunda"], a_axilar:["arteria axilar"], a_subclavia:["arteria subclavia"], a_supraescapular:["arteria supraescapular"],
   a_toracoacromial:["toracoacromial"], a_circunfleja_humeral_posterior:["circunfleja humeral posterior"], a_circunfleja_humeral_anterior:["circunfleja humeral anterior"], a_subescapular:["arteria subescapular"],
   biceps_braquial:["biceps"], triceps_braquial:["triceps"], deltoides:["deltoides"], lig_transverso_superior_escapula:["ligamento transverso superior"], lig_anular_radio:["ligamento anular"], lig_colateral_radial:["colateral radial"],
-  v_axilar:["vena axilar"], v_basilica:["basilica"], v_cefalica:["cefalica"]
+  v_axilar:["vena axilar"], v_basilica:["basilica"], v_cefalica:["cefalica"],
+  hueso_trapecio:["trapecio"], hueso_grande:["hueso grande"], metacarpianos:["metacarpiano"], falanges:["falange"], escafoides:["escafoides", "tabaquera"], pisiforme:["pisiforme"], ganchoso:["ganchoso", "gancho del"],
+  a_radial:["arteria radial", "rama palmar superficial de la arteria radial"], a_cubital:["arteria cubital", "rama palmar profunda de la arteria cubital"], arco_palmar_superficial:["arco palmar superficial", "arco superficial"], arco_palmar_profundo:["arco palmar profundo", "arco profundo"],
+  n_interoseo_anterior:["interoseo anterior"], retinaculo_flexores:["retinaculo de los flexores", "tunel carpiano"], retinaculo_extensores:["retinaculo de los extensores", "compartimento extensor"], aponeurosis_palmar:["aponeurosis palmar"],
+  flexor_profundo_dedos:["flexor profundo"], flexor_superficial_dedos:["flexor superficial"], extensor_dedos:["extensor de los dedos"], fibrocartilago_triangular:["fibrocartilago triangular", "disco articular"]
 });
 function related(id){
   var d = DATA[id], txt = fold([d.origen, d.insercion, d.inervacion, d.irrigacion, d.accion, d.une, d.trayecto, d.inerva, d.ramas, d.drena, d.articula, d.clinica, d.funcion].join(" | ")), out = [];
-  Object.keys(ALIAS).forEach(function(o){ if(o === id || !DATA[o]) return; if(ALIAS[o].some(function(a){ return a.length > 3 && txt.indexOf(a) >= 0; })) out.push(o); });
+  Object.keys(ALIAS).forEach(function(o){ if(o === id || !DATA[o] || !DATA[o].reg.some(function(r){ return d.reg.indexOf(r) >= 0; })) return; if(ALIAS[o].some(function(a){ return a.length > 3 && txt.indexOf(a) >= 0; })) out.push(o); });
   return out.slice(0, 12);
 }
 
@@ -1889,11 +2573,12 @@ function related(id){
 function renderFicha(){
   var el = $("#ficha"), id = st.sel;
   if(!id){
-    var cnt = function(c){ return IDS.filter(function(i){ return DATA[i].cat === c; }).length; };
-    el.innerHTML = '<div class="intro"><div class="eyebrow"><span class="chip">Región 1 de 8</span><span>Miembro superior</span></div><h2>Hombro y brazo</h2>' +
-      '<p>Cintura escapular, articulación del hombro, brazo y codo derechos, segmentados estructura por estructura sobre un tórax de referencia.</p>' +
+    var cnt = function(c){ return IDS.filter(function(i){ return DATA[i].cat === c && inReg(i); }).length; }, RI = RINFO[st.region], otras = Object.keys(RINFO).filter(function(k){ return k !== st.region; });
+    el.innerHTML = '<div class="intro"><div class="eyebrow"><span class="chip">Región ' + RI.n + ' de 8</span><span>' + RI.sub + '</span></div><h2>' + RI.nombre + '</h2>' +
+      '<p>' + RI.desc + '</p>' +
       '<div class="counts"><div><b>' + cnt("musculo") + '</b><span>músculos</span></div><div><b>' + cnt("ligamento") + '</b><span>ligamentos</span></div><div><b>' + cnt("hueso") + '</b><span>huesos</span></div><div><b>' + cnt("nervio") + '</b><span>nervios</span></div><div><b>' + cnt("arteria") + '</b><span>arterias</span></div><div><b>' + cnt("vena") + '</b><span>venas</span></div></div>' +
-      '<div class="ph">Empieza por aquí</div><div class="rel">' + ["deltoides", "supraespinoso", "biceps_braquial", "plexo_braquial", "lig_conoide", "a_axilar"].map(relBtn).join("") + '</div>' +
+      '<div class="ph">Empieza por aquí</div><div class="rel">' + RI.inicio.map(relBtn).join("") + '</div>' +
+      '<div class="ph">Otras regiones listas</div><div class="rel">' + otras.map(function(k){ return '<button type="button" data-region="' + k + '"><span class="dot" style="--c:var(--accent);width:7px;height:7px"></span>' + RINFO[k].nombre + '</button>'; }).join("") + '</div>' +
       '<div class="note">El modelo es esquemático: respeta la posición, el origen, el trayecto y la inserción de cada estructura, pero sus formas están simplificadas para que funcione en el teléfono.</div></div>';
     return;
   }
@@ -1927,6 +2612,7 @@ function fecha(t){ var d = new Date(t), hoy = new Date(); return d.toDateString(
 $("#ficha").addEventListener("click", function(e){
   var t = e.target.closest("[data-ft]"); if(t){ st.ftab = t.dataset.ft; renderFicha(); if(st.ftab === "notas") setTimeout(function(){ var n = $("#nota"); n && n.focus(); }, 30); return; }
   var s = e.target.closest("[data-sel]"); if(s){ select(s.dataset.sel, true); return; }
+  var rg = e.target.closest("[data-region]"); if(rg){ setRegion(rg.dataset.region); return; }
   var a = e.target.closest("[data-act]"); if(!a) return;
   if(a.dataset.act === "focus") focus(st.sel);
   if(a.dataset.act === "ai"){ iaAbrir(); return; }
@@ -1940,6 +2626,7 @@ function select(id, fly){
   if(id && !DATA[id]) id = null;
   st.sel = id; st.ftab = st.ftab === "notas" && id ? "notas" : "ficha";
   if(id && st.hidden[id]){ st.hidden[id] = false; }
+  if(id && !enVista(id)) setRegion(DATA[id].reg[0], false);
   if(id){ var m = E.mesh(id); if(m && st.layers[m.layer] === false){ st.layers[m.layer] = true; } if(m && m.ctx) st.ctx = true; }
   if(!id) st.iso = false;
   applyVis(); renderFicha(); if(st.ltab === "explorar") renderLeft(); else renderLeft();
@@ -2028,14 +2715,22 @@ function closeRes(){ resEl.hidden = true; }
 document.addEventListener("pointerdown", function(e){ if(!e.target.closest(".search")) closeRes(); });
 
 /* ---------- Dock de vistas ---------- */
-var HOME = {tx:14.5, ty:-16, tz:-4, dist:100, yaw:.5, pitch:.1};
+function setRegion(r, fly){
+  if(!RINFO[r]) return;
+  var cambia = r !== st.region; st.region = r; LS.set("atlas_region", r);
+  $("#regName").textContent = RINFO[r].nombre;
+  if(STUDY.on && cambia && !STUDY.pool){ STUDY.target = null; nextQ(); }
+  applyVis(); renderLeft(); if(!st.sel || !enVista(st.sel)) { if(st.sel && !enVista(st.sel)) st.sel = null; renderFicha(); }
+  if(fly !== false){ var c = E.cam, y = c.yaw % (Math.PI * 2), H = homeR(); E.fly(Object.assign({}, H, {yaw:c.yaw - y + H.yaw})); }
+  if(cambia) toast("Región: " + RINFO[r].nombre);
+}
 $("#dock").addEventListener("click", function(e){
   var v = e.target.closest("[data-view]");
   if(v){
     var c = E.cam, base = {tx:c.tx, ty:c.ty, tz:c.tz, dist:c.dist};
     var map = {ant:{yaw:0, pitch:.05}, post:{yaw:Math.PI, pitch:.05}, lat:{yaw:Math.PI / 2, pitch:.05}, sup:{yaw:.2, pitch:1.32}};
     var y = c.yaw % (Math.PI * 2);
-    if(v.dataset.view === "reset"){ E.fly(Object.assign({}, HOME, {yaw:c.yaw - y + HOME.yaw})); return; }
+    if(v.dataset.view === "reset"){ E.fly(Object.assign({}, homeR(), {yaw:c.yaw - y + homeR().yaw})); return; }
     var g = map[v.dataset.view]; var target = g.yaw; var d = target - y; if(d > Math.PI) d -= Math.PI * 2; if(d < -Math.PI) d += Math.PI * 2;
     E.fly(Object.assign(base, {yaw:c.yaw + d, pitch:g.pitch})); return;
   }
@@ -2085,7 +2780,9 @@ document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !moda
 
 $("#btnReg").addEventListener("click", function(){
   openModal('<div class="mhead"><div><h3>Regiones del cuerpo</h3><p class="sub2">Cada región se segmenta con todos sus músculos, ligamentos, nervios y vasos.</p></div><button class="x" data-mclose aria-label="Cerrar">×</button></div><div class="reglist">' +
-    REGIONES.map(function(r){ return '<button type="button" class="' + (r.id === "hombro" ? "on" : "") + '" ' + (r.listo ? "" : "disabled") + '><span>' + r.nombre + '</span><small>' + (r.listo ? "Disponible" : "Próximamente") + '</small></button>'; }).join("") + '</div>');
+    REGIONES.map(function(r){ return '<button type="button" data-rg="' + r.id + '" class="' + (r.id === st.region ? "on" : "") + '" ' + (r.listo ? "" : "disabled") + '><span>' + r.nombre + '</span><small>' + (r.id === st.region ? "Viendo ahora" : r.listo ? "Disponible" : "Próximamente") + '</small></button>'; }).join("") + '</div>', false, function(p){
+    p.querySelector(".reglist").addEventListener("click", function(e){ var b = e.target.closest("[data-rg]"); if(!b || b.disabled) return; closeModal(); select(null); setRegion(b.dataset.rg); });
+  });
 });
 
 /* ---------- Cuenta ---------- */
@@ -2167,12 +2864,12 @@ $("#btnUser").addEventListener("click", function(){ user ? hojaCuenta() : hojaLo
 var STUDY = {on:false, target:null, ok:0, total:0, done:false, opts:[]};
 $("#btnStudy").addEventListener("click", function(){ STUDY.on ? stopStudy() : startStudy(); });
 function startStudy(ids){ STUDY.pool = ids && ids.length ? ids.filter(function(i){ return DATA[i] && E.mesh(i) && E.mesh(i).pickable; }) : null; if(STUDY.pool && !STUDY.pool.length) STUDY.pool = null; if(aiEl && mobile()) aiEl.classList.remove("open"); closeModal(); STUDY.on = true; STUDY.ok = STUDY.total = 0; st.sel = null; renderFicha(); $("#btnStudy").classList.add("on"); nextQ(); if(STUDY.pool) toast("Estudiando " + STUDY.pool.length + (STUDY.pool.length === 1 ? " estructura" : " estructuras")); }
-function stopStudy(){ STUDY.on = false; STUDY.target = null; $("#study").hidden = true; $("#btnStudy").classList.remove("on"); applyVis(); layoutOffset(); E.fly(HOME); toast("Saliste del modo estudio: " + STUDY.ok + " de " + STUDY.total + " aciertos"); }
+function stopStudy(){ STUDY.on = false; STUDY.target = null; $("#study").hidden = true; $("#btnStudy").classList.remove("on"); applyVis(); layoutOffset(); E.fly(homeR()); toast("Saliste del modo estudio: " + STUDY.ok + " de " + STUDY.total + " aciertos"); }
 function nextQ(){
-  var base = STUDY.pool || IDS.filter(function(id){ var m = E.mesh(id); return m && m.pickable && !m.ctx; });
+  var base = STUDY.pool || IDS.filter(function(id){ var m = E.mesh(id); return m && m.pickable && !m.ctx && inReg(id); });
   var pool = base.filter(function(id){ return id !== STUDY.target; }); if(!pool.length) pool = base;
   var t = pool[Math.floor(Math.random() * pool.length)], cat = DATA[t].cat;
-  var mismos = IDS.filter(function(id){ return id !== t && DATA[id].cat === cat; }).sort(function(){ return Math.random() - .5; }).slice(0, 3);
+  var mismos = IDS.filter(function(id){ return id !== t && DATA[id].cat === cat && DATA[id].reg.some(function(r){ return DATA[t].reg.indexOf(r) >= 0; }); }).sort(function(){ return Math.random() - .5; }).slice(0, 3);
   STUDY.target = t; STUDY.done = false; STUDY.opts = [t].concat(mismos).sort(function(){ return Math.random() - .5; });
   var m = E.mesh(t); if(st.layers[m.layer] === false){ st.layers[m.layer] = true; renderLeft(); }
   st.hidden[t] = false; applyVis(); focus(t, 34); renderStudy(); layoutOffset();
@@ -2243,9 +2940,9 @@ function iaSistema(ctx, conImg){
   var s = "Eres un anatomista especializado y profesor de anatomía humana dentro de la app «Atlas Anatómico 3D». Responde SIEMPRE en español de México, con la terminología anatómica internacional y el nombre en latín cuando ayude a estudiar.\n" +
     nivel + " " + largo + "\n" +
     "Formato: párrafos cortos, listas con guiones y **negritas** para lo esencial. No uses tablas. Cuando menciones una estructura que existe en el atlas, escríbela como [[id]] con el id exacto de la lista de abajo (la app la convierte en un botón que la muestra en 3D). Usa [[id]] solo con ids de la lista; las demás estructuras escríbelas normal.\n" +
-    "Puedes responder sobre cualquier parte del cuerpo humano, aunque el modelo 3D por ahora solo tiene la región de hombro y brazo derechos. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
+    "Puedes responder sobre cualquier parte del cuerpo humano, aunque el modelo 3D por ahora tiene dos regiones del miembro superior derecho: hombro y brazo, y antebrazo y mano. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
     "Si te piden preguntas de examen, numéralas y pon las respuestas al final. Si te piden mnemotecnias, que sean en español.\n\n" +
-    "Región cargada en el atlas: hombro y brazo derechos (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia. El modelo es esquemático.\n" +
+    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
     "Estructuras del atlas (id = nombre):\n" + lista + "\n\nCapas visibles ahora en pantalla: " + (vis.length > 40 ? vis.length + " estructuras" : vis.join(", ")) + ".";
   if(ctx && DATA[ctx]) s += "\n\nLa persona tiene seleccionada esta estructura (úsala como contexto si la pregunta no dice otra cosa): " + fichaTexto(ctx);
   if(conImg) s += "\n\nCon el último mensaje va una imagen de la vista 3D que la persona está viendo en el atlas (modelo esquemático: músculos en rojo, nervios amarillos, arterias rojas, venas azules, huesos color marfil, ligamentos azul claro; la estructura seleccionada brilla en turquesa).";
@@ -2418,7 +3115,7 @@ function atlasResponde(q, ctx){
     } else {
       var rs = buscar(q).slice(0, 6);
       if(rs.length){ out.push("Esto es lo que encontré en las fichas del atlas:"); rs.forEach(function(r){ out.push("- [[" + r.id + "]] — " + snippet(r.id, q)); }); }
-      else out.push("No encontré eso en las fichas de esta región (hombro y brazo). Prueba con el nombre de un músculo, un nervio, un movimiento («abducción») o una raíz («C5»).");
+      else out.push("No encontré eso en las fichas del atlas. Prueba con el nombre de un músculo, un nervio, un movimiento («abducción») o una raíz («C5»).");
     }
   }
   out.push("", "_Respuesta tomada de las fichas del atlas, sin IA." + (iaConectada() ? "_" : " Conecta la IA en Configurar para preguntas abiertas de todo el cuerpo._"));
@@ -2623,9 +3320,11 @@ function aplicarPreset(k){
 }
 function encuadre(yaw, pitch, asp){
   var fov = E.cam.fov * Math.PI / 180, tV = Math.tan(fov / 2), tH = tV * asp, pts = [];
-  E.all().forEach(function(m){ if(!m.visible || m.ghost || m.glass || m.ctx || !m.n) return; for(var i = 0; i < 8; i++) pts.push([i & 1 ? m.max[0] : m.min[0], i & 2 ? m.max[1] : m.min[1], i & 4 ? m.max[2] : m.min[2]]); });
+  var propio = function(m){ return st.todo || !DATA[m.id] || (DATA[m.id].reg.length === 1 && DATA[m.id].reg[0] === st.region); };
+  if(!E.all().some(function(m){ return m.visible && !m.ghost && !m.glass && !m.ctx && m.n && DATA[m.id] && propio(m); })) propio = function(m){ return !DATA[m.id] || enVista(m.id); };
+  E.all().forEach(function(m){ if(!m.visible || m.ghost || m.glass || m.ctx || !m.n || (DATA[m.id] && !propio(m))) return; for(var i = 0; i < 8; i++) pts.push([i & 1 ? m.max[0] : m.min[0], i & 2 ? m.max[1] : m.min[1], i & 4 ? m.max[2] : m.min[2]]); });
   if(!pts.length) E.all().forEach(function(m){ if(m.visible && !m.glass) pts.push(m.center); });
-  if(!pts.length) return Object.assign({}, HOME, {yaw:yaw, pitch:pitch});
+  if(!pts.length) return Object.assign({}, homeR(), {yaw:yaw, pitch:pitch});
   var cp = Math.cos(pitch), d = [cp * Math.sin(yaw), Math.sin(pitch), cp * Math.cos(yaw)], r = [Math.cos(yaw), 0, -Math.sin(yaw)];
   var u = [d[1] * r[2] - d[2] * r[1], d[2] * r[0] - d[0] * r[2], d[0] * r[1] - d[1] * r[0]];
   var c = [0, 0, 0]; pts.forEach(function(p){ c[0] += p[0]; c[1] += p[1]; c[2] += p[2]; }); c = c.map(function(v){ return v / pts.length; });
@@ -2660,7 +3359,7 @@ function lamina(vk, o){
   if(!sinEti){
     var cand = [];
     E.all().forEach(function(m){
-      if(!m.visible || !m.pickable || m.ghost || !DATA[m.id] || !GEO[m.id]) return;
+      if(!m.visible || !m.pickable || m.ghost || !DATA[m.id] || !GEO[m.id] || !enVista(m.id)) return;
       var P = GEO[m.id].p, n = P.length / 3, step = Math.max(1, Math.floor(n / 120)), vis = [];
       for(var i = 0; i < n; i += step){ var q = snap.project([P[i * 3], P[i * 3 + 1], P[i * 3 + 2]]); if(!q || q[0] < 6 || q[1] < 6 || q[0] > RW - 6 || q[1] > CH - 6) continue; if(snap.at(q[0], q[1]) === m.id) vis.push(q); }
       if(vis.length < 2) return;
@@ -2670,7 +3369,7 @@ function lamina(vk, o){
     });
     var fontPx = land ? 30 : 31, lineH = fontPx * 1.18, rowH = nombres ? 0 : 46;
     cx.font = "500 " + fontPx + "px 'IBM Plex Sans', 'Segoe UI', Roboto, Arial, sans-serif";
-    var maxSide = nombres ? Math.floor((CH - 40) / (lineH * 1.5)) : Math.floor((CH - 40) / rowH), cap = Math.min(nombres ? 36 : 56, maxSide * 2);
+    var maxSide = nombres ? Math.floor((CH - 40) / (lineH * 1.5)) : Math.floor((CH - 40) / rowH), cap = Math.min(nombres ? 32 : 42, maxSide * 2);
     cand.sort(function(a, b){ return b.s - a.s; }); cand = cand.slice(0, cap);
     var L = [], R = []; cand.forEach(function(c){ (c.a[0] < RW / 2 ? L : R).push(c); });
     var bal = function(A, B){ while(A.length > maxSide){ A.sort(function(a, b){ return Math.abs(a.a[0] - RW / 2) - Math.abs(b.a[0] - RW / 2); }); B.push(A.shift()); } };
@@ -2710,7 +3409,8 @@ function hojaImprimir(pre){
   pre = pre || {};
   var o = JSON.parse(JSON.stringify(PR));
   if(pre.sel && st.sel){ o.preset = "sel"; o.fichas = "sel"; o.titulo = DATA[st.sel].nombre; o.vistas = {actual:true, ant:true, post:true, lat:false, sup:false}; }
-  else if(o.preset === "sel" && !st.sel){ o.preset = "actual"; if(o.fichas === "sel") o.fichas = "visibles"; }
+  if(Object.keys(RINFO).some(function(k){ return RINFO[k].nombre === o.titulo; })) o.titulo = RINFO[st.region].nombre;
+  if(o.preset === "sel" && !st.sel){ o.preset = "actual"; if(o.fichas === "sel") o.fichas = "visibles"; }
   var chips = function(name, opts, multi){ return '<div class="pchips" data-pc="' + name + '"' + (multi ? " data-multi" : "") + '>' + opts.map(function(x){ var on = multi ? o[name][x[0]] : o[name] === x[0]; return '<button type="button" data-v="' + x[0] + '" class="' + (on ? "on" : "") + '"' + (x[2] ? " disabled" : "") + '>' + x[1] + '</button>'; }).join("") + '</div>'; };
   openModal('<div class="mhead"><div><h3>Imprimir láminas</h3><p class="sub2">Arma tus hojas de estudio con las vistas, las etiquetas y las fichas que quieras. Puedes imprimirlas o guardarlas como PDF.</p></div><button class="x" data-mclose aria-label="Cerrar">×</button></div>' +
     '<label class="f" for="pTit">Título</label><input class="in" id="pTit" maxlength="60" value="' + esc(o.titulo) + '">' +
@@ -2728,10 +3428,10 @@ function hojaImprimir(pre){
       else { o[k] = b.dataset.v; g.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); }); }
     }); });
     p.querySelector("#pGo").addEventListener("click", function(){
-      o.titulo = p.querySelector("#pTit").value.trim() || "Hombro y brazo"; o.notas = p.querySelector("#pNotas").checked;
+      o.titulo = p.querySelector("#pTit").value.trim() || RINFO[st.region].nombre; o.notas = p.querySelector("#pNotas").checked;
       var vs = Object.keys(VISTAS).filter(function(k){ return o.vistas[k]; });
       if(!vs.length){ toast("Elige al menos una vista"); return; }
-      PR = o; var keep = JSON.parse(JSON.stringify(o)); if(pre.sel){ keep.preset = "actual"; keep.fichas = "visibles"; keep.titulo = "Hombro y brazo"; } LS.set("atlas_print", keep);
+      PR = o; var keep = JSON.parse(JSON.stringify(o)); if(pre.sel){ keep.preset = "actual"; keep.fichas = "visibles"; keep.titulo = RINFO[st.region].nombre; } LS.set("atlas_print", keep);
       closeModal(); armarImpresion(o, vs);
     });
   });
@@ -2759,7 +3459,7 @@ function fichaHTML(id, o){
 }
 function componer(o){
   var pages = $("#print"), hoy = new Date().toLocaleDateString("es-MX", {day:"numeric", month:"long", year:"numeric"}), quien = user ? (user.displayName || user.email) : "";
-  var cab = function(sub){ return '<header class="phd"><span><b>Atlas Anatómico 3D</b> · Hombro y brazo</span><span>' + esc(sub) + '</span></header>'; };
+  var cab = function(sub){ return '<header class="phd"><span><b>Atlas Anatómico 3D</b> · ' + esc(RINFO[st.region].nombre) + '</span><span>' + esc(sub) + '</span></header>'; };
   var h = "", total = LAMS.length;
   LAMS.forEach(function(l, i){
     var leg = "";
@@ -2774,7 +3474,7 @@ function componer(o){
   var ids = [];
   if(o.fichas === "visibles"){ LAMS.forEach(function(l){ l.items.forEach(function(it){ if(ids.indexOf(it.id) < 0) ids.push(it.id); }); }); if(st.sel && ids.indexOf(st.sel) < 0 && o.preset === "sel") ids.unshift(st.sel); }
   else if(o.fichas === "sel" && st.sel) ids = [st.sel];
-  else if(o.fichas === "todas"){ Object.keys(CATS).forEach(function(c){ IDS.filter(function(id){ return DATA[id].cat === c; }).forEach(function(id){ ids.push(id); }); }); }
+  else if(o.fichas === "todas"){ Object.keys(CATS).forEach(function(c){ IDS.filter(function(id){ return DATA[id].cat === c && inReg(id); }).forEach(function(id){ ids.push(id); }); }); }
   var gen = o.notas && notas._general && notas._general.texto && notas._general.texto.trim();
   if(ids.length || gen){
     h += '<section class="pp pfichas' + (o.orient === "landscape" ? " land" : "") + '">' + cab("Fichas") + '<h2 class="pv">Fichas' + (ids.length ? " (" + ids.length + ")" : "") + '</h2><div class="pcols">' + ids.map(function(id){ return fichaHTML(id, o); }).join("") +
@@ -2990,13 +3690,14 @@ function initFirebase(){
 }
 
 /* ---------- Inicio ---------- */
-E.cam.tx = HOME.tx; E.cam.ty = HOME.ty + 6; E.cam.tz = HOME.tz; E.cam.dist = 150; E.cam.yaw = HOME.yaw - .9; E.cam.pitch = .25;
-E.fly(HOME);
+var HOME0 = homeR(); $("#regName").textContent = RINFO[st.region].nombre;
+E.cam.tx = HOME0.tx; E.cam.ty = HOME0.ty + 6; E.cam.tz = HOME0.tz; E.cam.dist = HOME0.dist * 1.5; E.cam.yaw = HOME0.yaw - .9; E.cam.pitch = .25;
+E.fly(HOME0);
 applyVis(); renderLeft(); renderFicha(); renderUser(); cargarNotas();
 if(mobile()) closeSheets(); else layoutOffset();
 hojaLogin();
 initFirebase();
-window.ATLAS = {select:select, st:st, startStudy:startStudy, IA:IA, iaEnviar:iaEnviar, atlasResponde:atlasResponde, hojaImprimir:hojaImprimir, armarImpresion:armarImpresion, PR:function(){ return PR; }};
+window.ATLAS = {setRegion:setRegion, select:select, st:st, startStudy:startStudy, IA:IA, iaEnviar:iaEnviar, atlasResponde:atlasResponde, hojaImprimir:hojaImprimir, armarImpresion:armarImpresion, PR:function(){ return PR; }};
 iaRender();
 })();
 
