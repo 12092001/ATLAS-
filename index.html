@@ -2587,6 +2587,266 @@ RINFO.espalda = {nombre:"Columna y espalda", n:5, sub:"Tronco", desc:"Columna ve
   inicio:["multifido", "iliocostal", "discos_intervertebrales", "medula_espinal", "lig_amarillo", "recto_posterior_mayor_cabeza"], home:{tx:0, ty:-14, tz:-12, dist:122, yaw:Math.PI, pitch:.06}};
 
 /* =====================================================================
+   FICHAS ANATÓMICAS · Región 6: tórax
+   ===================================================================== */
+CATS.organo = {nombre:"Órganos", uno:"Órgano", color:"#e58fa3"};
+CAMPOS.organo = [["ubicacion", "Ubicación"], ["partes", "Partes"], ["funcion", "Función"], ["irrigacion", "Irrigación"], ["inervacion", "Inervación"]];
+DATA.esternon.grupo = "Pared torácica"; DATA.costillas.grupo = "Pared torácica";
+Object.assign(DATA, {
+/* ================= MÚSCULOS ================= */
+intercostales_externos:{cat:"musculo", capa:"Superficial", grupo:"Pared torácica", nombre:"Intercostales externos", latin:"Musculi intercostales externi",
+  resumen:"Once pares de músculos entre las costillas, en el plano más externo. Sus fibras bajan hacia delante, como las manos en los bolsillos.",
+  origen:"Borde inferior de cada costilla, desde el tubérculo hasta la unión con el cartílago.",
+  insercion:"Borde superior de la costilla de abajo. Por delante los sustituye la membrana intercostal externa.",
+  inervacion:"Nervios intercostales (T1–T11).",
+  irrigacion:"Arterias intercostales posteriores y anteriores.",
+  accion:"Elevan las costillas al inspirar, sobre todo cuando se respira con esfuerzo, y dan rigidez a los espacios intercostales.",
+  clinica:"En el dolor muscular intercostal (tos fuerte, golpes) duele al respirar hondo. Para colocar una sonda pleural se entra por el borde superior de la costilla para no lesionar el paquete vasculonervioso.",
+  prueba:"Se observan los espacios intercostales al inspirar con fuerza."},
+intercostales_internos:{cat:"musculo", capa:"Profundo", grupo:"Pared torácica", nombre:"Intercostales internos", latin:"Musculi intercostales interni",
+  resumen:"Plano medio de los músculos intercostales; sus fibras cruzan en ángulo recto a las externas, bajando hacia atrás.",
+  origen:"Borde del surco costal de cada costilla.",
+  insercion:"Borde superior de la costilla de abajo, desde el esternón hasta el ángulo de la costilla; detrás los sustituye la membrana intercostal interna.",
+  inervacion:"Nervios intercostales (T1–T11).",
+  irrigacion:"Arterias intercostales.",
+  accion:"Bajan las costillas en la espiración forzada (toser, soplar); su parte entre cartílagos ayuda a la inspiración.",
+  clinica:"Entre ellos y los íntimos corre el paquete intercostal: vena, arteria y nervio (de arriba abajo), protegido bajo el surco costal.",
+  prueba:"Se activan al toser o soplar con fuerza."},
+intercostales_intimos:{cat:"musculo", capa:"Profundo", grupo:"Pared torácica", nombre:"Intercostales íntimos", latin:"Musculi intercostales intimi",
+  resumen:"El plano más profundo de los intercostales, en la parte lateral de cada espacio, separado del interno por el paquete vasculonervioso.",
+  origen:"Cara interna de cada costilla, en su porción media.",
+  insercion:"Cara interna de la costilla de abajo.",
+  inervacion:"Nervios intercostales.",
+  irrigacion:"Arterias intercostales.",
+  accion:"Ayudan a los intercostales internos en la espiración.",
+  clinica:"Sirven de referencia para entender por qué el nervio intercostal se bloquea justo debajo de la costilla.",
+  prueba:"No se exploran aislados."},
+transverso_torax:{cat:"musculo", capa:"Profundo", grupo:"Pared torácica", nombre:"Transverso del tórax", latin:"Musculus transversus thoracis",
+  resumen:"Músculo en abanico en la cara interna de la pared anterior del tórax, detrás del esternón.",
+  origen:"Cara posterior de la parte baja del esternón y apófisis xifoides.",
+  insercion:"Cara interna de los cartílagos costales 2.º a 6.º.",
+  inervacion:"Nervios intercostales (T2–T6).",
+  irrigacion:"Arteria torácica interna.",
+  accion:"Baja los cartílagos costales en la espiración forzada.",
+  clinica:"Separa la arteria torácica interna de la pleura; se encuentra al usar esa arteria para los puentes coronarios.",
+  prueba:"No se explora aislado."},
+diafragma:{cat:"musculo", capa:"Profundo", grupo:"Músculos de la respiración", nombre:"Diafragma", latin:"Diaphragma",
+  resumen:"Gran cúpula musculotendinosa que separa el tórax del abdomen. Es el músculo principal de la respiración.",
+  origen:"Porción esternal (xifoides), costal (cara interna de las costillas 7.ª a 12.ª) y lumbar (pilares sobre L1–L3 y arcos lumbocostales).",
+  insercion:"Centro tendinoso, en forma de trébol.",
+  inervacion:"Nervios frénicos (C3–C5): «C3, 4 y 5 mantienen vivo al diafragma».",
+  irrigacion:"Arterias frénicas superiores e inferiores, musculofrénicas y pericardiofrénicas.",
+  accion:"Al contraerse baja la cúpula, agranda el tórax y hace entrar el aire; también ayuda a pujar, toser y vomitar al aumentar la presión del abdomen.",
+  clinica:"Tiene tres orificios: vena cava (T8), esófago (T10) y aorta (T12). La hernia de hiato es el paso del estómago por el orificio esofágico. Si se lesiona un nervio frénico, ese lado del diafragma queda elevado y no se mueve. El dolor diafragmático puede sentirse en el hombro.",
+  prueba:"Se observa cómo sale el abdomen al inspirar y se percute la base de los pulmones para ver su descenso."},
+escaleno_anterior:{cat:"musculo", capa:"Superficial", grupo:"Escalenos", nombre:"Escaleno anterior", latin:"Musculus scalenus anterior",
+  resumen:"Músculo profundo del cuello que baja de las vértebras cervicales a la primera costilla. Es la gran referencia de la raíz del cuello.",
+  origen:"Tubérculos anteriores de las apófisis transversas de C3 a C6.",
+  insercion:"Tubérculo escaleno de la 1.ª costilla.",
+  inervacion:"Ramos anteriores de C4 a C6.",
+  irrigacion:"Arteria cervical ascendente.",
+  accion:"Eleva la 1.ª costilla al inspirar con fuerza; inclina y flexiona el cuello hacia su lado.",
+  clinica:"Por delante pasan el nervio frénico y la vena subclavia; por detrás, la arteria subclavia y el plexo braquial. Su tensión puede comprimir el plexo (síndrome del desfiladero torácico): hormigueo y debilidad en el brazo.",
+  prueba:"Prueba de Adson: girar la cabeza hacia el lado explorado e inspirar hondo; si el pulso radial se debilita, sugiere compresión."},
+escaleno_medio:{cat:"musculo", capa:"Superficial", grupo:"Escalenos", nombre:"Escaleno medio", latin:"Musculus scalenus medius",
+  resumen:"El más grande de los escalenos, detrás del plexo braquial.",
+  origen:"Tubérculos posteriores de las apófisis transversas de C2 a C7.",
+  insercion:"Cara superior de la 1.ª costilla, detrás del surco de la arteria subclavia.",
+  inervacion:"Ramos anteriores de C3 a C8.",
+  irrigacion:"Arteria cervical ascendente.",
+  accion:"Eleva la 1.ª costilla e inclina el cuello hacia su lado.",
+  clinica:"El nervio torácico largo y el dorsal de la escápula lo atraviesan; su compresión puede dar escápula alada.",
+  prueba:"Inclinación lateral del cuello contra resistencia."},
+escaleno_posterior:{cat:"musculo", capa:"Profundo", grupo:"Escalenos", nombre:"Escaleno posterior", latin:"Musculus scalenus posterior",
+  resumen:"El más pequeño y profundo de los escalenos; es el único que llega a la 2.ª costilla.",
+  origen:"Tubérculos posteriores de las apófisis transversas de C4 a C6.",
+  insercion:"Cara externa de la 2.ª costilla.",
+  inervacion:"Ramos anteriores de C6 a C8.",
+  irrigacion:"Arteria cervical ascendente.",
+  accion:"Eleva la 2.ª costilla e inclina el cuello hacia su lado.",
+  clinica:"Trabaja con los demás escalenos como músculo accesorio de la respiración en el asma o la EPOC.",
+  prueba:"No se explora aislado."},
+
+/* ================= ÓRGANOS ================= */
+corazon:{cat:"organo", grupo:"Mediastino medio", nombre:"Corazón", latin:"Cor",
+  resumen:"Bomba muscular del tamaño de un puño con cuatro cavidades: dos aurículas que reciben la sangre y dos ventrículos que la impulsan.",
+  ubicacion:"En el mediastino medio, detrás del esternón y los cartílagos 3.º a 6.º, con dos tercios a la izquierda. Su punta (ápex) está en el 5.º espacio intercostal izquierdo, en la línea medioclavicular.",
+  partes:"Aurícula y ventrículo derechos (circulación pulmonar), aurícula y ventrículo izquierdos (circulación general), tabiques, válvulas tricúspide, pulmonar, mitral y aórtica, y sistema de conducción (nodo sinusal, nodo AV, haz de His).",
+  funcion:"Bombea unos 5 litros de sangre por minuto en reposo: el lado derecho manda sangre pobre en oxígeno a los pulmones y el izquierdo, sangre oxigenada a todo el cuerpo.",
+  irrigacion:"Arterias coronarias derecha e izquierda; venas cardíacas que drenan al seno coronario.",
+  inervacion:"Plexo cardíaco: simpático (acelera) y vago (frena).",
+  clinica:"El infarto ocurre cuando se tapa una arteria coronaria. El latido de la punta se palpa en el 5.º espacio izquierdo. Los focos para escuchar las válvulas están en los bordes del esternón y la punta."},
+pericardio:{cat:"organo", grupo:"Mediastino medio", nombre:"Pericardio", latin:"Pericardium",
+  resumen:"Saco de dos capas que envuelve al corazón: una fibrosa externa y una serosa interna con un poco de líquido.",
+  ubicacion:"Rodea el corazón y el inicio de los grandes vasos; su base se une al centro tendinoso del diafragma.",
+  partes:"Pericardio fibroso y pericardio seroso (hojas parietal y visceral o epicardio) con la cavidad pericárdica y los senos transverso y oblicuo.",
+  funcion:"Protege al corazón, evita que se dilate de más y reduce el roce al latir.",
+  irrigacion:"Arterias pericardiofrénicas (de la torácica interna).",
+  inervacion:"Nervios frénicos (dolor) y tronco simpático.",
+  clinica:"El taponamiento cardíaco es la acumulación rápida de líquido o sangre en el saco, que impide al corazón llenarse; se drena con una aguja bajo la xifoides. La pericarditis causa dolor de pecho que mejora al inclinarse hacia delante."},
+pulmon_derecho:{cat:"organo", grupo:"Cavidad pleural", nombre:"Pulmón derecho", latin:"Pulmo dexter",
+  resumen:"El pulmón más grande, con tres lóbulos (superior, medio e inferior).",
+  ubicacion:"En la cavidad pleural derecha, desde 2–3 cm por encima de la clavícula hasta la cúpula del diafragma.",
+  partes:"Vértice, base, caras costal y mediastínica, hilio (bronquio, arteria y venas pulmonares), fisuras horizontal y oblicua, tres lóbulos y diez segmentos.",
+  funcion:"Intercambio de gases: el oxígeno pasa del aire de los alvéolos a la sangre y el dióxido de carbono sale.",
+  irrigacion:"Arterias pulmonares (sangre para oxigenar) y arterias bronquiales (nutrición del pulmón).",
+  inervacion:"Plexo pulmonar: vago (contrae los bronquios) y simpático (los dilata).",
+  clinica:"Los objetos aspirados suelen ir al bronquio derecho, que es más vertical y ancho. El neumotórax es la entrada de aire a la pleura, que colapsa el pulmón."},
+pulmon_izquierdo:{cat:"organo", grupo:"Cavidad pleural", nombre:"Pulmón izquierdo", latin:"Pulmo sinister",
+  resumen:"Pulmón con dos lóbulos y una escotadura donde se apoya el corazón.",
+  ubicacion:"En la cavidad pleural izquierda, desde encima de la clavícula hasta el diafragma.",
+  partes:"Lóbulos superior e inferior separados por la fisura oblicua, escotadura cardíaca, língula, hilio y segmentos broncopulmonares.",
+  funcion:"Intercambio de gases, igual que el derecho; aporta algo menos de la mitad de la superficie respiratoria.",
+  irrigacion:"Arterias pulmonares y bronquiales.",
+  inervacion:"Plexo pulmonar (vago y simpático).",
+  clinica:"La língula equivale al lóbulo medio del pulmón derecho. Los tumores del vértice (Pancoast) pueden invadir el plexo braquial y la cadena simpática."},
+traquea_bronquios:{cat:"organo", grupo:"Vía aérea", nombre:"Tráquea y bronquios principales", latin:"Trachea et bronchi principales",
+  resumen:"Tubo de unos 11 cm sostenido por 16 a 20 anillos de cartílago en forma de «C», que se divide en dos bronquios principales.",
+  ubicacion:"Desde C6, bajo la laringe, hasta T4–T5 (ángulo esternal), donde está la carina; delante del esófago.",
+  partes:"Anillos traqueales abiertos por detrás (músculo traqueal), carina, bronquio principal derecho (más corto, ancho y vertical) e izquierdo, y bronquios lobares.",
+  funcion:"Conduce el aire a los pulmones, lo calienta y humedece, y expulsa partículas con el moco y los cilios.",
+  irrigacion:"Arterias tiroideas inferiores y bronquiales.",
+  inervacion:"Vago y nervios laríngeos recurrentes; simpático.",
+  clinica:"La traqueostomía se hace entre los anillos 2.º y 4.º. La carina es muy sensible a la tos. La intubación demasiado profunda suele entrar al bronquio derecho."},
+esofago:{cat:"organo", grupo:"Mediastino posterior", nombre:"Esófago", latin:"Oesophagus",
+  resumen:"Tubo muscular de unos 25 cm que lleva los alimentos de la faringe al estómago.",
+  ubicacion:"Desde C6 baja por detrás de la tráquea y del corazón, a la derecha de la aorta descendente, y cruza el diafragma a nivel de T10.",
+  partes:"Porciones cervical, torácica y abdominal; tres estrechamientos (cricofaríngeo, cruce del cayado aórtico y bronquio izquierdo, y hiato diafragmático); esfínter esofágico inferior.",
+  funcion:"Lleva el bolo alimenticio con movimientos peristálticos y evita el reflujo con su esfínter inferior.",
+  irrigacion:"Arterias tiroideas inferiores, ramas esofágicas de la aorta y gástrica izquierda.",
+  inervacion:"Plexo esofágico formado por los vagos y el simpático.",
+  clinica:"El reflujo gastroesofágico causa agruras y puede producir esófago de Barrett. En los estrechamientos se atoran objetos tragados. Las várices esofágicas aparecen en la cirrosis."},
+timo:{cat:"organo", grupo:"Mediastino superior", nombre:"Timo", latin:"Thymus",
+  resumen:"Órgano linfático con dos lóbulos detrás del esternón; es grande en la infancia y en el adulto se convierte casi todo en grasa.",
+  ubicacion:"Mediastino superior y anterior, delante de los grandes vasos y el pericardio.",
+  partes:"Dos lóbulos con corteza y médula; en el adulto, tejido adiposo con restos de tejido tímico.",
+  funcion:"Madura a los linfocitos T, esenciales para la defensa del cuerpo, sobre todo antes de la pubertad.",
+  irrigacion:"Arterias torácicas internas y tiroideas inferiores.",
+  inervacion:"Vago y simpático.",
+  clinica:"Los timomas se asocian a la miastenia gravis (debilidad muscular que empeora con el esfuerzo); quitar el timo puede mejorarla."},
+
+/* ================= ARTERIAS ================= */
+aorta_toracica:{cat:"arteria", grupo:"Grandes vasos", nombre:"Aorta (ascendente, cayado y torácica)", latin:"Aorta ascendens, arcus aortae et aorta thoracica",
+  resumen:"La arteria más grande del cuerpo. Sale del ventrículo izquierdo, forma un arco y baja por el tórax junto a la columna.",
+  origen:"Ventrículo izquierdo, a través de la válvula aórtica.",
+  trayecto:"Sube (aorta ascendente), gira hacia atrás y a la izquierda sobre el bronquio izquierdo (cayado, a nivel de T4) y baja por el mediastino posterior a la izquierda de la columna hasta el hiato aórtico del diafragma (T12).",
+  ramas:"Coronarias (de la ascendente); tronco braquiocefálico, carótida común izquierda y subclavia izquierda (del cayado); intercostales posteriores, bronquiales, esofágicas y frénicas superiores (de la torácica).",
+  irriga:"Todo el cuerpo, a través de sus ramas.",
+  clinica:"La disección aórtica es un desgarro de su pared con dolor de pecho desgarrador que se irradia a la espalda; es una urgencia. Los aneurismas del cayado pueden comprimir el nervio laríngeo recurrente izquierdo y causar ronquera."},
+tronco_braquiocefalico:{cat:"arteria", grupo:"Grandes vasos", nombre:"Tronco braquiocefálico", latin:"Truncus brachiocephalicus",
+  resumen:"La primera y más grande rama del cayado aórtico; solo existe del lado derecho.",
+  origen:"Cayado de la aorta, detrás del manubrio.",
+  trayecto:"Sube a la derecha por detrás de la articulación esternoclavicular derecha, donde se divide.",
+  ramas:"Arteria carótida común derecha y arteria subclavia derecha.",
+  irriga:"Lado derecho de la cabeza, el cuello y el brazo derecho.",
+  clinica:"Pasa por delante de la tráquea; en traqueostomías bajas puede erosionarse y sangrar de forma grave."},
+carotidas_comunes:{cat:"arteria", grupo:"Grandes vasos", nombre:"Arterias carótidas comunes", latin:"Arteriae carotides communes",
+  resumen:"Arterias que suben por los lados del cuello hacia la cabeza; la derecha sale del tronco braquiocefálico y la izquierda del cayado.",
+  origen:"Derecha: tronco braquiocefálico. Izquierda: cayado de la aorta.",
+  trayecto:"Suben por el cuello dentro de la vaina carotídea, con la vena yugular interna y el nervio vago, hasta el borde superior del cartílago tiroides (C4), donde se dividen.",
+  ramas:"Carótidas interna y externa (en su bifurcación, con el seno y el cuerpo carotídeos).",
+  irriga:"Cabeza, cara, cuello y cerebro.",
+  clinica:"El pulso carotídeo se busca en emergencias junto al cartílago tiroides. Las placas de grasa en la bifurcación pueden causar embolias cerebrales; masajear el seno carotídeo baja la frecuencia del corazón."},
+a_subclavia_izquierda:{cat:"arteria", grupo:"Grandes vasos", nombre:"Arteria subclavia izquierda", latin:"Arteria subclavia sinistra",
+  resumen:"Tercera rama del cayado aórtico; lleva sangre al brazo izquierdo.",
+  origen:"Cayado de la aorta.",
+  trayecto:"Sube por el mediastino, sale sobre la cúpula pleural, pasa entre los escalenos anterior y medio sobre la 1.ª costilla y se convierte en arteria axilar.",
+  ramas:"Vertebral, torácica interna, tronco tirocervical y tronco costocervical.",
+  irriga:"Brazo izquierdo, parte del cuello, encéfalo posterior y pared torácica.",
+  clinica:"Si se estrecha antes de dar la vertebral, el brazo «roba» sangre del cerebro al ejercitarse (síndrome del robo de la subclavia), con mareos."},
+a_toracica_interna:{cat:"arteria", grupo:"Pared torácica", nombre:"Arteria torácica interna (mamaria interna)", latin:"Arteria thoracica interna",
+  resumen:"Arteria que baja por dentro de la pared anterior del tórax, a 1 cm del borde del esternón.",
+  origen:"Primera porción de la arteria subclavia.",
+  trayecto:"Baja detrás de los cartílagos costales, por delante del transverso del tórax, y se divide en el 6.º espacio.",
+  ramas:"Pericardiofrénica, intercostales anteriores, perforantes (mama), musculofrénica y epigástrica superior.",
+  irriga:"Pared anterior del tórax, mama, pericardio, diafragma y pared del abdomen.",
+  clinica:"Es el injerto preferido para el bypass coronario (sobre todo la izquierda a la descendente anterior) porque dura muchos años sin taparse."},
+arterias_pulmonares:{cat:"arteria", grupo:"Circulación pulmonar", nombre:"Tronco y arterias pulmonares", latin:"Truncus pulmonalis et arteriae pulmonales",
+  resumen:"Llevan sangre pobre en oxígeno del ventrículo derecho a los pulmones. Por eso en el modelo se ven azuladas.",
+  origen:"Ventrículo derecho, a través de la válvula pulmonar.",
+  trayecto:"El tronco sube a la izquierda de la aorta y se divide bajo el cayado en arterias pulmonares derecha (pasa detrás de la aorta ascendente y la cava superior) e izquierda, que entran a cada hilio.",
+  ramas:"Arterias lobares y segmentarias que acompañan a los bronquios.",
+  irriga:"Los capilares de los alvéolos, donde la sangre se oxigena.",
+  clinica:"La embolia pulmonar es un coágulo (casi siempre de las piernas) que tapa estas arterias: falta de aire súbita y dolor al respirar. El ligamento arterioso une el tronco con el cayado: es el resto del conducto arterioso fetal."},
+arterias_coronarias:{cat:"arteria", grupo:"Corazón", nombre:"Arterias coronarias", latin:"Arteriae coronariae",
+  resumen:"Las arterias que nutren al propio corazón; nacen justo por encima de la válvula aórtica.",
+  origen:"Senos aórticos derecho e izquierdo de la aorta ascendente.",
+  trayecto:"La derecha corre por el surco entre aurícula y ventrículo derechos hacia la cara inferior. La izquierda se divide pronto en descendente anterior (por delante, entre los ventrículos) y circunfleja (rodea el lado izquierdo).",
+  ramas:"Derecha: nodal sinusal (en la mayoría), marginal derecha y descendente posterior. Izquierda: descendente anterior con diagonales y septales; circunfleja con marginales obtusas.",
+  irriga:"Músculo cardíaco y sistema de conducción.",
+  clinica:"Su obstrucción causa angina e infarto. La descendente anterior es la que más se tapa («la arteria de la viuda»). Se tratan con stents o con bypass."},
+
+/* ================= VENAS ================= */
+vena_cava_superior:{cat:"vena", grupo:"Grandes vasos", nombre:"Vena cava superior", latin:"Vena cava superior",
+  resumen:"Vena gruesa y corta que devuelve al corazón la sangre de la cabeza, el cuello, los brazos y el tórax.",
+  trayecto:"Se forma por la unión de las dos venas braquiocefálicas detrás del primer cartílago costal derecho y baja hasta la aurícula derecha; recibe a la vena ácigos.",
+  drena:"Aurícula derecha.",
+  clinica:"El síndrome de vena cava superior (por tumores de pulmón o ganglios) hincha la cara, el cuello y los brazos. Los catéteres centrales se colocan con la punta en su unión con la aurícula."},
+venas_braquiocefalicas:{cat:"vena", grupo:"Grandes vasos", nombre:"Venas braquiocefálicas", latin:"Venae brachiocephalicae",
+  resumen:"Venas que se forman detrás de cada articulación esternoclavicular al unirse la subclavia y la yugular interna.",
+  trayecto:"La derecha es corta y casi vertical. La izquierda es larga y cruza oblicua por detrás del manubrio, delante de las ramas del cayado. Ambas se unen para formar la cava superior.",
+  drena:"Vena cava superior.",
+  clinica:"En el ángulo de unión izquierdo desemboca el conducto torácico (linfa); en el derecho, el conducto linfático derecho."},
+vena_cava_inferior:{cat:"vena", grupo:"Grandes vasos", nombre:"Vena cava inferior (porción torácica)", latin:"Vena cava inferior",
+  resumen:"La vena más grande del cuerpo; devuelve al corazón la sangre de las piernas, la pelvis y el abdomen.",
+  trayecto:"Sube por el abdomen a la derecha de la aorta, atraviesa el centro tendinoso del diafragma a nivel de T8 y entra casi enseguida en la aurícula derecha.",
+  drena:"Aurícula derecha.",
+  clinica:"El útero del embarazo puede comprimirla al acostarse boca arriba y bajar la presión (por eso se recomienda acostarse del lado izquierdo). Se colocan filtros en ella para evitar embolias."},
+v_acigos:{cat:"vena", grupo:"Mediastino posterior", nombre:"Sistema de la vena ácigos", latin:"Vena azygos et vena hemiazygos",
+  resumen:"Venas a los lados de la columna torácica que recogen la sangre de la pared del tórax; unen las dos venas cavas.",
+  trayecto:"La ácigos sube a la derecha de los cuerpos vertebrales y forma un arco sobre el bronquio derecho para desembocar en la cava superior. La hemiácigos sube a la izquierda y cruza la columna para unirse a la ácigos.",
+  drena:"Vena cava superior.",
+  clinica:"Si se tapa la cava inferior o superior, la sangre regresa por este sistema (circulación colateral). Recibe venas del esófago, importantes en la hipertensión portal."},
+venas_pulmonares:{cat:"vena", grupo:"Circulación pulmonar", nombre:"Venas pulmonares", latin:"Venae pulmonales",
+  resumen:"Cuatro venas que llevan sangre rica en oxígeno de los pulmones al corazón. Por eso en el modelo se ven rojas.",
+  trayecto:"Dos salen de cada hilio pulmonar (superior e inferior) y desembocan en la cara posterior de la aurícula izquierda.",
+  drena:"Aurícula izquierda.",
+  clinica:"La fibrilación auricular suele originarse en el músculo alrededor de su desembocadura; la ablación eléctrica las aísla para curarla."},
+
+/* ================= NERVIOS ================= */
+n_frenico:{cat:"nervio", grupo:"Plexo cervical", nombre:"Nervios frénicos", latin:"Nervi phrenici",
+  resumen:"Los nervios del diafragma; bajan desde el cuello por delante del escaleno anterior y por los lados del corazón.",
+  raices:"C3–C5 (sobre todo C4).",
+  trayecto:"Bajan por la cara anterior del escaleno anterior, entran al tórax entre la arteria y la vena subclavias y recorren los lados del pericardio, delante del hilio pulmonar, hasta el diafragma.",
+  inerva:"Motor de todo el diafragma; sensitivo del pericardio, la pleura mediastínica y diafragmática y el peritoneo bajo el diafragma.",
+  clinica:"Su lesión paraliza la mitad del diafragma. Las lesiones medulares por encima de C3 dejan sin respiración espontánea. El dolor de la vesícula o del hígado que irrita el diafragma se siente en el hombro (dolor referido por C4)."},
+n_vago:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervios vagos (porción torácica)", latin:"Nervi vagi (NC X)",
+  resumen:"El décimo par craneal, el gran nervio parasimpático. Baja del cuello al abdomen pasando por detrás del hilio pulmonar.",
+  raices:"Bulbo raquídeo (núcleos dorsal del vago, ambiguo y del tracto solitario).",
+  trayecto:"Bajan en la vaina carotídea, entran al tórax, pasan detrás de los hilios pulmonares y forman el plexo esofágico; atraviesan el diafragma con el esófago. El izquierdo da el laríngeo recurrente bajo el cayado aórtico; el derecho, bajo la subclavia.",
+  inerva:"Corazón (frena), pulmones (contrae bronquios, aumenta secreciones), esófago y casi todo el tubo digestivo hasta el colon; los recurrentes inervan las cuerdas vocales.",
+  clinica:"El recurrente izquierdo, más largo, se lesiona en cirugías del tórax, del tiroides o por aneurismas y tumores del cayado: ronquera. La estimulación vagal (pujar, agua fría) puede frenar algunas taquicardias."},
+n_intercostales:{cat:"nervio", grupo:"Nervios espinales", nombre:"Nervios intercostales", latin:"Nervi intercostales",
+  resumen:"Ramos anteriores de T1 a T11 que corren por debajo de cada costilla; el de T12 es el subcostal.",
+  raices:"T1–T11 (ramos anteriores).",
+  trayecto:"Corren en el surco costal, debajo de la vena y la arteria intercostales, entre los intercostales internos e íntimos, y llegan hasta el esternón o la pared del abdomen (T7–T11).",
+  inerva:"Músculos intercostales y de la pared abdominal, piel del tórax y del abdomen en franjas (dermatomas), pleura parietal.",
+  clinica:"El herpes zóster afecta un dermatoma con dolor y ampollas en franja. Se bloquean con anestesia para fracturas de costillas o cirugías del tórax. T4 está a la altura del pezón y T10 del ombligo."},
+tronco_simpatico:{cat:"nervio", grupo:"Sistema nervioso autónomo", nombre:"Tronco simpático", latin:"Truncus sympathicus",
+  resumen:"Cadena de ganglios nerviosos a cada lado de la columna, desde la base del cráneo hasta el cóccix.",
+  raices:"Fibras preganglionares de la médula de T1 a L2 (ramos comunicantes blancos).",
+  trayecto:"En el tórax baja sobre las cabezas de las costillas, con un ganglio por cada nivel; en el cuello forma los ganglios cervicales superior, medio y estrellado.",
+  inerva:"Vasos, glándulas sudoríparas y músculos de los pelos de todo el cuerpo; corazón, pulmones y, por los nervios esplácnicos, los órganos del abdomen.",
+  clinica:"El síndrome de Horner (párpado caído, pupila pequeña y cara sin sudor) aparece cuando se lesiona su porción cervical, por ejemplo por un tumor del vértice pulmonar. La simpatectomía torácica trata la sudoración excesiva de las manos."}
+});
+
+/* Región 6: tórax */
+(function(){
+  var tor = ["intercostales_externos", "intercostales_internos", "intercostales_intimos", "transverso_torax", "diafragma", "escaleno_anterior", "escaleno_medio", "escaleno_posterior",
+    "corazon", "pericardio", "pulmon_derecho", "pulmon_izquierdo", "traquea_bronquios", "esofago", "timo",
+    "aorta_toracica", "tronco_braquiocefalico", "carotidas_comunes", "a_subclavia_izquierda", "a_toracica_interna", "arterias_pulmonares", "arterias_coronarias",
+    "vena_cava_superior", "venas_braquiocefalicas", "vena_cava_inferior", "v_acigos", "venas_pulmonares", "n_frenico", "n_vago", "n_intercostales", "tronco_simpatico"];
+  tor.forEach(function(id){ if(DATA[id]) DATA[id].reg = ["torax"]; });
+  var add = function(id, r){ if(DATA[id] && DATA[id].reg.indexOf(r) < 0) DATA[id].reg.push(r); };
+  ["costillas", "esternon", "clavicula", "vertebras_toracicas", "pectoral_mayor", "pectoral_menor", "serrato_anterior", "subclavio", "a_subclavia", "a_intercostales_posteriores", "plexo_braquial"].forEach(function(id){ add(id, "torax"); });
+  add("esternon", "espalda"); add("costillas", "espalda");
+  REGIONES.forEach(function(r){ if(r.id === "torax") r.listo = true; });
+})();
+RGRUPO.torax = "ax";
+RINFO.torax = {nombre:"Tórax", n:6, sub:"Tronco", desc:"Caja torácica, músculos de la respiración (diafragma, intercostales, escalenos), corazón con sus coronarias, pulmones, tráquea, esófago y grandes vasos del mediastino, con los nervios frénico, vago e intercostales.",
+  inicio:["corazon", "diafragma", "pulmon_derecho", "aorta_toracica", "n_frenico", "intercostales_externos"], home:{tx:0, ty:-10, tz:-3, dist:98, yaw:.3, pitch:.06}};
+
+/* =====================================================================
    GEOMETRÍA: tubos de radio variable, elipsoides, toroides, placas, lofts
    ===================================================================== */
 var G = (function(){
@@ -4065,6 +4325,169 @@ var MODEL = (function(){
 })();
 
 /* =====================================================================
+   MODELO · REGIÓN 6: TÓRAX (pared, diafragma, órganos y grandes vasos)
+   ===================================================================== */
+(function(){
+  var V = G.v, add = V.add, sub = V.sub, sc = V.sc, nrm = V.nrm, lerp = V.lerp, COL = MODEL.COL, L = MODEL.list;
+  function entry(id){ for(var i = 0; i < L.length; i++) if(L[i].id === id) return L[i]; return null; }
+  function push(id, g, opt){ L.push({id:id, g:g, opt:opt || {}}); }
+  ["costillas", "esternon"].forEach(function(id){ var e = entry(id); if(e) e.opt.ctx = false; });
+  var S2 = [1, -1], g;
+  var C = {heart:[.66, .2, .22], heartD:[.52, .14, .17], atrium:[.74, .3, .32], lung:[.9, .64, .68], trach:[.9, .86, .8], eso:[.82, .52, .5], thymus:[.92, .78, .62], fat:[.96, .86, .55], peri:[.92, .82, .78], tendon:[.88, .9, .86]};
+  function rib(n, f, side){
+    var a = [7.5, 10, 11.5, 12.5, 13, 13.4, 13.5, 13.4, 13, 12.4, 12, 11.5][n - 1], b = [5.5, 7, 7.6, 8, 8.2, 8.3, 8.3, 8.2, 8, 7.8, 7.4, 7][n - 1];
+    var yp = 2.8 - (n - 1) * 2.65, ph = f * Math.PI, s = Math.sin(ph), c = Math.cos(ph);
+    return [(side || 1) * (2 + (a - 2) * s), yp - 4 * (1 - c) / 2 - 1.5 * s, (3 - b) - b * c];
+  }
+  function ribEnd(n){ return n <= 7 ? .78 : n <= 10 ? .8 : .45; }
+  function inward(p, d){ var n = nrm([p[0], 0, p[2] + 5]); return add(p, sc(n, -d)); }
+  function VB(k){ var i = +k.slice(1); var y = 2.8 - (i - 1) * 2.65, z = i <= 6 ? -8.6 - (i - 1) * .48 : -11 + (i - 6) * .1; return [0, y, z]; }
+
+  /* ---------- superficie cerrada a partir de secciones horizontales (órganos) ---------- */
+  function organ(gg, secs, col, ring, e){
+    ring = ring || 28; e = e || 2;
+    var rows = [], fine = [], k, j;
+    for(k = 0; k < secs.length - 1; k++) for(j = 0; j < 4; j++){ var a = secs[k], b = secs[k + 1], t = j / 4, sm = t * t * (3 - 2 * t), q = {};
+      ["y", "cx", "cz", "rx", "rz"].forEach(function(f){ q[f] = a[f] + (b[f] - a[f]) * (f === "y" ? t : sm); }); fine.push(q); }
+    fine.push(secs[secs.length - 1]);
+    var base = gg.p.length / 3;
+    fine.forEach(function(s){
+      for(var r = 0; r < ring; r++){
+        var th = r / ring * Math.PI * 2, c = Math.cos(th), sn = Math.sin(th), pc = Math.sign(c) * Math.pow(Math.abs(c), 2 / e), ps = Math.sign(sn) * Math.pow(Math.abs(sn), 2 / e);
+        gg.p.push(s.cx + s.rx * pc, s.y, s.cz + s.rz * ps); gg.n.push(0, 0, 0); var cl = typeof col === "function" ? col(s, th) : col; gg.c.push(cl[0], cl[1], cl[2]); gg.t.push(0);
+      }
+    });
+    var nr = fine.length;
+    for(k = 0; k < nr - 1; k++) for(j = 0; j < ring; j++){ var i0 = base + k * ring + j, i1 = base + k * ring + (j + 1) % ring, i2 = i0 + ring, i3 = i1 + ring; gg.i.push(i0, i2, i1, i1, i2, i3); }
+    [0, nr - 1].forEach(function(kk, w){ var s = fine[kk], ci = gg.p.length / 3; gg.p.push(s.cx, s.y + (w ? -.15 : .15), s.cz); gg.n.push(0, w ? -1 : 1, 0); var cl = typeof col === "function" ? col(s, 0) : col; gg.c.push(cl[0], cl[1], cl[2]); gg.t.push(0);
+      for(j = 0; j < ring; j++){ var a = base + kk * ring + j, b = base + kk * ring + (j + 1) % ring; if(w) gg.i.push(ci, b, a); else gg.i.push(ci, a, b); } });
+    // normales por promedio de caras
+    var P = gg.p, N = gg.n, I = gg.i, start = base;
+    for(k = 0; k < I.length; k += 3){ var A = I[k], B = I[k + 1], Cc = I[k + 2]; if(A < start) continue;
+      var pa = [P[A * 3], P[A * 3 + 1], P[A * 3 + 2]], pb = [P[B * 3], P[B * 3 + 1], P[B * 3 + 2]], pcc = [P[Cc * 3], P[Cc * 3 + 1], P[Cc * 3 + 2]], fn = V.cross(sub(pb, pa), sub(pcc, pa));
+      [A, B, Cc].forEach(function(v){ N[v * 3] += fn[0]; N[v * 3 + 1] += fn[1]; N[v * 3 + 2] += fn[2]; }); }
+    for(k = start; k < P.length / 3; k++){ var nn = nrm([N[k * 3], N[k * 3 + 1], N[k * 3 + 2]]); N[k * 3] = -nn[0]; N[k * 3 + 1] = -nn[1]; N[k * 3 + 2] = -nn[2]; }
+  }
+  function sheet(gg, Pf, nu, nv, colf){
+    [1, -1].forEach(function(face){
+      var base = gg.p.length / 3, a, b;
+      for(b = 0; b <= nv; b++) for(a = 0; a <= nu; a++){
+        var u = a / nu, v = b / nv, p0 = Pf(u, v), du = sub(Pf(Math.min(1, u + .01), v), Pf(Math.max(0, u - .01), v)), dv = sub(Pf(u, Math.min(1, v + .01)), Pf(u, Math.max(0, v - .01)));
+        var nn = sc(nrm(V.cross(du, dv)), face), off = sc(nn, .07), cl = colf(u, v);
+        gg.p.push(p0[0] + off[0], p0[1] + off[1], p0[2] + off[2]); gg.n.push(nn[0], nn[1], nn[2]); gg.c.push(cl[0], cl[1], cl[2]); gg.t.push(0);
+      }
+      for(b = 0; b < nv; b++) for(a = 0; a < nu; a++){ var i0 = base + b * (nu + 1) + a, i1 = i0 + 1, i2 = i0 + nu + 1, i3 = i2 + 1; if(face > 0) gg.i.push(i0, i2, i1, i1, i2, i3); else gg.i.push(i0, i1, i2, i1, i3, i2); }
+    });
+  }
+
+  /* =================== MÚSCULOS =================== */
+  var seed = 9101;
+  function mus(id, deep, parts, opt){ var gg = G.B(); G.muscle(gg, {parts:parts}, seed += 173, {m:deep ? COL.musDeep : COL.mus, t:COL.ten}); push(id, gg, Object.assign({layer:deep ? "profundo" : "superficial"}, opt || {})); }
+  function intercostal(kind){
+    var parts = [];
+    S2.forEach(function(s){
+      for(var n = 1; n <= 11; n++){
+        var e1 = ribEnd(n), e2 = ribEnd(n + 1), f0, f1, sh, dIn;
+        if(kind === "ext"){ f0 = .07; f1 = Math.min(.72, e1 - .02, e2 + .05); sh = .07; dIn = .05; }
+        else if(kind === "int"){ f0 = .26; f1 = Math.min(e1 + (n < 7 ? .1 : 0), .95); sh = -.07; dIn = .32; }
+        else { f0 = .32; f1 = Math.min(.68, e2); sh = -.05; dIn = .58; }
+        if(f1 - f0 < .05) continue;
+        var o = [], i = [];
+        for(var k = 0; k <= 4; k++){ var f = f0 + (f1 - f0) * k / 4; o.push(inward(add(rib(n, f, s), [0, -.32, 0]), dIn)); i.push(inward(add(rib(n + 1, Math.max(.02, Math.min(e2 + .1, f + sh)), s), [0, .32, 0]), dIn)); }
+        parts.push({o:o, i:i, n:kind === "ext" ? 7 : 6, r:.2, belly:[.06, .94], rt:.1, rad:5, seg:10});
+      }
+    });
+    return parts;
+  }
+  mus("intercostales_externos", false, intercostal("ext"));
+  mus("intercostales_internos", true, intercostal("int"));
+  mus("intercostales_intimos", true, intercostal("intimo"));
+  mus("transverso_torax", true, S2.map(function(s){ return {o:[[s * .8, -13.8, 2.4], [s * .9, -16.6, 2.6], [s * 1.0, -18.8, 2.4]], i:[2, 3, 4, 5, 6].map(function(n){ return inward(rib(n, .92, s), .4); }), n:8, r:.26, belly:[.06, .94], rt:.1, rad:5, seg:12}; }));
+  // Escalenos
+  var CV = function(i){ var cy = [14, 12.7, 11.3, 9.9, 8.5, 7.1, 5.6][i - 1], bz = -5.2 - (i - 1) * .38, r = i < 3 ? 1.0 : .95 + i * .04; return {b:[0, cy, bz], r:r}; };
+  function tub(i, s, ant){ var v = CV(i); return add(v.b, [s * (v.r + 1.25), 0, ant ? -v.r * .1 : -v.r * .8]); }
+  mus("escaleno_anterior", false, S2.map(function(s){ return {o:[tub(3, s, 1), tub(4, s, 1), tub(5, s, 1), tub(6, s, 1)], v:[[[s * 3.2, 4.6, -3.4]]], i:[add(rib(1, .66, s), [0, .25, 0])], n:6, r:.5, belly:[.08, .88], rt:.15}; }));
+  mus("escaleno_medio", false, S2.map(function(s){ return {o:[tub(2, s), tub(3, s), tub(4, s), tub(5, s), tub(6, s), tub(7, s)], v:[[[s * 4.0, 4.4, -5.2]]], i:[add(rib(1, .42, s), [0, .3, 0]), add(rib(1, .5, s), [0, .3, 0])], n:7, r:.55, belly:[.06, .9], rt:.15}; }));
+  mus("escaleno_posterior", true, S2.map(function(s){ return {o:[tub(4, s), tub(5, s), tub(6, s)], v:[[[s * 3.8, 3.6, -6.6]]], i:[add(rib(2, .26, s), [0, .3, -.2]), add(rib(2, .32, s), [0, .3, -.2])], n:5, r:.45, belly:[.06, .9], rt:.12}; }));
+  // Diafragma
+  (function(){
+    var gg = G.B();
+    var rim = function(th){ var x = 11.6 * Math.sin(th), z = -4.6 + 7.4 * Math.cos(th), y = -24.2 + 4.4 * Math.cos(th) - (Math.abs(Math.sin(th)) > .8 ? 0 : 0); return [x, y, z]; };
+    sheet(gg, function(u, v){ var th = (u * 2 - 1) * Math.PI, r = Math.pow(v, .9), R = rim(th), domeY = -20.3 + .65 * Math.sin(th) * Math.min(1, r * 3), y = domeY + (R[1] - domeY) * Math.pow(r, 2.4); return [R[0] * r, y, -4.2 + (R[2] + 4.2) * r]; }, 36, 10,
+      function(u, v){ return v < .42 ? C.tendon : COL.mus; });
+    S2.forEach(function(s){ G.tube(gg, [[s * .9, -31.6, -7.8], [s * 1.2, -29.2, -7.2], [s * 1.0, -26.4, -6.2], [s * .6, -23.6, -5.0]], {r:function(u){ return .7 - u * .35; }, col:COL.mus, rad:8}); });
+    G.ell(gg, [-.6, -26.0, -5.6], .55, .35, .55, C.tendon, 6, 8);
+    push("diafragma", gg, {layer:"profundo"});
+  })();
+
+  /* =================== ÓRGANOS =================== */
+  // Pulmones (semitransparentes para ver el corazón)
+  var lungR = [{y:4.6, cx:4.6, cz:-3.4, rx:.5, rz:.5}, {y:3.2, cx:5.0, cz:-3.6, rx:2.0, rz:2.3}, {y:0, cx:5.9, cz:-4.0, rx:3.4, rz:4.1}, {y:-4, cx:6.7, cz:-4.4, rx:4.6, rz:5.7}, {y:-9, cx:7.1, cz:-4.6, rx:5.2, rz:6.7},
+    {y:-14, cx:7.3, cz:-4.9, rx:5.3, rz:7.0}, {y:-18, cx:7.5, cz:-5.6, rx:5.2, rz:6.6}, {y:-20.6, cx:7.7, cz:-6.6, rx:5.0, rz:5.6}, {y:-23.4, cx:7.9, cz:-8.3, rx:4.4, rz:3.8}, {y:-26, cx:8.0, cz:-9.6, rx:2.8, rz:2.0}, {y:-27.2, cx:8.0, cz:-10.0, rx:.5, rz:.4}];
+  g = G.B(); organ(g, lungR, C.lung, 30, 2.3); push("pulmon_derecho", g, {layer:"organo", op:.5});
+  var lungL = lungR.map(function(s){ var c = Object.assign({}, s); c.cx = -s.cx - (s.y < -6 && s.y > -22 ? .9 : 0); c.rx = s.rx - (s.y < -6 && s.y > -22 ? .9 : 0); c.y = s.y - (s.y < -16 ? 1.0 : 0); return c; });
+  g = G.B(); organ(g, lungL, C.lung, 30, 2.3); push("pulmon_izquierdo", g, {layer:"organo", op:.5});
+  // Corazón
+  var BASE = [.4, -11.2, -2.0], APEX = [-6.0, -19.6, 1.6], AX = nrm(sub(APEX, BASE));
+  g = G.B();
+  // ventrículo izquierdo (masa cónica hacia la punta) y ventrículo derecho (por delante y a la derecha)
+  G.ellBetween(g, add(BASE, [-.6, -.6, .2]), APEX, 3.7, 3.3, C.heart);
+  G.ellBetween(g, [1.4, -12.0, .8], [-3.6, -18.6, 1.9], 3.1, 2.2, C.heartD);
+  G.ell(g, lerp(BASE, APEX, .35), 3.9, 3.6, 3.4, C.heart, 14, 18);
+  G.ell(g, [2.6, -12.6, -1.4], 2.3, 2.6, 2.2, C.atrium, 12, 14);
+  G.ell(g, [3.4, -10.0, .4], 1.0, .9, .9, C.atrium, 8, 10);
+  G.ell(g, [-.6, -11.6, -4.4], 2.8, 1.9, 1.8, C.atrium, 12, 14);
+  G.ell(g, [-3.0, -10.6, -1.8], 1.1, .8, 1.0, C.atrium, 8, 10);
+  G.ell(g, [-.8, -12.2, -.6], 1.5, 1.4, 1.3, C.fat, 8, 10);
+  push("corazon", g, {layer:"organo"});
+  g = G.B(); G.ellBetween(g, add(BASE, [.6, 1.4, -.6]), add(APEX, [-.3, -.3, .2]), 5.3, 4.6, C.peri); push("pericardio", g, {layer:"organo", op:.22});
+  // Tráquea y bronquios
+  g = G.B();
+  var TR = [[0, 7.4, -2.0], [0, 3.4, -2.6], [0, -1, -3.4], [.1, -4.6, -4.2], [.2, -7.2, -4.8]];
+  G.tube(g, TR, {r:.85, col:C.trach, rad:14});
+  for(var t = 0; t <= 1.0001; t += .065){ var p = G.along(TR, t), p2 = G.along(TR, Math.min(1, t + .01)); G.torus(g, p, nrm(sub(p2, p)), .86, .14, [.96, .94, .9], 18, 5, Math.PI * 1.55); }
+  var BR = [[[.2, -7.2, -4.8], [1.8, -8.4, -5.0], [3.4, -9.8, -5.0], [4.6, -11, -4.8]], [[.2, -7.2, -4.8], [-1.8, -8.6, -5.0], [-3.6, -10.4, -5.0], [-4.8, -11.8, -4.8]]];
+  BR.forEach(function(b, s){ G.tube(g, b, {r:function(u){ return .62 - u * .15; }, col:C.trach, rad:12}); var e = b[b.length - 1], sg = s ? -1 : 1;
+    [[sg * 1.4, 2.6, -.4], [sg * 2.2, -1.4, 1.2], [sg * 1.8, -4.4, -1.0]].concat(s ? [] : [[sg * 1.0, -2.0, 2.4]]).forEach(function(d){ G.tube(g, [e, add(e, sc(d, .5)), add(e, d)], {r:function(u){ return .38 - u * .2; }, col:C.trach, rad:8, caps:true}); }); });
+  push("traquea_bronquios", g, {layer:"organo"});
+  // Esófago
+  g = G.B(); G.tube(g, [[0, 7.6, -4.2], [.1, 2, -5.4], [.4, -4, -6.5], [.5, -10, -7.2], [.2, -16, -7.2], [-.6, -21, -6.6], [-1.4, -24.6, -5.6], [-2.0, -27.0, -4.6]], {r:.7, col:C.eso, rad:12, flatX:1.4, caps:true}); push("esofago", g, {layer:"organo"});
+  // Timo
+  g = G.B(); G.ell(g, [.6, -6.4, 1.9], .6, 1.6, .3, C.thymus, 8, 10); G.ell(g, [-.6, -6.1, 1.9], .6, 1.8, .3, C.thymus, 8, 10); push("timo", g, {layer:"organo", op:.8});
+
+  /* =================== VASOS =================== */
+  function vessel(id, paths, r, vein, col){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r, col:col || (vein ? COL.vein : COL.art), rad:p.rad || 10, revT:!!vein, t0:p.t0 || 0, caps:p.caps}); }); push(id, gg, {layer:vein ? "vena" : "arteria", flow:1, flowC:vein ? [.6, .78, 1] : [1, .6, .5], speed:vein ? .35 : .75}); }
+  var AO = [[-.4, -11.6, -.6], [.6, -9.6, .2], [1.2, -7.4, .4], [.9, -5.8, .1], [-.2, -5.2, -.9], [-1.4, -5.6, -2.6], [-2.2, -7.0, -4.8], [-2.2, -9.4, -6.6], [-2.0, -14, -7.4], [-1.6, -20, -7.4], [-.9, -25, -7.6], [-.5, -27.8, -7.8]];
+  vessel("aorta_toracica", [{pts:AO, r:1.05, t0:0}]);
+  vessel("tronco_braquiocefalico", [{pts:[[.5, -5.5, .0], [1.0, -4.8, -.6], [1.6, -4.0, -1.8]], r:.62, t0:8}]);
+  vessel("carotidas_comunes", [{pts:[[1.6, -4.0, -1.8], [2.0, -1.0, -1.8], [2.4, 3, -2.0], [2.6, 7.4, -2.4]], r:.42, t0:11}, {pts:[[-.5, -5.4, -.6], [-1.2, -3.2, -1.2], [-2.0, .4, -1.8], [-2.4, 3, -2.0], [-2.6, 7.4, -2.4]], r:.42, t0:9}]);
+  vessel("a_subclavia_izquierda", [{pts:[[-1.3, -5.5, -2.2], [-2.0, -3.4, -2.6], [-3.0, -1.6, -2.6], [-5.4, .8, -3.0], [-8.2, .4, -2.8], [-10.4, -1.6, -2.2]], r:.52, t0:9}]);
+  vessel("a_toracica_interna", S2.map(function(s){ return {pts:[s > 0 ? [3.6, -.3, -2.7] : [-3.6, -.3, -2.7], [s * 3.0, -1.6, .8], [s * 2.6, -5, 2.0], [s * 2.5, -10, 2.4], [s * 2.6, -15, 2.4], [s * 3.2, -19.4, 2.2]], r:.2, t0:14}; }));
+  vessel("arterias_pulmonares", [{pts:[[-1.6, -12.6, 1.8], [-1.6, -10.4, 1.4], [-1.2, -8.6, -.2], [-.8, -8.0, -1.8]], r:.95, t0:0}, {pts:[[-.8, -8.0, -1.8], [1.4, -8.4, -3.0], [3.4, -9.4, -3.6], [5.0, -10.4, -3.8]], r:.68, t0:5}, {pts:[[-.8, -8.0, -1.8], [-2.6, -8.2, -3.2], [-4.4, -8.8, -4.0], [-5.6, -9.8, -4.0]], r:.65, t0:5},
+    {pts:[[5.0, -10.4, -3.8], [6.6, -7.4, -4.2], [7.4, -3.6, -4.6]], r:.34, t0:9}, {pts:[[5.0, -10.4, -3.8], [7.6, -13.4, -3.0], [8.8, -16.8, -3.4]], r:.34, t0:9}, {pts:[[5.0, -10.4, -3.8], [7.0, -15, -7.6], [7.8, -20, -8.6]], r:.34, t0:9},
+    {pts:[[-5.6, -9.8, -4.0], [-7.0, -6.6, -4.4], [-7.6, -3.2, -4.6]], r:.33, t0:9}, {pts:[[-5.6, -9.8, -4.0], [-7.8, -14.6, -6.6], [-8.4, -20, -8.4]], r:.33, t0:9}], .5, false, [.36, .42, .86]);
+  var HC = lerp(BASE, APEX, .35), surf = function(paths){ return paths.map(function(q){ q.pts = q.pts.map(function(pt){ var d = sub(pt, HC), k = 1.0 + .32 * Math.min(1, V.len(d) / 4); return add(HC, sc(d, k)); }); return q; }); };
+  vessel("arterias_coronarias", surf([{pts:[[1.2, -10.4, .7], [2.4, -11.6, 1.5], [3.4, -13.6, 1.0], [3.6, -16.4, -.6], [2.6, -18.6, -2.6], [.6, -19.2, -3.6]], r:.17, rad:6, t0:3}, {pts:[[3.4, -13.6, 1.0], [2.0, -16.8, 1.8], [-.6, -19.0, 1.4]], r:.1, rad:5, t0:6},
+    {pts:[[-.2, -10.4, .6], [-1.4, -11.4, 1.6], [-2.6, -13.2, 2.4], [-4.0, -15.6, 2.6], [-5.2, -18.0, 2.2], [-6.0, -19.6, 1.7]], r:.17, rad:6, t0:3}, {pts:[[-2.6, -13.2, 2.4], [-4.6, -13.6, 1.8], [-5.8, -15.4, .6]], r:.1, rad:5, t0:5},
+    {pts:[[-1.4, -11.4, 1.6], [-3.2, -11.8, .4], [-4.6, -12.8, -1.6], [-4.4, -14.6, -3.6], [-3.0, -16.8, -4.4]], r:.14, rad:6, t0:4}]));
+  vessel("vena_cava_superior", [{pts:[[1.6, -5.2, -.6], [2.0, -7.6, -.8], [2.3, -10.4, -1.2]], r:.78}], .78, true);
+  vessel("venas_braquiocefalicas", [{pts:[[2.2, -3.8, -.8], [1.9, -4.6, -.7], [1.6, -5.2, -.6]], r:.62}, {pts:[[-2.2, -3.8, -.8], [-1.2, -4.0, .4], [.4, -4.6, .2], [1.6, -5.2, -.6]], r:.58}, {pts:[[-10.4, -2.6, -1.0], [-7.6, -1.0, -.8], [-4.6, -1.6, -.6], [-2.2, -3.8, -.8]], r:.48}, {pts:[[2.2, -3.8, -.8], [2.8, 0, -1.4], [3.2, 7.4, -1.8]], r:.55}, {pts:[[-2.2, -3.8, -.8], [-2.8, 0, -1.4], [-3.2, 7.4, -1.8]], r:.55}], .58, true);
+  vessel("vena_cava_inferior", [{pts:[[1.6, -27.6, -6.4], [1.6, -24.6, -5.8], [1.8, -21.2, -4.6], [2.0, -18.0, -3.4], [2.2, -15.0, -2.6]], r:.9}], .9, true);
+  vessel("v_acigos", [{pts:[VB("T12"), VB("T9"), VB("T6"), VB("T4")].map(function(p){ return add(p, [1.3, 0, 1.4]); }).concat([[1.8, -6.2, -5.2], [2.0, -6.4, -2.6], [1.9, -6.6, -.8]]), r:.38}, {pts:[VB("T11"), VB("T9"), VB("T7")].map(function(p){ return add(p, [-1.4, 0, 1.2]); }).concat([add(VB("T8"), [.9, 0, 1.4])]), r:.26}], .35, true);
+  vessel("venas_pulmonares", [{pts:[[5.0, -12.0, -4.6], [3.0, -11.8, -4.8], [1.4, -11.6, -4.6]], r:.4}, {pts:[[4.8, -14.0, -5.4], [2.8, -13.4, -5.2], [1.2, -12.4, -4.8]], r:.4}, {pts:[[-5.2, -11.4, -4.6], [-3.4, -11.6, -4.8], [-1.8, -11.6, -4.6]], r:.4}, {pts:[[-5.0, -13.6, -5.4], [-3.2, -13.0, -5.2], [-1.8, -12.4, -4.8]], r:.4}], .4, true, [.86, .3, .34]);
+
+  /* =================== NERVIOS =================== */
+  function nerve(id, paths, r){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r || .2, col:COL.nerve, rad:6, t0:p.t0 || 0}); (p.gang || []).forEach(function(q){ G.ell(gg, q, .32, .45, .32, COL.nerve, 6, 8); }); }); push(id, gg, {layer:"nervio", flow:1, flowC:[1, .96, .62], speed:.9}); }
+  nerve("n_frenico", [{pts:[[2.6, 9.6, -4.6], [3.1, 6, -3.6], [3.3, 2.0, -2.8], [2.6, -2.4, -1.4], [2.4, -6.4, -.6], [3.6, -10.6, -.4], [4.4, -14.6, -.8], [4.0, -19.6, -1.6]], r:.17}, {pts:[[-2.6, 9.6, -4.6], [-3.1, 6, -3.6], [-3.3, 2.0, -2.8], [-2.4, -2.6, -1.2], [-2.6, -6.6, -.6], [-4.8, -10.6, .4], [-6.6, -15, .6], [-6.8, -20.6, .2]], r:.17}]);
+  nerve("n_vago", [{pts:[[2.2, 9.6, -5.4], [2.4, 3, -4.0], [1.8, -2, -4.4], [1.2, -6.4, -5.8], [1.0, -12, -6.6], [.8, -18, -7.2], [.4, -24, -6.8], [-.6, -27.6, -5.4]], r:.18}, {pts:[[2.4, 3, -4.0], [3.2, 0, -3.0], [2.6, -1.6, -3.6], [1.2, 1, -4.2], [.8, 7, -3.6]], r:.08, t0:10},
+    {pts:[[-2.2, 9.6, -5.4], [-2.4, 3, -4.0], [-2.0, -2, -2.8], [-2.4, -5.4, -1.8], [-1.8, -8.8, -5.2], [-1.0, -14, -7.6], [-1.2, -20, -7.0], [-1.8, -27.2, -4.8]], r:.18}, {pts:[[-2.4, -5.4, -1.8], [-1.6, -7.2, -3.2], [-.8, -6.4, -4.6], [-.6, -2, -3.8], [-.6, 7, -3.6]], r:.08, t0:14}]);
+  var ics = []; for(var n = 1; n <= 11; n++) S2.forEach(function(s){ var p = []; for(var f = .02; f <= .9; f += .06) p.push(inward(add(rib(n, f, s), [0, -.55, 0]), .15)); ics.push({pts:p, r:.09}); });
+  nerve("n_intercostales", ics);
+  var sym = S2.map(function(s){ var pts = [[s * 2.0, 9.0, -6.2], [s * 2.2, 5, -7.2]], gang = [[s * 2.0, 8.6, -6.2], [s * 2.1, 6.4, -6.8], [s * 2.3, 3.4, -7.8]]; for(var i = 1; i <= 12; i++){ var b = VB("T" + i), q = add(b, [s * (1.5 + i * .05), .2, -.2]); pts.push(q); gang.push(q); } pts.push([s * 2.4, -30.4, -9.6]); return {pts:pts, r:.12, gang:gang}; });
+  nerve("tronco_simpatico", sym);
+})();
+
+/* =====================================================================
    INTERFAZ: capas, explorador, búsqueda, ficha, notas, cuenta y estudio
    ===================================================================== */
 (function(){
@@ -4120,7 +4543,8 @@ var LAYERS = [
   {k:"hueso", n:"Huesos", c:"#e8dcc2"},
   {k:"nervio", n:"Nervios", c:"#f2c94c"},
   {k:"arteria", n:"Arterias", c:"#e0483d"},
-  {k:"vena", n:"Venas", c:"#4f7fe0"}
+  {k:"vena", n:"Venas", c:"#4f7fe0"},
+  {k:"organo", n:"Órganos", c:"#e58fa3", note:"Corazón, pulmones y vísceras"}
 ];
 var st = {layers:{}, ctx:true, hidden:{}, sel:null, iso:false, labels:false, flow:true, skin:.85, ltab:"capas", ftab:"ficha", filter:"", region:"hombro", todo:false};
 st.region = RINFO[LS.get("atlas_region", "hombro")] ? LS.get("atlas_region", "hombro") : "hombro";
@@ -4203,8 +4627,7 @@ function renderLeft(){
       var n = E.all().filter(function(m){ return m.layer === L.k && m.pickable && enVista(m.id); }).length;
       h += '<div class="layer"><span class="dot" style="--c:' + L.c + '"></span><div><b>' + L.n + '</b>' + (L.note ? '<br><small>' + L.note + '</small>' : "") + '</div><small class="mono">' + (n || "") + '</small><button type="button" class="sw ' + (st.layers[L.k] ? "on" : "") + '" data-layer="' + L.k + '" aria-label="Mostrar ' + L.n + '" aria-pressed="' + !!st.layers[L.k] + '"></button></div>';
     });
-    h += '<div class="layer"><span class="dot" style="--c:#7d8796"></span><div><b>Tórax y columna</b><br><small>Esqueleto de referencia</small></div><small></small><button type="button" class="sw ' + (st.ctx ? "on" : "") + '" data-ctx aria-label="Mostrar tórax y columna"></button></div>';
-    h += '<div class="layer"><span class="dot" style="--c:var(--accent)"></span><div><b>Todas las regiones</b><br><small>Muestra el brazo y la pierna completos</small></div><small></small><button type="button" class="sw ' + (st.todo ? "on" : "") + '" data-todo aria-label="Mostrar todas las regiones"></button></div>';
+    h += '<div class="layer"><span class="dot" style="--c:var(--accent)"></span><div><b>Todas las regiones</b><br><small>Muestra todo el cuerpo</small></div><small></small><button type="button" class="sw ' + (st.todo ? "on" : "") + '" data-todo aria-label="Mostrar todas las regiones"></button></div>';
     h += '<div class="ph">Piel</div><div class="range"><span class="lat" style="font-style:normal;font-family:var(--f-ui);font-size:12.5px">Opacidad</span><input type="range" id="skin" min="0" max="1" step=".05" value="' + st.skin + '" aria-label="Opacidad de la piel"></div>';
     var hid = Object.keys(st.hidden).filter(function(k){ return st.hidden[k]; });
     if(hid.length) h += '<div class="hidden-chip"><span>' + hid.length + (hid.length === 1 ? " estructura oculta" : " estructuras ocultas") + '</span><button type="button" class="btn" id="unhide">Mostrar todas</button></div>';
@@ -4246,7 +4669,7 @@ IDS.forEach(function(id){ var d = DATA[id], a = [fold(d.nombre.replace(/\s*\(.*\
 Object.assign(ALIAS, {
   escapula:["escapula", "acromion", "coracoides", "espina de la escapula", "cavidad glenoidea", "tuberculo supraglenoideo", "tuberculo infraglenoideo", "fosa supraespinosa", "fosa infraespinosa", "fosa subescapular", "borde medial", "borde lateral", "angulo inferior"],
   humero:["humero", "tuberculo mayor", "tuberculo menor", "surco intertubercular", "tuberosidad deltoidea", "epicondilo", "cresta supracondilea"],
-  cubito:["cubito", "olecranon", "coronoides"], radio:["del radio", "tuberosidad del radio", "radio,", "radio y"], clavicula:["clavicula"], costillas:["costilla"], esternon:["esternon"], vertebras_toracicas:["vertebra toracica", "vertebras toracicas", "apofisis espinosas", "apofisis transversas"], vertebras_cervicales:["vertebra cervical", "cervicales"], atlas:["atlas"], axis:["axis"], medula_espinal:["medula"], discos_intervertebrales:["disco"], hueso_occipital:["occipital", "linea nucal", "mastoides"], a_vertebral:["arteria vertebral"], multifido:["multifido"], cuadrado_lumbar:["cuadrado lumbar"],
+  cubito:["cubito", "olecranon", "coronoides"], radio:["del radio", "tuberosidad del radio", "radio,", "radio y"], clavicula:["clavicula"], costillas:["costilla"], esternon:["esternon"], vertebras_toracicas:["vertebra toracica", "vertebras toracicas", "apofisis espinosas", "apofisis transversas"], vertebras_cervicales:["vertebra cervical", "cervicales"], atlas:["atlas"], axis:["axis"], medula_espinal:["medula"], discos_intervertebrales:["disco"], hueso_occipital:["occipital", "linea nucal", "mastoides"], corazon:["corazon", "ventriculo", "auricula"], pulmon_derecho:["pulmon derecho"], pulmon_izquierdo:["pulmon izquierdo"], traquea_bronquios:["traquea", "bronquio"], esofago:["esofago"], diafragma:["diafragma"], aorta_toracica:["aorta", "cayado"], n_frenico:["frenico"], n_vago:["vago", "recurrente"], vena_cava_superior:["cava superior"], vena_cava_inferior:["cava inferior"], arterias_coronarias:["coronaria"], a_toracica_interna:["toracica interna"], n_intercostales:["nervio intercostal", "nervios intercostales"], a_vertebral:["arteria vertebral"], multifido:["multifido"], cuadrado_lumbar:["cuadrado lumbar"],
   n_axilar:["nervio axilar"], n_musculocutaneo:["musculocutaneo"], n_radial:["nervio radial", "ramo profundo del nervio radial"], n_mediano:["nervio mediano"], n_cubital:["nervio cubital"],
   n_supraescapular:["nervio supraescapular"], n_toracico_largo:["toracico largo"], n_toracodorsal:["nervio toracodorsal"], n_accesorio:["nervio accesorio"], plexo_braquial:["plexo braquial", "fasciculo"],
   a_braquial:["arteria braquial"], a_braquial_profunda:["braquial profunda"], a_axilar:["arteria axilar"], a_subclavia:["arteria subclavia"], a_supraescapular:["arteria supraescapular"],
@@ -4274,7 +4697,7 @@ function renderFicha(){
     var cnt = function(c){ return IDS.filter(function(i){ return DATA[i].cat === c && inReg(i); }).length; }, RI = RINFO[st.region], otras = Object.keys(RINFO).filter(function(k){ return k !== st.region; });
     el.innerHTML = '<div class="intro"><div class="eyebrow"><span class="chip">Región ' + RI.n + ' de 8</span><span>' + RI.sub + '</span></div><h2>' + RI.nombre + '</h2>' +
       '<p>' + RI.desc + '</p>' +
-      '<div class="counts"><div><b>' + cnt("musculo") + '</b><span>músculos</span></div><div><b>' + cnt("ligamento") + '</b><span>ligamentos</span></div><div><b>' + cnt("hueso") + '</b><span>huesos</span></div><div><b>' + cnt("nervio") + '</b><span>nervios</span></div><div><b>' + cnt("arteria") + '</b><span>arterias</span></div><div><b>' + cnt("vena") + '</b><span>venas</span></div></div>' +
+      '<div class="counts">' + [["musculo", "músculos"], ["organo", "órganos"], ["ligamento", "ligamentos"], ["hueso", "huesos"], ["nervio", "nervios"], ["arteria", "arterias"], ["vena", "venas"]].filter(function(c){ return cnt(c[0]) > 0; }).map(function(c){ return '<div><b>' + cnt(c[0]) + '</b><span>' + c[1] + '</span></div>'; }).join("") + '</div>' +
       '<div class="ph">Empieza por aquí</div><div class="rel">' + RI.inicio.map(relBtn).join("") + '</div>' +
       '<div class="ph">Otras regiones listas</div><div class="rel">' + otras.map(function(k){ return '<button type="button" data-region="' + k + '"><span class="dot" style="--c:var(--accent);width:7px;height:7px"></span>' + RINFO[k].nombre + '</button>'; }).join("") + '</div>' +
       '<div class="note">El modelo es esquemático: respeta la posición, el origen, el trayecto y la inserción de cada estructura, pero sus formas están simplificadas para que funcione en el teléfono.</div></div>';
@@ -4325,6 +4748,7 @@ function select(id, fly){
   st.sel = id; st.ftab = st.ftab === "notas" && id ? "notas" : "ficha";
   if(id && st.hidden[id]){ st.hidden[id] = false; }
   if(id && !enVista(id)) setRegion(DATA[id].reg[0], false);
+  if(id && DATA[id].cat === "organo" && fly && !STUDY.on){ st.iso = true; st.isoAuto = true; } else if(st.isoAuto){ st.iso = false; st.isoAuto = false; }
   if(id){ var m = E.mesh(id); if(m && st.layers[m.layer] === false){ st.layers[m.layer] = true; } if(m && m.ctx) st.ctx = true; }
   if(!id) st.iso = false;
   applyVis(); renderFicha(); if(st.ltab === "explorar") renderLeft(); else renderLeft();
@@ -4638,12 +5062,12 @@ function iaSistema(ctx, conImg){
   var s = "Eres un anatomista especializado y profesor de anatomía humana dentro de la app «Atlas Anatómico 3D». Responde SIEMPRE en español de México, con la terminología anatómica internacional y el nombre en latín cuando ayude a estudiar.\n" +
     nivel + " " + largo + "\n" +
     "Formato: párrafos cortos, listas con guiones y **negritas** para lo esencial. No uses tablas. Cuando menciones una estructura que existe en el atlas, escríbela como [[id]] con el id exacto de la lista de abajo (la app la convierte en un botón que la muestra en 3D). Usa [[id]] solo con ids de la lista; las demás estructuras escríbelas normal.\n" +
-    "Puedes responder sobre cualquier parte del cuerpo humano, aunque el modelo 3D por ahora tiene cuatro regiones del lado derecho: hombro y brazo, antebrazo y mano, cadera y muslo, y rodilla, pierna y pie. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
+    "Puedes responder sobre cualquier parte del cuerpo humano, aunque el modelo 3D por ahora tiene varias regiones: hombro y brazo, antebrazo y mano, cadera y muslo, rodilla, pierna y pie, columna y espalda, y tórax. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
     "Si te piden preguntas de examen, numéralas y pon las respuestas al final. Si te piden mnemotecnias, que sean en español.\n\n" +
-    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares); 3) cadera y muslo (pelvis, glúteos, rotadores, iliopsoas, cuádriceps, aductores, isquiotibiales, plexo lumbosacro); 4) rodilla, pierna y pie (cruzados, meniscos, compartimentos de la pierna, tobillo y capas plantares); 5) columna y espalda (vértebras, discos, músculos profundos de la espalda, ligamentos vertebrales, médula espinal y nervios espinales). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
+    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares); 3) cadera y muslo (pelvis, glúteos, rotadores, iliopsoas, cuádriceps, aductores, isquiotibiales, plexo lumbosacro); 4) rodilla, pierna y pie (cruzados, meniscos, compartimentos de la pierna, tobillo y capas plantares); 5) columna y espalda (vértebras, discos, músculos profundos de la espalda, ligamentos vertebrales, médula espinal y nervios espinales); 6) tórax (corazón, pulmones, tráquea, esófago, diafragma, intercostales, grandes vasos, nervios frénico, vago e intercostales). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
     "Estructuras del atlas (id = nombre):\n" + lista + "\n\nCapas visibles ahora en pantalla: " + (vis.length > 40 ? vis.length + " estructuras" : vis.join(", ")) + ".";
   if(ctx && DATA[ctx]) s += "\n\nLa persona tiene seleccionada esta estructura (úsala como contexto si la pregunta no dice otra cosa): " + fichaTexto(ctx);
-  if(conImg) s += "\n\nCon el último mensaje va una imagen de la vista 3D que la persona está viendo en el atlas (modelo esquemático: músculos en rojo, nervios amarillos, arterias rojas, venas azules, huesos color marfil, ligamentos azul claro; la estructura seleccionada brilla en turquesa).";
+  if(conImg) s += "\n\nCon el último mensaje va una imagen de la vista 3D que la persona está viendo en el atlas (modelo esquemático: músculos en rojo, nervios amarillos, arterias rojas, venas azules, huesos color marfil, ligamentos azul claro, órganos rosados; la estructura seleccionada brilla en turquesa).";
   return s;
 }
 function iaHistorial(){
@@ -5167,7 +5591,7 @@ function componer(o){
     h += '<section class="pp' + (o.orient === "landscape" ? " land" : "") + '">' + cab(l.nombre + " · " + (i + 1) + " de " + total) +
       (i === 0 ? '<h1>' + esc(o.titulo) + '</h1><p class="pmeta">' + hoy + (quien ? " · " + esc(quien) : "") + (o.eti === "muda" ? " · Escribe el nombre de cada número" : "") + '</p>' : '<h2 class="pv">' + l.nombre + '</h2>') +
       '<div class="pbodyp' + (leg && o.orient === "landscape" ? " split" : "") + '"><img class="pimg" alt="' + esc(l.nombre) + '" src="' + l.canvas.toDataURL("image/png") + '">' + leg + '</div>' +
-      '<footer class="pft">Modelo esquemático con fines de estudio' + (o.eti === "muda" ? "" : " · Colores: músculo rojo, nervio amarillo, arteria roja, vena azul, hueso marfil, ligamento azul claro") + '</footer></section>';
+      '<footer class="pft">Modelo esquemático con fines de estudio' + (o.eti === "muda" ? "" : " · Colores: músculo rojo, nervio amarillo, arteria roja, vena azul, hueso marfil, ligamento azul claro, órgano rosado") + '</footer></section>';
   });
   var ids = [];
   if(o.fichas === "visibles"){ LAMS.forEach(function(l){ l.items.forEach(function(it){ if(ids.indexOf(it.id) < 0) ids.push(it.id); }); }); if(st.sel && ids.indexOf(st.sel) < 0 && o.preset === "sel") ids.unshift(st.sel); }
