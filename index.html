@@ -2847,6 +2847,311 @@ RINFO.torax = {nombre:"Tórax", n:6, sub:"Tronco", desc:"Caja torácica, múscul
   inicio:["corazon", "diafragma", "pulmon_derecho", "aorta_toracica", "n_frenico", "intercostales_externos"], home:{tx:0, ty:-10, tz:-3, dist:98, yaw:.3, pitch:.06}};
 
 /* =====================================================================
+   FICHAS ANATÓMICAS · Región 7: abdomen y pelvis
+   ===================================================================== */
+Object.assign(DATA, {
+/* ================= ÓRGANOS ================= */
+higado:{cat:"organo", grupo:"Aparato digestivo", nombre:"Hígado", latin:"Hepar",
+  resumen:"La glándula más grande del cuerpo (1.5 kg). Procesa los nutrientes, produce bilis y limpia la sangre de toxinas.",
+  ubicacion:"Cuadrante superior derecho, bajo la cúpula derecha del diafragma y protegido por las costillas; su lóbulo izquierdo cruza la línea media.",
+  partes:"Lóbulos derecho, izquierdo, caudado y cuadrado; ocho segmentos de Couinaud; hilio hepático con la vena porta, la arteria hepática y el conducto biliar.",
+  funcion:"Metaboliza azúcares, grasas y proteínas; almacena glucógeno y vitaminas; fabrica bilis, albúmina y factores de coagulación; elimina fármacos y toxinas.",
+  irrigacion:"Doble: vena porta (75 %, sangre del intestino) y arteria hepática (25 %, oxígeno). Drena por las venas hepáticas a la cava inferior.",
+  inervacion:"Plexo hepático (vago y simpático); su cápsula recibe ramas del frénico y de los intercostales.",
+  clinica:"La cirrosis (alcohol, hígado graso, hepatitis) lo endurece y causa hipertensión portal. Duele en el hombro derecho cuando se irrita el diafragma. Puede regenerarse aunque se quite gran parte."},
+vesicula_biliar:{cat:"organo", grupo:"Aparato digestivo", nombre:"Vesícula biliar y vía biliar", latin:"Vesica biliaris et ductus choledochus",
+  resumen:"Pequeño saco en forma de pera bajo el hígado que guarda y concentra la bilis; la vía biliar la lleva al duodeno.",
+  ubicacion:"Cara inferior del hígado; su fondo toca la pared abdominal donde el borde lateral del recto cruza la 9.ª costilla (punto de Murphy).",
+  partes:"Fondo, cuerpo y cuello; conducto cístico que se une al hepático común para formar el colédoco, que desemboca en el duodeno con el conducto pancreático.",
+  funcion:"Concentra la bilis y la libera al comer grasas para ayudar a digerirlas.",
+  irrigacion:"Arteria cística (de la hepática derecha), dentro del triángulo de Calot.",
+  inervacion:"Plexo celíaco (vago y simpático) y frénico derecho.",
+  clinica:"Los cálculos biliares causan cólicos tras comidas grasosas; la colecistitis da dolor en el punto de Murphy que corta la inspiración (signo de Murphy). Un cálculo en el colédoco produce ictericia."},
+estomago:{cat:"organo", grupo:"Aparato digestivo", nombre:"Estómago", latin:"Gaster",
+  resumen:"Bolsa en forma de «J» que almacena y tritura los alimentos y comienza la digestión con ácido y enzimas.",
+  ubicacion:"Cuadrante superior izquierdo y epigastrio, bajo el diafragma, delante del páncreas y el riñón izquierdo.",
+  partes:"Cardias, fondo, cuerpo, antro y píloro; curvaturas mayor y menor; pliegues internos de mucosa.",
+  funcion:"Mezcla el alimento con ácido clorhídrico y pepsina, lo convierte en quimo y lo pasa poco a poco al duodeno; produce el factor intrínseco para absorber la vitamina B12.",
+  irrigacion:"Arterias gástricas izquierda y derecha, gastroepiploicas y gástricas cortas, todas del tronco celíaco.",
+  inervacion:"Vagos (aumentan el ácido y los movimientos) y simpático (dolor).",
+  clinica:"La úlcera péptica (por Helicobacter pylori o antiinflamatorios) puede sangrar o perforarse. Sangrados de la arteria gástrica izquierda se deben a úlceras de la curvatura menor."},
+bazo:{cat:"organo", grupo:"Sistema linfático", nombre:"Bazo", latin:"Splen (lien)",
+  resumen:"Órgano blando del tamaño de un puño, en el lado izquierdo, que filtra la sangre y forma parte del sistema de defensa.",
+  ubicacion:"Hipocondrio izquierdo, detrás del estómago, a la altura de las costillas 9.ª a 11.ª.",
+  partes:"Cápsula, hilio con los vasos esplénicos, pulpa roja (filtra glóbulos rojos viejos) y pulpa blanca (tejido linfático).",
+  funcion:"Elimina glóbulos rojos dañados, almacena plaquetas y produce anticuerpos contra bacterias encapsuladas.",
+  irrigacion:"Arteria esplénica (del tronco celíaco); drena por la vena esplénica a la porta.",
+  inervacion:"Plexo celíaco.",
+  clinica:"Es el órgano abdominal que más se rompe en golpes al abdomen o fracturas de costillas izquierdas. Sin bazo aumenta el riesgo de infecciones graves; por eso se vacuna a quienes lo pierden."},
+pancreas:{cat:"organo", grupo:"Aparato digestivo", nombre:"Páncreas", latin:"Pancreas",
+  resumen:"Glándula alargada detrás del estómago que produce enzimas digestivas y hormonas como la insulina.",
+  ubicacion:"Retroperitoneo, cruzando la columna a la altura de L1–L2; su cabeza está en la «C» del duodeno y su cola llega al bazo.",
+  partes:"Cabeza con el proceso unciforme, cuello, cuerpo y cola; conducto pancreático principal (de Wirsung) y accesorio.",
+  funcion:"Exocrina: jugo con enzimas para digerir grasas, proteínas y azúcares. Endocrina: islotes que producen insulina y glucagón.",
+  irrigacion:"Arterias pancreaticoduodenales (del celíaco y de la mesentérica superior) y ramas de la esplénica.",
+  inervacion:"Vago y nervios esplácnicos.",
+  clinica:"La pancreatitis (por cálculos o alcohol) da dolor intenso que se irradia a la espalda «en cinturón». El cáncer de la cabeza del páncreas comprime el colédoco y causa ictericia sin dolor."},
+duodeno:{cat:"organo", grupo:"Aparato digestivo", nombre:"Duodeno", latin:"Duodenum",
+  resumen:"Primera porción del intestino delgado, de unos 25 cm, en forma de «C» alrededor de la cabeza del páncreas.",
+  ubicacion:"Desde el píloro rodea la cabeza del páncreas a la altura de L1 a L3; casi todo es retroperitoneal.",
+  partes:"Porciones superior (bulbo), descendente (con la papila mayor donde desembocan bilis y jugo pancreático), horizontal y ascendente hasta el ángulo duodenoyeyunal.",
+  funcion:"Neutraliza el ácido del estómago y mezcla el alimento con la bilis y las enzimas del páncreas.",
+  irrigacion:"Arterias pancreaticoduodenales superior e inferior.",
+  inervacion:"Vago y simpático.",
+  clinica:"El bulbo duodenal es el sitio más común de úlcera péptica. La porción horizontal puede quedar atrapada entre la aorta y la arteria mesentérica superior al bajar mucho de peso."},
+intestino_delgado:{cat:"organo", grupo:"Aparato digestivo", nombre:"Intestino delgado (yeyuno e íleon)", latin:"Jejunum et ileum",
+  resumen:"Tubo de unos 6 metros enrollado en el centro del abdomen; aquí se absorbe la mayor parte de los nutrientes.",
+  ubicacion:"Centro del abdomen, colgado de la pared posterior por el mesenterio; el yeyuno arriba a la izquierda y el íleon abajo a la derecha.",
+  partes:"Yeyuno (dos quintos, pared gruesa, muchos pliegues) e íleon (tres quintos, con placas de Peyer); termina en la válvula ileocecal.",
+  funcion:"Termina la digestión y absorbe azúcares, aminoácidos, grasas, vitaminas y agua; el íleon terminal absorbe la vitamina B12 y las sales biliares.",
+  irrigacion:"Ramas yeyunales e ileales de la arteria mesentérica superior, que forman arcadas.",
+  inervacion:"Plexo mesentérico superior (vago y simpático).",
+  clinica:"La obstrucción intestinal (por adherencias o hernias) da dolor tipo cólico, vómito y distensión. La enfermedad de Crohn afecta sobre todo el íleon terminal."},
+colon:{cat:"organo", grupo:"Aparato digestivo", nombre:"Intestino grueso (colon)", latin:"Intestinum crassum (colon)",
+  resumen:"Tubo de 1.5 m que enmarca al intestino delgado; absorbe agua y forma las heces.",
+  ubicacion:"Ciego en la fosa ilíaca derecha, colon ascendente por el flanco derecho, transverso colgando bajo el estómago, descendente por el flanco izquierdo y sigmoide en la pelvis.",
+  partes:"Ciego, colon ascendente, ángulo hepático, transverso, ángulo esplénico, descendente y sigmoide; tenias, haustras y apéndices epiploicos.",
+  funcion:"Absorbe agua y sales, alberga la flora intestinal que produce vitamina K y almacena las heces.",
+  irrigacion:"Mesentérica superior (hasta dos tercios del transverso) y mesentérica inferior (el resto).",
+  inervacion:"Vago hasta el transverso; nervios esplácnicos pélvicos para el resto; simpático.",
+  clinica:"El cáncer de colon se detecta con colonoscopia a partir de los 45 años. La diverticulitis afecta sobre todo al sigmoide. El ángulo esplénico es una zona con poca irrigación, vulnerable a la isquemia."},
+apendice:{cat:"organo", grupo:"Aparato digestivo", nombre:"Apéndice vermiforme", latin:"Appendix vermiformis",
+  resumen:"Pequeño tubo ciego de unos 8 cm que sale del ciego, rico en tejido linfático.",
+  ubicacion:"Fosa ilíaca derecha; su base está en el punto de McBurney, a un tercio de la línea entre la espina ilíaca anterosuperior y el ombligo.",
+  partes:"Base (donde convergen las tenias del ciego), cuerpo y punta; mesoapéndice con la arteria apendicular.",
+  funcion:"Participa en la defensa del intestino y sirve de reserva de bacterias buenas.",
+  irrigacion:"Arteria apendicular, rama de la ileocólica.",
+  inervacion:"Plexo mesentérico superior (dolor referido al ombligo).",
+  clinica:"La apendicitis empieza con dolor alrededor del ombligo que luego se fija en la fosa ilíaca derecha (punto de McBurney), con náuseas y fiebre. Si se perfora causa peritonitis."},
+recto:{cat:"organo", grupo:"Aparato digestivo", nombre:"Recto y conducto anal", latin:"Rectum et canalis analis",
+  resumen:"Porción final del intestino grueso que sigue la curva del sacro y termina en el ano.",
+  ubicacion:"Pelvis, delante del sacro y el cóccix; atraviesa el suelo pélvico.",
+  partes:"Recto con sus pliegues transversos, ampolla rectal, unión anorrectal (ángulo formado por el puborrectal), conducto anal con los esfínteres interno y externo.",
+  funcion:"Almacena las heces y controla la defecación junto con el suelo pélvico y los esfínteres.",
+  irrigacion:"Arteria rectal superior (de la mesentérica inferior), rectales medias e inferiores.",
+  inervacion:"Esplácnicos pélvicos y simpático; el conducto anal bajo, por el nervio pudendo (sensible al dolor).",
+  clinica:"Las hemorroides son dilataciones de los plexos venosos. El tacto rectal permite palpar la próstata o el útero y tumores rectales bajos."},
+rinon_derecho:{cat:"organo", grupo:"Aparato urinario", nombre:"Riñón derecho", latin:"Ren dexter",
+  resumen:"Órgano en forma de frijol que filtra la sangre y produce orina; está un poco más bajo que el izquierdo por el hígado.",
+  ubicacion:"Retroperitoneo, a la derecha de la columna, entre T12 y L3, sobre el psoas y el cuadrado lumbar.",
+  partes:"Cápsula, corteza, médula con pirámides, cálices, pelvis renal y hilio con la arteria, la vena renal y el uréter.",
+  funcion:"Filtra unos 180 litros de plasma al día, regula el agua, las sales y la presión arterial, elimina desechos y produce eritropoyetina y vitamina D activa.",
+  irrigacion:"Arteria renal derecha (pasa detrás de la cava inferior); vena renal derecha corta.",
+  inervacion:"Plexo renal (simpático); el dolor se siente en la fosa lumbar.",
+  clinica:"Los cálculos renales causan un dolor cólico muy intenso que baja hacia la ingle. Puño-percusión en la fosa lumbar dolorosa sugiere infección renal (pielonefritis)."},
+rinon_izquierdo:{cat:"organo", grupo:"Aparato urinario", nombre:"Riñón izquierdo", latin:"Ren sinister",
+  resumen:"Riñón algo más alto y largo que el derecho, con una vena renal más larga que cruza delante de la aorta.",
+  ubicacion:"Retroperitoneo, a la izquierda de la columna, entre T11 y L2, detrás del estómago, el páncreas y el bazo.",
+  partes:"Igual que el derecho: corteza, médula, cálices, pelvis y hilio.",
+  funcion:"Filtra la sangre y forma orina, regula el equilibrio de líquidos, sales y ácido.",
+  irrigacion:"Arteria renal izquierda; la vena renal izquierda recibe a la gonadal y la suprarrenal izquierdas.",
+  inervacion:"Plexo renal.",
+  clinica:"Por eso el lado izquierdo de la vena puede comprimirse entre la aorta y la mesentérica superior (cascanueces) y causar várices en el testículo izquierdo (varicocele)."},
+glandulas_suprarrenales:{cat:"organo", grupo:"Sistema endocrino", nombre:"Glándulas suprarrenales", latin:"Glandulae suprarenales",
+  resumen:"Dos pequeñas glándulas sobre los riñones que producen hormonas vitales: cortisol, aldosterona y adrenalina.",
+  ubicacion:"Polo superior de cada riñón; la derecha es piramidal y la izquierda semilunar.",
+  partes:"Corteza (zonas glomerular, fascicular y reticular) y médula.",
+  funcion:"Corteza: aldosterona (sal y presión), cortisol (estrés, azúcar, inflamación) y andrógenos. Médula: adrenalina y noradrenalina (lucha o huida).",
+  irrigacion:"Tres arterias suprarrenales (de la frénica inferior, la aorta y la renal).",
+  inervacion:"Fibras simpáticas preganglionares directas a la médula.",
+  clinica:"El feocromocitoma (tumor de la médula) causa crisis de presión alta, sudor y palpitaciones. La insuficiencia suprarrenal (Addison) causa cansancio, piel oscura y presión baja."},
+ureteres:{cat:"organo", grupo:"Aparato urinario", nombre:"Uréteres", latin:"Ureteres",
+  resumen:"Dos tubos musculares de unos 25 cm que llevan la orina de cada riñón a la vejiga.",
+  ubicacion:"Bajan por el retroperitoneo sobre el psoas, cruzan los vasos ilíacos en el borde de la pelvis y entran oblicuos en la vejiga.",
+  partes:"Porciones abdominal, pélvica e intramural; tres estrechamientos: unión con la pelvis renal, cruce de los vasos ilíacos y entrada a la vejiga.",
+  funcion:"Mueven la orina con ondas peristálticas; su entrada oblicua en la vejiga evita que regrese.",
+  irrigacion:"Ramas de las arterias renal, gonadal, ilíacas y vesicales.",
+  inervacion:"Plexos renal, aórtico e hipogástrico.",
+  clinica:"Los cálculos se atoran en los tres estrechamientos. En cirugía pélvica (histerectomía) pueden lesionarse donde pasan bajo la arteria uterina («el agua pasa bajo el puente»)."},
+vejiga:{cat:"organo", grupo:"Aparato urinario", nombre:"Vejiga urinaria", latin:"Vesica urinaria",
+  resumen:"Bolsa muscular que almacena la orina; vacía queda detrás del pubis y llena sube hacia el abdomen.",
+  ubicacion:"Pelvis, detrás de la sínfisis del pubis; por detrás tiene el recto (en el varón) o el útero y la vagina (en la mujer).",
+  partes:"Vértice, cuerpo, fondo y cuello; trígono entre los orificios de los uréteres y la uretra; músculo detrusor.",
+  funcion:"Almacena de 400 a 600 ml de orina y la expulsa al contraer el detrusor y relajar los esfínteres.",
+  irrigacion:"Arterias vesicales superiores e inferiores (de la ilíaca interna).",
+  inervacion:"Parasimpático (S2–S4, contrae para orinar), simpático (relaja para almacenar) y pudendo (esfínter externo).",
+  clinica:"Llena puede palparse sobre el pubis (globo vesical). Las infecciones urinarias son más frecuentes en mujeres por su uretra corta. Se sondea por la uretra o por encima del pubis."},
+
+/* ================= MÚSCULOS ================= */
+recto_abdominal:{cat:"musculo", capa:"Superficial", grupo:"Pared anterior del abdomen", nombre:"Recto abdominal", latin:"Musculus rectus abdominis",
+  resumen:"Músculo largo y plano a cada lado de la línea media, dividido por intersecciones tendinosas (el «six-pack»).",
+  origen:"Cresta del pubis y sínfisis del pubis.",
+  insercion:"Apófisis xifoides y cartílagos costales 5.º a 7.º.",
+  inervacion:"Nervios intercostales T7–T11 y subcostal (T12).",
+  irrigacion:"Arterias epigástricas superior e inferior.",
+  accion:"Flexiona el tronco (abdominales), aumenta la presión del abdomen al toser o pujar y estabiliza la pelvis.",
+  clinica:"La diástasis de rectos (separación en la línea alba) es común después del embarazo. Se usa con su arteria epigástrica para reconstruir la mama (colgajo TRAM).",
+  prueba:"Boca arriba con las rodillas flexionadas, levantar los hombros de la camilla."},
+oblicuo_externo:{cat:"musculo", capa:"Superficial", grupo:"Pared anterolateral del abdomen", nombre:"Oblicuo externo del abdomen", latin:"Musculus obliquus externus abdominis",
+  resumen:"El más superficial y grande de los músculos planos del abdomen; sus fibras bajan hacia delante, como las manos en los bolsillos.",
+  origen:"Cara externa de las costillas 5.ª a 12.ª, entre las digitaciones del serrato anterior y del dorsal ancho.",
+  insercion:"Línea alba, tubérculo del pubis y mitad anterior de la cresta ilíaca, por su aponeurosis; su borde inferior forma el ligamento inguinal.",
+  inervacion:"Nervios intercostales T7–T11 y subcostal.",
+  irrigacion:"Arterias intercostales inferiores, subcostal y circunfleja ilíaca profunda.",
+  accion:"Flexiona el tronco, lo gira hacia el lado contrario y comprime el abdomen al espirar con fuerza.",
+  clinica:"Su aponeurosis tiene el anillo inguinal superficial, por donde salen las hernias inguinales.",
+  prueba:"Boca arriba, llevar el hombro hacia la rodilla contraria (abdominal con giro)."},
+oblicuo_interno:{cat:"musculo", capa:"Profundo", grupo:"Pared anterolateral del abdomen", nombre:"Oblicuo interno del abdomen", latin:"Musculus obliquus internus abdominis",
+  resumen:"Plano medio de los músculos laterales del abdomen; sus fibras suben hacia delante, en ángulo recto con el oblicuo externo.",
+  origen:"Fascia toracolumbar, dos tercios anteriores de la cresta ilíaca y mitad lateral del ligamento inguinal.",
+  insercion:"Bordes inferiores de las costillas 10.ª a 12.ª, línea alba por su aponeurosis y pubis por el tendón conjunto.",
+  inervacion:"Nervios intercostales T7–T11, subcostal, iliohipogástrico e ilioinguinal.",
+  irrigacion:"Arterias intercostales, epigástricas y circunflejas ilíacas.",
+  accion:"Flexiona el tronco, lo gira hacia su mismo lado y comprime el abdomen.",
+  clinica:"Sus fibras más bajas forman el músculo cremáster, que eleva el testículo (reflejo cremastérico, L1–L2).",
+  prueba:"Igual que el oblicuo externo del lado contrario (rotación del tronco)."},
+transverso_abdomen:{cat:"musculo", capa:"Profundo", grupo:"Pared anterolateral del abdomen", nombre:"Transverso del abdomen", latin:"Musculus transversus abdominis",
+  resumen:"El más profundo de los músculos planos del abdomen; sus fibras horizontales lo rodean como una faja.",
+  origen:"Cara interna de los cartílagos costales 7.º a 12.º, fascia toracolumbar, cresta ilíaca y tercio lateral del ligamento inguinal.",
+  insercion:"Línea alba por su aponeurosis, cresta del pubis y línea pectínea (tendón conjunto).",
+  inervacion:"Nervios intercostales T7–T11, subcostal, iliohipogástrico e ilioinguinal.",
+  irrigacion:"Arterias intercostales inferiores, epigástricas y circunflejas ilíacas.",
+  accion:"Comprime el abdomen y estabiliza la columna lumbar antes de mover brazos o piernas (faja natural).",
+  clinica:"Su activación es la base de los ejercicios de «core» para el dolor lumbar. El bloqueo anestésico TAP se aplica entre él y el oblicuo interno.",
+  prueba:"Meter el ombligo hacia la columna sin mover la pelvis (maniobra de vacío abdominal)."},
+piramidal_abdomen:{cat:"musculo", capa:"Superficial", grupo:"Pared anterior del abdomen", nombre:"Piramidal del abdomen", latin:"Musculus pyramidalis",
+  resumen:"Pequeño músculo triangular delante de la parte baja del recto; falta en cerca de una de cada cinco personas.",
+  origen:"Cresta y sínfisis del pubis.",
+  insercion:"Línea alba, debajo del ombligo.",
+  inervacion:"Nervio subcostal (T12).",
+  irrigacion:"Arteria epigástrica inferior.",
+  accion:"Tensa la línea alba.",
+  clinica:"Es una referencia en las incisiones bajas de la línea media y en la cesárea.",
+  prueba:"No se explora aislado."},
+elevador_ano:{cat:"musculo", capa:"Profundo", grupo:"Suelo pélvico", nombre:"Elevador del ano", latin:"Musculus levator ani",
+  resumen:"Lámina muscular en forma de embudo que forma casi todo el suelo de la pelvis y sostiene sus órganos.",
+  origen:"Cuerpo del pubis, arco tendinoso de la fascia del obturador interno y espina isquiática.",
+  insercion:"Cuerpo perineal, conducto anal, ligamento anococcígeo y cóccix.",
+  inervacion:"Nervio del elevador del ano (S3–S4) y ramas del pudendo.",
+  irrigacion:"Arterias glútea inferior, pudenda interna y vesical inferior.",
+  accion:"Sostiene la vejiga, el útero y el recto; su porción puborrectal forma un asa que mantiene la continencia de heces y se relaja para defecar.",
+  clinica:"Se estira o desgarra en partos vaginales; su debilidad causa incontinencia urinaria y prolapsos. Los ejercicios de Kegel lo fortalecen.",
+  prueba:"Contraer como para detener la orina; se valora por tacto vaginal o rectal."},
+coccigeo:{cat:"musculo", capa:"Profundo", grupo:"Suelo pélvico", nombre:"Coccígeo (isquiococcígeo)", latin:"Musculus coccygeus",
+  resumen:"Músculo triangular en la parte posterior del suelo pélvico, unido al ligamento sacroespinoso.",
+  origen:"Espina isquiática.",
+  insercion:"Bordes laterales del cóccix y de la parte baja del sacro.",
+  inervacion:"Ramos de S4–S5.",
+  irrigacion:"Arteria glútea inferior.",
+  accion:"Sostiene las vísceras pélvicas y lleva el cóccix hacia delante después de defecar o en el parto.",
+  clinica:"Su tensión puede dar dolor en el cóccix o la pelvis.",
+  prueba:"No se explora aislado."},
+
+/* ================= LIGAMENTOS ================= */
+linea_alba:{cat:"ligamento", grupo:"Pared anterior del abdomen", nombre:"Línea alba y vaina de los rectos", latin:"Linea alba et vagina musculi recti abdominis",
+  resumen:"Banda fibrosa en la línea media del abdomen donde se unen las aponeurosis de los músculos planos; las intersecciones tendinosas dividen al recto.",
+  une:"Apófisis xifoides con la sínfisis del pubis; a los lados, las aponeurosis forman la vaina del recto y la línea semilunar.",
+  funcion:"Une los músculos de ambos lados, envuelve al recto abdominal y transmite la tensión de la pared del abdomen.",
+  clinica:"Es la vía de las incisiones medianas porque casi no sangra. Por ella pueden salir hernias epigástricas y umbilicales. La línea arqueada (bajo el ombligo) marca dónde la vaina pierde su capa posterior."},
+lig_falciforme:{cat:"ligamento", grupo:"Peritoneo", nombre:"Ligamento falciforme", latin:"Ligamentum falciforme hepatis",
+  resumen:"Pliegue de peritoneo en forma de hoz que une el hígado a la pared anterior del abdomen.",
+  une:"Cara anterior del hígado con la pared abdominal anterior y el diafragma, desde el ombligo.",
+  funcion:"Separa los lóbulos hepáticos derecho e izquierdo anatómicos y lleva en su borde libre el ligamento redondo (resto de la vena umbilical).",
+  clinica:"En la hipertensión portal las venas paraumbilicales que corren junto a él se dilatan y forman la «cabeza de medusa» alrededor del ombligo."},
+
+/* ================= VASOS ================= */
+aorta_abdominal:{cat:"arteria", grupo:"Grandes vasos", nombre:"Aorta abdominal", latin:"Aorta abdominalis",
+  resumen:"Continuación de la aorta desde el hiato del diafragma (T12) hasta su bifurcación en L4.",
+  origen:"Aorta torácica, al cruzar el hiato aórtico del diafragma.",
+  trayecto:"Baja por delante de los cuerpos vertebrales lumbares, ligeramente a la izquierda de la línea media, con la vena cava inferior a su derecha.",
+  ramas:"Viscerales: tronco celíaco, mesentéricas superior e inferior, suprarrenales, renales y gonadales. Parietales: frénicas inferiores y lumbares. Terminales: ilíacas comunes.",
+  irriga:"Vísceras del abdomen, pared abdominal posterior, pelvis y miembros inferiores.",
+  clinica:"El aneurisma de aorta abdominal se palpa como una masa que late junto al ombligo; su rotura es mortal si no se opera de inmediato. La bifurcación está a la altura del ombligo."},
+tronco_celiaco:{cat:"arteria", grupo:"Ramas viscerales", nombre:"Tronco celíaco", latin:"Truncus coeliacus",
+  resumen:"Primera rama visceral de la aorta abdominal; tronco corto que irriga los órganos del abdomen superior.",
+  origen:"Cara anterior de la aorta a la altura de T12, justo al salir del diafragma.",
+  trayecto:"Tras 1–2 cm se divide en tres ramas (trípode de Haller).",
+  ramas:"Arteria gástrica izquierda, arteria esplénica y arteria hepática común (que da gastroduodenal, gástrica derecha y hepática propia).",
+  irriga:"Esófago abdominal, estómago, duodeno proximal, hígado, vesícula, páncreas y bazo (intestino anterior).",
+  clinica:"El ligamento arcuato del diafragma puede comprimirlo y causar dolor tras comer. Rodeado por el plexo celíaco, que se bloquea para el dolor del cáncer de páncreas."},
+a_mesenterica_superior:{cat:"arteria", grupo:"Ramas viscerales", nombre:"Arteria mesentérica superior", latin:"Arteria mesenterica superior",
+  resumen:"Gran arteria que irriga todo el intestino delgado y la mitad derecha del colon.",
+  origen:"Cara anterior de la aorta a la altura de L1, 1 cm debajo del tronco celíaco.",
+  trayecto:"Pasa detrás del cuello del páncreas, cruza delante de la tercera porción del duodeno y baja por la raíz del mesenterio hacia la fosa ilíaca derecha.",
+  ramas:"Pancreaticoduodenal inferior, yeyunales e ileales (arcadas), ileocólica (con la apendicular), cólica derecha y cólica media.",
+  irriga:"Desde el duodeno distal hasta dos tercios del colon transverso (intestino medio).",
+  clinica:"Su oclusión (embolia, con frecuencia en fibrilación auricular) causa isquemia mesentérica: dolor abdominal intenso con abdomen blando al principio; es una urgencia."},
+a_mesenterica_inferior:{cat:"arteria", grupo:"Ramas viscerales", nombre:"Arteria mesentérica inferior", latin:"Arteria mesenterica inferior",
+  resumen:"Arteria más pequeña que irriga el colon izquierdo, el sigmoide y la parte alta del recto.",
+  origen:"Cara anterior izquierda de la aorta a la altura de L3.",
+  trayecto:"Baja a la izquierda por el retroperitoneo y cruza los vasos ilíacos comunes izquierdos como arteria rectal superior.",
+  ramas:"Cólica izquierda, sigmoideas y rectal superior.",
+  irriga:"Tercio izquierdo del transverso, colon descendente, sigmoide y recto superior (intestino posterior).",
+  clinica:"Se liga en la cirugía del cáncer de recto y sigmoide. Su unión con la cólica media (arcada de Riolan) puede salvar el colon si se obstruye una de ellas."},
+a_renales:{cat:"arteria", grupo:"Ramas viscerales", nombre:"Arterias renales", latin:"Arteriae renales",
+  resumen:"Dos arterias gruesas que llevan a los riñones casi un cuarto de la sangre que bombea el corazón.",
+  origen:"Caras laterales de la aorta a la altura de L1–L2.",
+  trayecto:"La derecha es más larga y pasa detrás de la vena cava inferior; ambas entran en el hilio renal y se dividen en arterias segmentarias.",
+  ramas:"Suprarrenal inferior, uretérica y segmentarias (sin conexión entre sí).",
+  irriga:"Riñones, parte de las suprarrenales y el uréter proximal.",
+  clinica:"Su estrechamiento (estenosis de arteria renal) causa hipertensión difícil de controlar. Son frecuentes las arterias renales accesorias, importantes en el trasplante."},
+a_iliacas_comunes:{cat:"arteria", grupo:"Grandes vasos", nombre:"Arterias ilíacas comunes", latin:"Arteriae iliacae communes",
+  resumen:"Las dos ramas terminales de la aorta; cada una se divide en ilíaca externa e interna.",
+  origen:"Bifurcación de la aorta a la altura de L4.",
+  trayecto:"Bajan hacia lateral y se dividen delante de la articulación sacroilíaca; el uréter las cruza en ese punto.",
+  ramas:"Ilíaca externa (al miembro inferior) e ilíaca interna (a la pelvis y la región glútea).",
+  irriga:"Pelvis, periné, región glútea y miembros inferiores.",
+  clinica:"La aterosclerosis en la bifurcación (síndrome de Leriche) causa dolor de glúteos al caminar, pulsos femorales débiles e impotencia."},
+a_epigastricas:{cat:"arteria", grupo:"Pared anterior del abdomen", nombre:"Arterias epigástricas superior e inferior", latin:"Arteriae epigastricae superior et inferior",
+  resumen:"Arterias que corren por detrás del recto abdominal y se unen a media altura, conectando la subclavia con la ilíaca externa.",
+  origen:"Superior: continuación de la torácica interna. Inferior: arteria ilíaca externa, justo encima del ligamento inguinal.",
+  trayecto:"Suben y bajan por la cara posterior del recto, dentro de su vaina, hasta unirse cerca del ombligo.",
+  ramas:"Musculares, cutáneas y la arteria cremastérica (inferior).",
+  irriga:"Músculo recto abdominal y piel de la pared anterior del abdomen.",
+  clinica:"La epigástrica inferior separa las hernias inguinales directas (medial a ella) de las indirectas (lateral). Se lesiona al poner trócares de laparoscopia. Si se tapa la aorta, lleva sangre a las piernas como vía colateral."},
+vena_porta:{cat:"vena", grupo:"Sistema porta", nombre:"Vena porta hepática", latin:"Vena portae hepatis",
+  resumen:"Vena que lleva al hígado la sangre del intestino, el estómago, el páncreas y el bazo, cargada de nutrientes.",
+  trayecto:"Se forma detrás del cuello del páncreas por la unión de la vena mesentérica superior y la esplénica (que recibe a la mesentérica inferior); sube en el ligamento hepatoduodenal hasta el hilio hepático.",
+  drena:"Hígado, donde se ramifica en capilares (sinusoides) antes de llegar a las venas hepáticas.",
+  clinica:"En la hipertensión portal (cirrosis) la sangre busca atajos: várices del esófago que pueden sangrar, hemorroides, «cabeza de medusa» y bazo grande. Su trombosis puede dañar el intestino."},
+venas_renales:{cat:"vena", grupo:"Grandes vasos", nombre:"Venas renales", latin:"Venae renales",
+  resumen:"Venas que llevan la sangre filtrada de los riñones a la vena cava inferior.",
+  trayecto:"Salen del hilio por delante de las arterias. La izquierda es tres veces más larga y cruza por delante de la aorta, debajo de la mesentérica superior.",
+  drena:"Vena cava inferior. La izquierda recibe además las venas gonadal y suprarrenal izquierdas.",
+  clinica:"Un tumor de riñón puede crecer dentro de ellas hasta la cava. Por la desembocadura de la gonadal, el varicocele es casi siempre izquierdo."},
+venas_iliacas_comunes:{cat:"vena", grupo:"Grandes vasos", nombre:"Venas ilíacas comunes", latin:"Venae iliacae communes",
+  resumen:"Venas que se unen a la altura de L5 para formar la vena cava inferior.",
+  trayecto:"Cada una se forma por la unión de la ilíaca externa y la interna delante de la sacroilíaca; la izquierda pasa por detrás de la arteria ilíaca común derecha.",
+  drena:"Vena cava inferior.",
+  clinica:"La vena ilíaca común izquierda puede quedar comprimida por la arteria derecha (síndrome de May-Thurner), lo que favorece trombosis en la pierna izquierda."},
+
+/* ================= NERVIOS ================= */
+n_iliohipogastrico_ilioinguinal:{cat:"nervio", grupo:"Plexo lumbar", nombre:"Nervios iliohipogástrico e ilioinguinal", latin:"Nervi iliohypogastricus et ilioinguinalis",
+  resumen:"Los primeros ramos del plexo lumbar; corren paralelos por la pared del abdomen hacia la ingle.",
+  raices:"L1 (con fibras de T12).",
+  trayecto:"Salen por el borde lateral del psoas, cruzan el cuadrado lumbar, atraviesan el transverso cerca de la cresta ilíaca y avanzan entre los músculos planos; el ilioinguinal recorre el conducto inguinal y sale por el anillo superficial.",
+  inerva:"Oblicuo interno y transverso; piel de la región suprapúbica y de la cadera (iliohipogástrico), de la ingle, la raíz del pene o del monte de Venus y la parte medial del muslo (ilioinguinal).",
+  clinica:"Pueden lesionarse en la reparación de hernias inguinales o en incisiones bajas (cesárea), dejando dolor o adormecimiento en la ingle. Se bloquean para la anestesia de la hernia inguinal."},
+n_genitofemoral:{cat:"nervio", grupo:"Plexo lumbar", nombre:"Nervio genitofemoral", latin:"Nervus genitofemoralis",
+  resumen:"Nervio que atraviesa el psoas y baja sobre él; se divide en un ramo genital y uno femoral.",
+  raices:"L1–L2.",
+  trayecto:"Perfora la cara anterior del psoas, baja sobre él y, cerca del ligamento inguinal, se divide: el ramo genital entra en el conducto inguinal y el femoral pasa bajo el ligamento al muslo.",
+  inerva:"Músculo cremáster y piel del escroto o labio mayor (ramo genital); piel del triángulo femoral (ramo femoral).",
+  clinica:"Es la vía eferente del reflejo cremastérico: al rozar la cara interna del muslo se eleva el testículo; su ausencia orienta a torsión testicular."},
+plexos_autonomos_abdominales:{cat:"nervio", grupo:"Sistema nervioso autónomo", nombre:"Plexos autónomos abdominales", latin:"Plexus coeliacus, mesentericus et hypogastricus",
+  resumen:"Redes de nervios y ganglios alrededor de la aorta abdominal que controlan las vísceras.",
+  raices:"Nervios esplácnicos torácicos (T5–T12) y lumbares (simpático), vagos y nervios esplácnicos pélvicos S2–S4 (parasimpático).",
+  trayecto:"El plexo celíaco, con sus dos ganglios, rodea el tronco celíaco; sigue hacia abajo como plexos mesentéricos y aórtico, y bajo la bifurcación forma el plexo hipogástrico superior, que se divide hacia la pelvis.",
+  inerva:"Estómago, intestinos, hígado, páncreas, riñones, suprarrenales, vejiga, recto y órganos genitales.",
+  clinica:"El bloqueo o la neurólisis del plexo celíaco alivia el dolor del cáncer de páncreas. La lesión del plexo hipogástrico en cirugías de la pelvis puede afectar la eyaculación y la función de la vejiga."}
+});
+
+/* Región 7: abdomen y pelvis */
+(function(){
+  var ab = ["higado", "vesicula_biliar", "estomago", "bazo", "pancreas", "duodeno", "intestino_delgado", "colon", "apendice", "recto", "rinon_derecho", "rinon_izquierdo", "glandulas_suprarrenales", "ureteres", "vejiga",
+    "recto_abdominal", "oblicuo_externo", "oblicuo_interno", "transverso_abdomen", "piramidal_abdomen", "elevador_ano", "coccigeo", "linea_alba", "lig_falciforme",
+    "aorta_abdominal", "tronco_celiaco", "a_mesenterica_superior", "a_mesenterica_inferior", "a_renales", "a_iliacas_comunes", "a_epigastricas", "vena_porta", "venas_renales", "venas_iliacas_comunes",
+    "n_iliohipogastrico_ilioinguinal", "n_genitofemoral", "plexos_autonomos_abdominales"];
+  ab.forEach(function(id){ if(DATA[id]) DATA[id].reg = ["abdomen"]; });
+  var add = function(id){ if(DATA[id] && DATA[id].reg.indexOf("abdomen") < 0) DATA[id].reg.push("abdomen"); };
+  ["vena_cava_inferior", "tronco_simpatico", "esofago", "diafragma", "n_vago", "psoas_mayor", "iliaco", "cuadrado_lumbar", "lig_inguinal", "a_iliaca_externa", "a_iliaca_interna", "n_femoral", "n_obturador", "hueso_coxal", "sacro", "vertebras_lumbares", "costillas", "fascia_toracolumbar"].forEach(add);
+  REGIONES.forEach(function(r){ if(r.id === "abdomen") r.listo = true; });
+})();
+RGRUPO.abdomen = "ax";
+RINFO.abdomen = {nombre:"Abdomen y pelvis", n:7, sub:"Tronco", desc:"Pared abdominal y suelo pélvico, órganos digestivos (hígado, estómago, páncreas, bazo, intestinos), riñones, uréteres y vejiga, con la aorta abdominal y sus ramas, el sistema porta y los nervios de la pared.",
+  inicio:["higado", "estomago", "rinon_derecho", "recto_abdominal", "a_mesenterica_superior", "vena_porta"], home:{tx:0, ty:-38, tz:-3, dist:95, yaw:.3, pitch:.06}};
+
+/* =====================================================================
    GEOMETRÍA: tubos de radio variable, elipsoides, toroides, placas, lofts
    ===================================================================== */
 var G = (function(){
@@ -4071,7 +4376,7 @@ var MODEL = (function(){
 
   /* =================== VASOS =================== */
   function vessel(id, paths, r, vein){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r, col:vein ? COL.vein : COL.art, rad:7, revT:!!vein, t0:p.t0 || 0}); }); push(id, gg, {layer:vein ? "vena" : "arteria", flow:1, flowC:vein ? [.6, .78, 1] : [1, .6, .5], speed:vein ? .35 : .75}); }
-  vessel("a_iliaca_externa", [{pts:[[1.4, -38.6, -6.4], [3.6, -42.4, -6.8], [5.6, -46.4, -4.6], [7.0, -50.2, .2], [7.5, -52.0, 2.2]], t0:0}], .5);
+  vessel("a_iliaca_externa", [{pts:[[2.6, -41.6, -6.9], [3.6, -42.4, -6.8], [5.6, -46.4, -4.6], [7.0, -50.2, .2], [7.5, -52.0, 2.2]], t0:0}], .5);
   vessel("a_iliaca_interna", [{pts:[[3.6, -42.4, -6.8], [3.8, -45.4, -8.6], [4.4, -47.6, -9.6]], t0:4}], .38);
   vessel("a_glutea_superior", [{pts:[[4.4, -47.6, -9.6], [5.8, -48.4, -12.0], [8.4, -46.8, -12.4], [11.4, -45.8, -10.2], [13.2, -45.6, -6.0]], t0:9}], .24);
   vessel("a_glutea_inferior", [{pts:[[4.4, -47.6, -9.6], [5.0, -51.0, -11.0], [5.8, -53.0, -12.6], [7.8, -55.4, -15.0], [9.6, -58.6, -14.6]], t0:9}], .2);
@@ -4488,6 +4793,109 @@ var MODEL = (function(){
 })();
 
 /* =====================================================================
+   MODELO · REGIÓN 7: ABDOMEN Y PELVIS
+   ===================================================================== */
+(function(){
+  var V = G.v, add = V.add, sub = V.sub, sc = V.sc, nrm = V.nrm, lerp = V.lerp, COL = MODEL.COL, L = MODEL.list;
+  function entry(id){ for(var i = 0; i < L.length; i++) if(L[i].id === id) return L[i]; return null; }
+  function push(id, g, opt){ L.push({id:id, g:g, opt:opt || {}}); }
+  var S2 = [1, -1], g;
+  var C = {liver:[.55, .2, .17], gall:[.38, .6, .32], stom:[.86, .55, .52], spleen:[.48, .18, .3], panc:[.93, .78, .56], gut:[.92, .66, .6], colon:[.84, .58, .46], kid:[.6, .22, .2], adr:[.9, .7, .34], uret:[.93, .85, .62], blad:[.9, .74, .56], tendon:[.88, .9, .86]};
+  function rib(n, f, side){
+    var a = [7.5, 10, 11.5, 12.5, 13, 13.4, 13.5, 13.4, 13, 12.4, 12, 11.5][n - 1], b = [5.5, 7, 7.6, 8, 8.2, 8.3, 8.3, 8.2, 8, 7.8, 7.4, 7][n - 1];
+    var yp = 2.8 - (n - 1) * 2.65, ph = f * Math.PI, s = Math.sin(ph), c = Math.cos(ph);
+    return [(side || 1) * (2 + (a - 2) * s), yp - 4 * (1 - c) / 2 - 1.5 * s, (3 - b) - b * c];
+  }
+  function X(p, s){ return [p[0] * s, p[1], p[2]]; }
+  // Superficie a partir de secciones (igual que en el tórax)
+  function organ(gg, secs, col, ring, e){
+    ring = ring || 26; e = e || 2;
+    var fine = [], k, j;
+    for(k = 0; k < secs.length - 1; k++) for(j = 0; j < 4; j++){ var a = secs[k], b = secs[k + 1], t = j / 4, sm = t * t * (3 - 2 * t), q = {}; ["y", "cx", "cz", "rx", "rz"].forEach(function(f){ q[f] = a[f] + (b[f] - a[f]) * (f === "y" ? t : sm); }); fine.push(q); }
+    fine.push(secs[secs.length - 1]);
+    var base = gg.p.length / 3;
+    fine.forEach(function(s){ for(var r = 0; r < ring; r++){ var th = r / ring * Math.PI * 2, c = Math.cos(th), sn = Math.sin(th), pc = Math.sign(c) * Math.pow(Math.abs(c), 2 / e), ps = Math.sign(sn) * Math.pow(Math.abs(sn), 2 / e); gg.p.push(s.cx + s.rx * pc, s.y, s.cz + s.rz * ps); gg.n.push(0, 0, 0); gg.c.push(col[0], col[1], col[2]); gg.t.push(0); } });
+    var nr = fine.length;
+    for(k = 0; k < nr - 1; k++) for(j = 0; j < ring; j++){ var i0 = base + k * ring + j, i1 = base + k * ring + (j + 1) % ring; gg.i.push(i0, i0 + ring, i1, i1, i0 + ring, i1 + ring); }
+    [0, nr - 1].forEach(function(kk, w){ var s = fine[kk], ci = gg.p.length / 3; gg.p.push(s.cx, s.y, s.cz); gg.n.push(0, 0, 0); gg.c.push(col[0], col[1], col[2]); gg.t.push(0); for(j = 0; j < ring; j++){ var a = base + kk * ring + j, b = base + kk * ring + (j + 1) % ring; if(w) gg.i.push(ci, b, a); else gg.i.push(ci, a, b); } });
+    var P = gg.p, N = gg.n, I = gg.i;
+    for(k = 0; k < I.length; k += 3){ var A = I[k], B = I[k + 1], Cc = I[k + 2]; if(A < base) continue; var pa = [P[A * 3], P[A * 3 + 1], P[A * 3 + 2]], fn = V.cross(sub([P[B * 3], P[B * 3 + 1], P[B * 3 + 2]], pa), sub([P[Cc * 3], P[Cc * 3 + 1], P[Cc * 3 + 2]], pa)); [A, B, Cc].forEach(function(v){ N[v * 3] += fn[0]; N[v * 3 + 1] += fn[1]; N[v * 3 + 2] += fn[2]; }); }
+    for(k = base; k < P.length / 3; k++){ var nn = nrm([N[k * 3], N[k * 3 + 1], N[k * 3 + 2]]); N[k * 3] = nn[0]; N[k * 3 + 1] = nn[1]; N[k * 3 + 2] = nn[2]; }
+  }
+  function org(id, fn, opt){ var gg = G.B(); fn(gg); push(id, gg, Object.assign({layer:"organo"}, opt || {})); }
+
+  /* =================== ÓRGANOS =================== */
+  org("higado", function(gg){ organ(gg, [{y:-19.4, cx:6.6, cz:-3.8, rx:3.2, rz:3.6}, {y:-20.6, cx:4.6, cz:-3.8, rx:7.6, rz:6.0}, {y:-23.2, cx:3.6, cz:-3.6, rx:9.4, rz:6.9}, {y:-25.8, cx:4.4, cz:-4.0, rx:8.0, rz:6.2}, {y:-28.4, cx:6.6, cz:-4.6, rx:5.4, rz:4.8}, {y:-30.4, cx:8.0, cz:-5.0, rx:2.8, rz:2.8}, {y:-31.1, cx:8.2, cz:-5.2, rx:.5, rz:.5}], C.liver, 30, 2.4); });
+  org("vesicula_biliar", function(gg){ G.ellBetween(gg, [6.6, -29.4, 1.8], [5.0, -26.2, -1.4], .95, .85, C.gall); G.tube(gg, [[5.0, -26.2, -1.4], [4.0, -27.6, -2.8], [3.6, -31.2, -3.8], [3.9, -35.0, -4.6]], {r:.22, col:C.gall, rad:6}); });
+  org("estomago", function(gg){ G.tube(gg, [[-4.4, -22.6, -4.0], [-5.9, -25.0, -3.0], [-6.5, -28.2, -1.6], [-5.5, -31.4, .2], [-3.2, -33.4, 1.0], [-.6, -33.6, 1.0], [1.6, -32.6, .2], [2.7, -31.6, -.4]],
+    {r:function(u){ var a = [2.0, 2.9, 3.0, 2.7, 2.2, 1.6, 1.1, .85], f = u * (a.length - 1), i = Math.min(a.length - 2, Math.floor(f)), k = f - i; return a[i] + (a[i + 1] - a[i]) * k; }, col:C.stom, rad:20, seg:60, caps:true}); G.tube(gg, [[-2.0, -26.8, -4.6], [-3.0, -26.4, -4.0]], {r:.75, col:C.stom, rad:12}); });
+  org("bazo", function(gg){ G.ellBetween(gg, [-8.4, -22.8, -10.6], [-10.4, -28.6, -6.4], 2.3, 1.4, C.spleen); });
+  org("pancreas", function(gg){ G.tube(gg, [[3.4, -37.0, -4.4], [2.4, -35.2, -4.8], [.2, -33.6, -5.6], [-3.0, -31.6, -6.4], [-6.0, -30.0, -7.0], [-8.0, -28.6, -7.4]], {r:function(u){ return u < .25 ? 1.6 : 1.25 - u * .6; }, col:C.panc, rad:14, caps:true, flatX:.7}); });
+  org("duodeno", function(gg){ G.tube(gg, [[2.7, -31.6, -.4], [4.2, -32.0, -2.0], [5.0, -34, -4.0], [5.0, -38, -4.4], [3.4, -39.8, -5.0], [0, -39.8, -5.2], [-2.4, -38.2, -4.6], [-2.9, -35.8, -3.4]], {r:.92, col:C.gut, rad:14, seg:50}); });
+  org("intestino_delgado", function(gg){
+    var pts = [[-2.9, -35.8, -3.4]], N = 220;
+    for(var i = 1; i <= N; i++){ var t = i / N, x = 6.2 * Math.sin(t * 9.5 * Math.PI + .4) * (.75 + .25 * Math.cos(t * 3)), y = -36.4 - t * 12.6 + 1.3 * Math.sin(t * 31), z = -.8 + 2.6 * Math.cos(t * 6.3 * Math.PI) - t * .6;
+      pts.push(lerp([x, y, z], [6.4, -46.6, -1.6], Math.pow(t, 9))); }
+    G.tube(gg, pts, {r:.88, col:C.gut, rad:10, seg:520});
+  });
+  org("colon", function(gg){
+    var CP = [[7.4, -48.2, -2.0], [8.4, -44, -3.8], [8.8, -38, -4.8], [8.8, -32, -5.0], [7.8, -30.4, -3.8], [5.2, -32.4, 1.4], [1.6, -35.2, 3.0], [-2.6, -34.4, 2.6], [-6.4, -30.2, .2], [-8.6, -27.8, -4.4], [-9.2, -32, -6.2], [-9.0, -38, -6.0], [-8.8, -44, -5.4], [-7.4, -48.6, -3.2], [-4.4, -50.4, -2.2], [-1.6, -50.6, -5.0], [.2, -50.6, -9.6], [.6, -50.4, -12.0]];
+    G.tube(gg, CP, {r:function(u){ var base = u < .06 ? 2.5 : u < .35 ? 2.1 : u < .8 ? 1.85 : 1.5; return base * (1 + .1 * Math.sin(u * 150)); }, col:C.colon, rad:16, seg:280, caps:true});
+  });
+  org("apendice", function(gg){ G.tube(gg, [[6.6, -49.4, -2.8], [6.2, -51.0, -3.4], [5.4, -52.4, -3.4], [5.0, -53.0, -2.8]], {r:.3, col:C.colon, rad:8, caps:true}); });
+  org("recto", function(gg){ G.tube(gg, [[.6, -50.4, -12.0], [.2, -53.0, -12.0], [0, -55.6, -10.8], [0, -57.6, -8.8], [0, -59.0, -7.4], [0, -60.4, -6.4]], {r:function(u){ return u < .7 ? 1.5 + Math.sin(u * 4.5) * .2 : 1.4 - (u - .7) * 2.4; }, col:C.colon, rad:14, caps:true}); });
+  org("rinon_derecho", function(gg){ G.ellBetween(gg, [4.9, -28.8, -10.8], [6.4, -39.2, -9.8], 2.85, 1.65, C.kid); G.ell(gg, [3.9, -34.2, -9.6], .9, 1.4, .8, [.8, .7, .62], 8, 10); });
+  org("rinon_izquierdo", function(gg){ G.ellBetween(gg, [-4.8, -27.2, -10.8], [-6.3, -37.6, -9.8], 2.85, 1.65, C.kid); G.ell(gg, [-3.8, -32.6, -9.6], .9, 1.4, .8, [.8, .7, .62], 8, 10); });
+  org("glandulas_suprarrenales", function(gg){ G.ell(gg, [4.3, -27.4, -10.0], .8, 1.3, .55, C.adr, 8, 10); G.ell(gg, [-4.0, -26.6, -9.6], 1.0, 1.4, .55, C.adr, 8, 10); });
+  org("ureteres", function(gg){ S2.forEach(function(s){ var y0 = s > 0 ? -34.6 : -33.0; G.tube(gg, [[s * 3.6, y0, -9.6], [s * 3.7, -38, -8.8], [s * 3.9, -42, -8.2], [s * 4.4, -47, -7.6], [s * 5.0, -52.6, -6.4], [s * 3.8, -55.6, -3.2], [s * 2.0, -56.4, -1.8]], {r:.24, col:C.uret, rad:6}); }); });
+  org("vejiga", function(gg){ G.ell(gg, [0, -55.2, -1.0], 3.0, 2.3, 2.6, C.blad, 16, 20); G.tube(gg, [[0, -57.2, -.6], [0, -59.0, .2]], {r:.4, col:C.blad, rad:8, caps:true}); });
+
+  /* =================== MÚSCULOS =================== */
+  var seed = 11101;
+  function mus(id, deep, parts){ var gg = G.B(); G.muscle(gg, {parts:parts}, seed += 191, {m:deep ? COL.musDeep : COL.mus, t:COL.ten}); push(id, gg, {layer:deep ? "profundo" : "superficial"}); }
+  mus("recto_abdominal", false, S2.map(function(s){ return {o:[X([1.4, -19.6, 3.4], s), X([3.6, -20.0, 3.7], s), X([6.0, -21.2, 3.3], s)], v:[[X([1.4, -30, 3.3], s), X([3.6, -30, 3.7], s), X([5.6, -30, 3.1], s)], [X([1.3, -44, 3.8], s), X([3.0, -44, 3.9], s), X([4.3, -44, 3.5], s)]], i:[X([.8, -55.5, 3.1], s), X([2.3, -55.4, 3.0], s)], n:13, r:.6, belly:[.03, .95], rt:.2, rad:6, seg:40}; }));
+  mus("oblicuo_externo", false, S2.map(function(s){ return {o:[5, 6, 7, 8, 9, 10, 11, 12].map(function(n){ return add(rib(n, n < 10 ? .52 : .4, s), [0, 0, .3]); }), v:[[X([10.6, -22, 2.4], s), X([12.4, -27, 1.4], s), X([13.6, -32, -.2], s), X([14.0, -37, -2.0], s), X([13.8, -41, -3.4], s)]], i:[X([5.8, -24, 4.0], s), X([5.8, -30, 3.8], s), X([5.4, -36, 3.8], s), X([5.2, -42, 4.0], s), X([5.8, -47, 4.4], s), X([11.8, -46.4, 1.6], s), X([13.6, -43.6, -1.6], s)], n:20, r:.42, belly:[.04, .6], rt:.12, rad:6, seg:24}; }));
+  mus("oblicuo_interno", true, S2.map(function(s){ return {o:[X([11.4, -42.6, -8.6], s), X([13.4, -43.4, -4.4], s), X([13.0, -45.6, -.4], s), X([11.0, -48.4, 2.4], s), X([8.6, -51.0, 3.0], s)], v:[[X([12.8, -38, -4.4], s), X([13.0, -38, -2.0], s), X([11.6, -40, .6], s), X([9.0, -43, 2.4], s), X([6.6, -47, 3.2], s)]], i:[add(rib(12, .3, s), [0, -.4, .2]), add(rib(11, .5, s), [0, -.4, .2]), add(rib(10, .62, s), [0, -.4, .2]), X([5.4, -28, 3.1], s), X([5.2, -36, 3.2], s), X([4.6, -46, 3.6], s), X([2.6, -53.6, 3.0], s)], n:18, r:.38, belly:[.04, .66], rt:.1, rad:6, seg:24}; }));
+  mus("transverso_abdomen", true, S2.map(function(s){ return {o:[X([9.4, -23.6, -6.6], s), X([10.6, -29, -9.4], s), X([10.4, -35, -10.4], s), X([11.4, -41.2, -7.6], s), X([12.2, -45.6, -1.6], s)], v:[[X([12.4, -24, -1.2], s), X([13.0, -29, -2.6], s), X([12.8, -35, -2.6], s), X([13.0, -41, -.6], s), X([11.6, -46.4, 1.6], s)]], i:[X([5.2, -24, 2.6], s), X([5.0, -30, 2.4], s), X([4.9, -36, 2.5], s), X([4.6, -42, 2.8], s), X([3.0, -49, 2.6], s)], n:18, r:.34, belly:[.05, .7], rt:.1, rad:6, seg:24}; }));
+  mus("piramidal_abdomen", false, S2.map(function(s){ return {o:[X([.7, -55.3, 3.3], s), X([2.0, -55.3, 3.3], s)], i:[X([.3, -49.4, 3.9], s)], n:4, r:.28, belly:[.05, .95], rt:.08, rad:6}; }));
+  mus("elevador_ano", true, S2.map(function(s){ return {o:[X([1.4, -57.6, 1.2], s), X([3.6, -56.2, -.8], s), X([4.5, -55.4, -4.2], s), X([4.8, -55.5, -8.0], s)], i:[X([.5, -59.8, -4.4], s), X([.5, -60.2, -6.4], s), X([.3, -59.8, -8.8], s), [.15, -57.9, -11.4]], b:[0, -1.3, 0], n:14, r:.34, belly:[.05, .95], rt:.1, rad:6}; }));
+  mus("coccigeo", true, S2.map(function(s){ return {o:[X([4.8, -55.6, -8.8], s)], i:[X([.9, -56.0, -12.6], s), X([.7, -57.4, -12.2], s)], n:6, r:.3, belly:[.05, .95], rt:.1, rad:6}; }));
+
+  /* =================== LIGAMENTOS =================== */
+  (function(){ var gg = G.B(); var front = function(y){ return y > -24 ? 3.6 : y > -40 ? 3.4 + (y + 24) * -.02 : 3.8; };
+    G.tube(gg, [-19.6, -24, -30, -36, -42, -48, -55.6].map(function(y){ return [0, y, front(y) + .1]; }), {r:.24, col:COL.lig, rad:6, flatX:3, caps:true, seg:60});
+    [-26.4, -31.6, -37.2].forEach(function(y){ S2.forEach(function(s){ G.tube(gg, [[s * .3, y, front(y) + .3], [s * 3.4, y + .2, front(y) + .7], [s * 5.6, y, front(y) + .1]], {r:.13, col:COL.lig, rad:5, flatX:2.5}); }); });
+    S2.forEach(function(s){ G.tube(gg, [[s * 6.0, -21, 3.4], [s * 5.8, -30, 3.0], [s * 5.4, -40, 3.4], [s * 4.0, -50, 3.6], [s * 2.6, -55.2, 3.0]], {r:.15, col:COL.lig, rad:5, flatX:2}); });
+    push("linea_alba", gg, {layer:"ligamento"}); })();
+  (function(){ var gg = G.B(); G.plate(gg, [1.2, -20.6, 2.2], [1.4, -28.6, 2.0], [.4, -38.6, 2.8], .12, [0, 0, 0], COL.lig, 6); G.tube(gg, [[1.4, -28.6, 2.0], [.8, -33, 2.4], [.4, -38.6, 2.8]], {r:.18, col:COL.lig, rad:5}); push("lig_falciforme", gg, {layer:"ligamento", op:.8}); })();
+
+  /* =================== VASOS =================== */
+  function vessel(id, paths, r, vein, col){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r, col:col || (vein ? COL.vein : COL.art), rad:p.rad || 8, revT:!!vein, t0:p.t0 || 0}); }); push(id, gg, {layer:vein ? "vena" : "arteria", flow:1, flowC:vein ? [.6, .78, 1] : [1, .6, .5], speed:vein ? .35 : .75}); }
+  vessel("aorta_abdominal", [{pts:[[-.5, -27.8, -7.8], [-.6, -32, -7.3], [-.6, -36, -7.0], [-.4, -39.8, -6.8]], r:.95, t0:40}]);
+  vessel("tronco_celiaco", [{pts:[[-.5, -28.6, -6.9], [-.3, -28.8, -5.2]], r:.42, t0:42}, {pts:[[-.3, -28.8, -5.2], [-1.8, -27.6, -4.4], [-3.4, -26.6, -3.2], [-4.6, -26.0, -2.0]], r:.24, t0:44}, {pts:[[-.3, -28.8, -5.2], [-3.0, -29.2, -6.0], [-6.0, -28.4, -7.4], [-8.4, -26.4, -8.4]], r:.3, t0:44}, {pts:[[-.3, -28.8, -5.2], [1.6, -29.2, -4.6], [3.6, -28.6, -3.8], [4.6, -27.4, -3.2], [5.0, -26.0, -2.6]], r:.28, t0:44}, {pts:[[2.6, -29.0, -4.2], [3.0, -31.0, -2.0], [2.4, -32.2, .8], [-1.6, -32.4, 2.4]], r:.16, t0:46}]);
+  vessel("a_mesenterica_superior", [{pts:[[-.5, -30.6, -6.8], [-.1, -32.4, -4.6], [.2, -35, -3.4], [.6, -38.6, -2.4], [1.6, -43, -1.6], [4.4, -46.4, -1.6], [6.2, -47.4, -2.0]], r:.42, t0:44},
+    {pts:[[.4, -37, -2.8], [-2.6, -38.6, -1.4], [-4.8, -40.4, -.6]], r:.18, t0:48}, {pts:[[.6, -40, -2.2], [-2.6, -42.6, -.8], [-4.2, -45, -.2]], r:.18, t0:48}, {pts:[[.9, -42, -2.0], [-1.6, -46, -.6], [-2.4, -48.6, -.4]], r:.16, t0:49},
+    {pts:[[.2, -35, -3.4], [2.6, -34.4, -.6], [3.8, -33.8, 1.4]], r:.18, t0:47}, {pts:[[.8, -39, -2.4], [4.4, -38.6, -3.2], [7.6, -38.6, -4.4]], r:.18, t0:48}]);
+  vessel("a_mesenterica_inferior", [{pts:[[-.7, -36.6, -6.8], [-2.0, -38.6, -5.8], [-3.4, -41.4, -5.0], [-4.0, -44, -4.6], [-2.6, -47.6, -6.6], [-.6, -50.4, -9.6]], r:.3, t0:48}, {pts:[[-2.0, -38.6, -5.8], [-5.4, -37.8, -5.6], [-7.8, -36.4, -5.4]], r:.18, t0:50}, {pts:[[-4.0, -44, -4.6], [-6.0, -46.4, -3.6], [-6.6, -48.4, -3.0]], r:.16, t0:52}]);
+  vessel("a_renales", [{pts:[[-.4, -31.8, -7.6], [1.6, -32.4, -8.6], [3.0, -33.2, -9.2], [3.9, -33.8, -9.6]], r:.36, t0:44}, {pts:[[-.7, -31.6, -7.6], [-2.2, -31.4, -8.4], [-3.8, -32.2, -9.4]], r:.36, t0:44}]);
+  vessel("a_iliacas_comunes", [{pts:[[-.4, -39.8, -6.8], [1.2, -40.6, -6.9], [2.6, -41.6, -6.9]], r:.62, t0:46}, {pts:[[-.4, -39.8, -6.8], [-2.0, -41.0, -6.9], [-3.6, -42.4, -6.8], [-5.4, -45.8, -5.0], [-6.8, -49.6, -.6]], r:.55, t0:46}, {pts:[[-3.6, -42.4, -6.8], [-3.8, -45.4, -8.6], [-4.4, -47.6, -9.6]], r:.36, t0:49}]);
+  vessel("a_epigastricas", S2.map(function(s){ return {pts:[X([6.6, -50.6, 2.0], s), X([4.8, -47, 2.6], s), X([3.8, -41, 2.4], s), X([3.4, -34, 2.4], s), X([3.4, -27, 2.4], s), X([3.2, -20.4, 2.4], s)], r:.15, t0:56}; }));
+  vessel("vena_porta", [{pts:[[1.2, -34.2, -4.8], [2.2, -32.0, -4.6], [3.6, -29.6, -4.0], [4.6, -27.8, -3.4]], r:.62}, {pts:[[-8.4, -26.8, -7.8], [-6.0, -29.0, -7.4], [-3.0, -30.6, -6.8], [-.4, -33.0, -5.6], [1.2, -34.2, -4.8]], r:.42}, {pts:[[5.4, -46.0, -1.0], [2.2, -43.4, -1.0], [1.4, -39.2, -2.0], [1.2, -36.0, -3.4], [1.2, -34.2, -4.8]], r:.48}, {pts:[[-1.6, -46.6, -2.6], [-2.6, -41.4, -4.4], [-2.4, -36.6, -6.0], [-1.6, -32.4, -6.6]], r:.26}], .5, true);
+  vessel("venas_renales", [{pts:[[3.8, -33.4, -9.4], [2.6, -32.8, -8.4], [1.6, -32.2, -7.2]], r:.42}, {pts:[[-3.8, -31.8, -9.4], [-2.4, -31.6, -7.4], [-.6, -31.6, -5.6], [1.6, -32.0, -6.4]], r:.42}], .42, true);
+  vessel("venas_iliacas_comunes", [{pts:[[3.0, -42.0, -7.4], [2.2, -41.6, -7.2], [1.6, -41.2, -7.0]], r:.6}, {pts:[[-6.6, -49.8, -.8], [-5.0, -46, -4.8], [-3.6, -43.6, -7.2], [-2.0, -41.8, -7.6], [1.6, -41.2, -7.0]], r:.55}], .6, true);
+  var ivc = entry("vena_cava_inferior"); if(ivc) G.tube(ivc.g, [[1.6, -41.2, -7.0], [1.7, -36, -7.1], [1.7, -31, -6.9], [1.6, -27.6, -6.4]], {r:.92, col:COL.vein, rad:10, revT:true});
+
+  /* =================== NERVIOS =================== */
+  function nerve(id, paths, r){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r || .14, col:COL.nerve, rad:6, t0:p.t0 || 0}); (p.gang || []).forEach(function(q){ G.ell(gg, q[0], q[1], q[1] * .7, q[1] * .8, COL.nerve, 6, 8); }); }); push(id, gg, {layer:"nervio", flow:1, flowC:[1, .96, .62], speed:.9}); }
+  nerve("n_iliohipogastrico_ilioinguinal", [].concat.apply([], S2.map(function(s){ return [{pts:[X([4.4, -29.6, -9.2], s), X([7.6, -33.6, -10.6], s), X([10.8, -39, -8.4], s), X([12.6, -43.2, -3.6], s), X([11.6, -46.4, .4], s), X([7.6, -49.2, 3.2], s), X([4.0, -50.8, 3.6], s)], r:.13},
+    {pts:[X([4.6, -30.6, -9.0], s), X([7.8, -35.6, -10.2], s), X([11.4, -41.6, -7.2], s), X([12.8, -45, -2.6], s), X([10.6, -48.6, 2.0], s), X([7.0, -51.6, 2.8], s), X([3.6, -54.4, 3.2], s), X([2.6, -56.6, 3.4], s)], r:.13}]; })));
+  nerve("n_genitofemoral", S2.map(function(s){ return {pts:[X([2.8, -33, -8.2], s), X([3.8, -37, -6.4], s), X([4.6, -42, -5.6], s), X([5.6, -47, -2.4], s), X([6.6, -50.2, 1.2], s), X([4.6, -53.6, 2.8], s), X([3.0, -56.2, 3.2], s)], r:.12}; }).concat(S2.map(function(s){ return {pts:[X([6.6, -50.2, 1.2], s), X([7.8, -53.8, 2.6], s), X([8.0, -57, 3.2], s)], r:.1}; })));
+  nerve("plexos_autonomos_abdominales", [{pts:[[-1.6, -28.0, -6.0], [-.4, -27.6, -5.4], [1.0, -28.0, -5.8]], r:.12, gang:[[[-1.8, -28.4, -6.0], .6], [[1.2, -28.6, -6.0], .55]]}, {pts:[[-.4, -27.6, -5.4], [-.4, -31, -5.8], [-.4, -36, -6.2], [-.3, -40.4, -6.2], [-.2, -44, -7.8]], r:.1, gang:[[[-.3, -31.4, -5.6], .35], [[-.5, -37.0, -5.8], .3]]},
+    {pts:[[-.2, -44, -7.8], [1.8, -46.4, -8.6], [3.2, -50, -7.4]], r:.1, gang:[[[-.1, -44.6, -7.8], .5]]}, {pts:[[-.2, -44, -7.8], [-1.8, -46.4, -8.6], [-3.2, -50, -7.4]], r:.1}, {pts:[[2.4, -30.4, -9.2], [1.6, -29.0, -7.0]], r:.09}, {pts:[[-2.4, -30.4, -9.2], [-1.6, -29.0, -7.0]], r:.09}]);
+  var sym = entry("tronco_simpatico"); if(sym) S2.forEach(function(s){ var pts = [X([2.4, -30.4, -9.6], s), X([2.0, -35, -8.0], s), X([1.8, -41, -7.6], s), X([1.4, -47, -10.8], s), X([.7, -52, -12.4], s), [0, -56.4, -12.4]]; G.tube(sym.g, pts, {r:.12, col:COL.nerve, rad:6}); pts.slice(1, 5).forEach(function(q){ G.ell(sym.g, q, .3, .4, .3, COL.nerve, 6, 8); }); });
+})();
+
+/* =====================================================================
    INTERFAZ: capas, explorador, búsqueda, ficha, notas, cuenta y estudio
    ===================================================================== */
 (function(){
@@ -4669,7 +5077,7 @@ IDS.forEach(function(id){ var d = DATA[id], a = [fold(d.nombre.replace(/\s*\(.*\
 Object.assign(ALIAS, {
   escapula:["escapula", "acromion", "coracoides", "espina de la escapula", "cavidad glenoidea", "tuberculo supraglenoideo", "tuberculo infraglenoideo", "fosa supraespinosa", "fosa infraespinosa", "fosa subescapular", "borde medial", "borde lateral", "angulo inferior"],
   humero:["humero", "tuberculo mayor", "tuberculo menor", "surco intertubercular", "tuberosidad deltoidea", "epicondilo", "cresta supracondilea"],
-  cubito:["cubito", "olecranon", "coronoides"], radio:["del radio", "tuberosidad del radio", "radio,", "radio y"], clavicula:["clavicula"], costillas:["costilla"], esternon:["esternon"], vertebras_toracicas:["vertebra toracica", "vertebras toracicas", "apofisis espinosas", "apofisis transversas"], vertebras_cervicales:["vertebra cervical", "cervicales"], atlas:["atlas"], axis:["axis"], medula_espinal:["medula"], discos_intervertebrales:["disco"], hueso_occipital:["occipital", "linea nucal", "mastoides"], corazon:["corazon", "ventriculo", "auricula"], pulmon_derecho:["pulmon derecho"], pulmon_izquierdo:["pulmon izquierdo"], traquea_bronquios:["traquea", "bronquio"], esofago:["esofago"], diafragma:["diafragma"], aorta_toracica:["aorta", "cayado"], n_frenico:["frenico"], n_vago:["vago", "recurrente"], vena_cava_superior:["cava superior"], vena_cava_inferior:["cava inferior"], arterias_coronarias:["coronaria"], a_toracica_interna:["toracica interna"], n_intercostales:["nervio intercostal", "nervios intercostales"], a_vertebral:["arteria vertebral"], multifido:["multifido"], cuadrado_lumbar:["cuadrado lumbar"],
+  cubito:["cubito", "olecranon", "coronoides"], radio:["del radio", "tuberosidad del radio", "radio,", "radio y"], clavicula:["clavicula"], costillas:["costilla"], esternon:["esternon"], vertebras_toracicas:["vertebra toracica", "vertebras toracicas", "apofisis espinosas", "apofisis transversas"], vertebras_cervicales:["vertebra cervical", "cervicales"], atlas:["atlas"], axis:["axis"], medula_espinal:["medula"], discos_intervertebrales:["disco"], hueso_occipital:["occipital", "linea nucal", "mastoides"], corazon:["corazon", "ventriculo", "auricula"], higado:["higado", "hepatic"], estomago:["estomago", "gastric"], bazo:["bazo", "esplenic"], pancreas:["pancrea"], duodeno:["duodeno"], intestino_delgado:["yeyuno", "ileon", "intestino delgado"], colon:["colon", "ciego", "sigmoide"], rinon_derecho:["rinon derecho"], rinon_izquierdo:["rinon izquierdo"], vejiga:["vejiga"], ureteres:["ureter"], vena_porta:["porta"], aorta_abdominal:["aorta abdominal"], linea_alba:["linea alba", "vaina del recto"], pulmon_derecho:["pulmon derecho"], pulmon_izquierdo:["pulmon izquierdo"], traquea_bronquios:["traquea", "bronquio"], esofago:["esofago"], diafragma:["diafragma"], aorta_toracica:["aorta", "cayado"], n_frenico:["frenico"], n_vago:["vago", "recurrente"], vena_cava_superior:["cava superior"], vena_cava_inferior:["cava inferior"], arterias_coronarias:["coronaria"], a_toracica_interna:["toracica interna"], n_intercostales:["nervio intercostal", "nervios intercostales"], a_vertebral:["arteria vertebral"], multifido:["multifido"], cuadrado_lumbar:["cuadrado lumbar"],
   n_axilar:["nervio axilar"], n_musculocutaneo:["musculocutaneo"], n_radial:["nervio radial", "ramo profundo del nervio radial"], n_mediano:["nervio mediano"], n_cubital:["nervio cubital"],
   n_supraescapular:["nervio supraescapular"], n_toracico_largo:["toracico largo"], n_toracodorsal:["nervio toracodorsal"], n_accesorio:["nervio accesorio"], plexo_braquial:["plexo braquial", "fasciculo"],
   a_braquial:["arteria braquial"], a_braquial_profunda:["braquial profunda"], a_axilar:["arteria axilar"], a_subclavia:["arteria subclavia"], a_supraescapular:["arteria supraescapular"],
@@ -5062,9 +5470,9 @@ function iaSistema(ctx, conImg){
   var s = "Eres un anatomista especializado y profesor de anatomía humana dentro de la app «Atlas Anatómico 3D». Responde SIEMPRE en español de México, con la terminología anatómica internacional y el nombre en latín cuando ayude a estudiar.\n" +
     nivel + " " + largo + "\n" +
     "Formato: párrafos cortos, listas con guiones y **negritas** para lo esencial. No uses tablas. Cuando menciones una estructura que existe en el atlas, escríbela como [[id]] con el id exacto de la lista de abajo (la app la convierte en un botón que la muestra en 3D). Usa [[id]] solo con ids de la lista; las demás estructuras escríbelas normal.\n" +
-    "Puedes responder sobre cualquier parte del cuerpo humano, aunque el modelo 3D por ahora tiene varias regiones: hombro y brazo, antebrazo y mano, cadera y muslo, rodilla, pierna y pie, columna y espalda, y tórax. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
+    "Puedes responder sobre cualquier parte del cuerpo humano, aunque el modelo 3D por ahora tiene varias regiones: hombro y brazo, antebrazo y mano, cadera y muslo, rodilla, pierna y pie, columna y espalda, tórax, y abdomen y pelvis. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
     "Si te piden preguntas de examen, numéralas y pon las respuestas al final. Si te piden mnemotecnias, que sean en español.\n\n" +
-    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares); 3) cadera y muslo (pelvis, glúteos, rotadores, iliopsoas, cuádriceps, aductores, isquiotibiales, plexo lumbosacro); 4) rodilla, pierna y pie (cruzados, meniscos, compartimentos de la pierna, tobillo y capas plantares); 5) columna y espalda (vértebras, discos, músculos profundos de la espalda, ligamentos vertebrales, médula espinal y nervios espinales); 6) tórax (corazón, pulmones, tráquea, esófago, diafragma, intercostales, grandes vasos, nervios frénico, vago e intercostales). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
+    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares); 3) cadera y muslo (pelvis, glúteos, rotadores, iliopsoas, cuádriceps, aductores, isquiotibiales, plexo lumbosacro); 4) rodilla, pierna y pie (cruzados, meniscos, compartimentos de la pierna, tobillo y capas plantares); 5) columna y espalda (vértebras, discos, músculos profundos de la espalda, ligamentos vertebrales, médula espinal y nervios espinales); 6) tórax (corazón, pulmones, tráquea, esófago, diafragma, intercostales, grandes vasos, nervios frénico, vago e intercostales); 7) abdomen y pelvis (pared abdominal, suelo pélvico, hígado, estómago, páncreas, bazo, intestinos, riñones, vejiga, aorta abdominal y sistema porta). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
     "Estructuras del atlas (id = nombre):\n" + lista + "\n\nCapas visibles ahora en pantalla: " + (vis.length > 40 ? vis.length + " estructuras" : vis.join(", ")) + ".";
   if(ctx && DATA[ctx]) s += "\n\nLa persona tiene seleccionada esta estructura (úsala como contexto si la pregunta no dice otra cosa): " + fichaTexto(ctx);
   if(conImg) s += "\n\nCon el último mensaje va una imagen de la vista 3D que la persona está viendo en el atlas (modelo esquemático: músculos en rojo, nervios amarillos, arterias rojas, venas azules, huesos color marfil, ligamentos azul claro, órganos rosados; la estructura seleccionada brilla en turquesa).";
