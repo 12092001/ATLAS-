@@ -378,9 +378,17 @@ details.cpass summary{cursor:pointer;font-weight:500}
   .opts button{padding:9px 10px;font-size:13px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#boot{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;transition:opacity .45s}
+#boot.off{opacity:0;pointer-events:none}
+#boot .bl{display:grid;justify-items:center;gap:10px;text-align:center;color:#cfe3ee;font:14px/1.4 system-ui,sans-serif;padding:0 24px}
+#boot b{font-size:18px;letter-spacing:.2px;color:#fff}
+#boot small{color:#8aa3b5}
+#boot .bs{width:42px;height:42px;border-radius:50%;border:3px solid rgba(95,211,228,.2);border-top-color:var(--accent);animation:bootspin 1s linear infinite}
+@keyframes bootspin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
+<div id="boot"><div class="bl"><div class="bs"></div><b>Atlas Anatómico 3D</b><span id="bootMsg">Preparando el modelo 3D…</span><small>La primera carga puede tardar unos segundos</small></div></div>
 <div id="app">
   <canvas id="gl" aria-label="Modelo anatómico 3D: arrastra para girar, pellizca o usa la rueda para acercar, toca una estructura para ver su ficha"></canvas>
   <div id="labels" aria-hidden="true"></div>
@@ -448,7 +456,7 @@ details.cpass summary{cursor:pointer;font-weight:500}
 <div id="toast" role="status"></div>
 <div id="prev" hidden><div class="prevbar"><button type="button" class="btn" id="prevBack">← Volver</button><b id="prevTit"></b><span class="grow"></span><button type="button" class="btn" id="prevPng">Descargar imágenes</button><button type="button" class="btn pri" id="prevPrint"><svg class="ic" viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimir o guardar PDF</button></div><div id="print"></div></div>
 <style id="pageSize">@page{size:letter portrait;margin:11mm}</style>
-<script>
+<script type="text/plain" id="atlasSrc">
 /* =====================================================================
    FICHAS ANATÓMICAS · Región: hombro y brazo
    Terminología en español (Terminologia Anatomica) con nombre latino.
@@ -3152,15 +3160,670 @@ RINFO.abdomen = {nombre:"Abdomen y pelvis", n:7, sub:"Tronco", desc:"Pared abdom
   inicio:["higado", "estomago", "rinon_derecho", "recto_abdominal", "a_mesenterica_superior", "vena_porta"], home:{tx:0, ty:-38, tz:-3, dist:95, yaw:.3, pitch:.06}};
 
 /* =====================================================================
+   FICHAS ANATÓMICAS · Región 8: cabeza y cuello
+   ===================================================================== */
+Object.assign(DATA, {
+/* ================= HUESOS ================= */
+hueso_frontal:{cat:"hueso", grupo:"Cráneo · neurocráneo", nombre:"Hueso frontal", latin:"Os frontale",
+  resumen:"Hueso de la frente que forma el techo de las órbitas y la parte anterior de la bóveda del cráneo.",
+  partes:"Escama (frente) con eminencias frontales y arcos superciliares, glabela, bordes supraorbitarios con la escotadura o agujero supraorbitario, apófisis cigomáticas, porciones orbitarias (techo de la órbita y piso de la fosa craneal anterior) y seno frontal.",
+  articula:"Con los parietales (sutura coronal), nasales, maxilares, cigomáticos, esfenoides, etmoides y lagrimales.",
+  clinica:"Las fracturas de la frente pueden abrir el seno frontal. El seno frontal se inflama en la sinusitis (dolor sobre las cejas). Presionar la escotadura supraorbitaria duele y sirve para valorar la respuesta en pacientes inconscientes."},
+huesos_parietales:{cat:"hueso", grupo:"Cráneo · neurocráneo", nombre:"Huesos parietales", latin:"Ossa parietalia",
+  resumen:"Dos huesos cuadrados que forman el techo y los lados de la bóveda craneal.",
+  partes:"Cara externa convexa con la eminencia parietal y las líneas temporales superior e inferior; cara interna con surcos de la arteria meníngea media y del seno sagital superior.",
+  articula:"Entre sí (sutura sagital), con el frontal (coronal), el occipital (lambdoidea), el temporal (escamosa) y el ala mayor del esfenoides.",
+  clinica:"Su cara interna lleva las ramas de la arteria meníngea media: una fractura aquí puede romperla y causar un hematoma epidural. En el recién nacido sus bordes dejan las fontanelas anterior y posterior."},
+huesos_temporales:{cat:"hueso", grupo:"Cráneo · neurocráneo", nombre:"Huesos temporales", latin:"Ossa temporalia",
+  resumen:"Huesos de las sienes que contienen el oído y forman la articulación con la mandíbula.",
+  partes:"Porción escamosa con la apófisis cigomática (parte del arco cigomático); porción timpánica con el conducto auditivo externo; porción mastoidea; porción petrosa (peñasco), que aloja el oído medio e interno; apófisis estiloides; fosa mandibular y tubérculo articular.",
+  articula:"Con la mandíbula (articulación temporomandibular) y con los huesos parietal, occipital, esfenoides y cigomático.",
+  clinica:"El pterion, donde se juntan frontal, parietal, temporal y esfenoides, es la zona más delgada del cráneo: un golpe ahí rompe la arteria meníngea media. Las fracturas del peñasco pueden dar sangre o líquido por el oído y parálisis facial."},
+esfenoides:{cat:"hueso", grupo:"Cráneo · base", nombre:"Esfenoides y base del cráneo", latin:"Os sphenoidale",
+  resumen:"Hueso en forma de mariposa en el centro de la base del cráneo, clave de unión entre el cráneo y la cara.",
+  partes:"Cuerpo con el seno esfenoidal y la silla turca (donde se aloja la hipófisis); alas menores con el conducto óptico; alas mayores (sien y pared lateral de la órbita) con los agujeros redondo, oval y espinoso; apófisis pterigoides con sus láminas medial y lateral. Aquí se representa también el piso de las fosas craneales anterior y media.",
+  articula:"Con todos los huesos del neurocráneo y con el vómer, los palatinos, los cigomáticos y el etmoides.",
+  clinica:"Los tumores de la hipófisis se operan entrando por la nariz y el seno esfenoidal. Las fracturas de la base del cráneo dan ojos «de mapache» y sangre por la nariz o los oídos."},
+huesos_cigomaticos:{cat:"hueso", grupo:"Cráneo · cara", nombre:"Huesos cigomáticos", latin:"Ossa zygomatica",
+  resumen:"Los pómulos: forman la prominencia de la mejilla y parte de la órbita.",
+  partes:"Cuerpo, apófisis frontal (borde lateral de la órbita), apófisis temporal (parte anterior del arco cigomático) y superficie orbitaria.",
+  articula:"Con el frontal, el maxilar, el temporal (arco cigomático) y el ala mayor del esfenoides.",
+  clinica:"La fractura del pómulo (en trípode) hunde la mejilla, adormece la mejilla y el labio superior por lesión del nervio infraorbitario y puede causar visión doble. En el arco cigomático se origina el masetero."},
+maxilares:{cat:"hueso", grupo:"Cráneo · cara", nombre:"Maxilares", latin:"Maxillae",
+  resumen:"Los dos huesos del maxilar superior: forman la mayor parte de la cara media, el paladar duro y sostienen los dientes de arriba.",
+  partes:"Cuerpo con el seno maxilar, apófisis frontal, cigomática, palatina (paladar duro) y alveolar (con los alvéolos dentarios); agujero infraorbitario; espina nasal anterior; borde de la abertura nasal.",
+  articula:"Entre sí y con los huesos frontal, nasal, lagrimal, etmoides, cigomático, palatino, vómer y cornete inferior.",
+  clinica:"La sinusitis maxilar duele en la mejilla y en los dientes superiores. Las fracturas de Le Fort separan el maxilar del resto del cráneo. El paladar hendido se debe a que las apófisis palatinas no se unen."},
+huesos_nasales:{cat:"hueso", grupo:"Cráneo · cara", nombre:"Huesos nasales, vómer y cornetes", latin:"Ossa nasalia, vomer et conchae nasales",
+  resumen:"Pequeños huesos del puente de la nariz y de la cavidad nasal, que dividen y calientan el aire que respiramos.",
+  partes:"Huesos nasales (puente de la nariz); tabique nasal óseo (vómer y lámina perpendicular del etmoides); cornetes inferior y medio en la pared lateral de la nariz.",
+  articula:"Con el frontal, los maxilares, el etmoides y el cartílago del tabique.",
+  clinica:"Los huesos nasales son los que más se fracturan de la cara. La desviación del tabique dificulta respirar por un lado. Los cornetes se hinchan en la rinitis y causan congestión."},
+mandibula:{cat:"hueso", grupo:"Cráneo · cara", nombre:"Mandíbula", latin:"Mandibula",
+  resumen:"El hueso de la quijada: el único hueso móvil del cráneo; sostiene los dientes inferiores.",
+  partes:"Cuerpo con la protuberancia mentoniana, los agujeros mentonianos y la porción alveolar; ramas con el ángulo, la apófisis coronoides (temporal), el cóndilo (articulación) y la escotadura mandibular; cara interna con el agujero mandibular y la línea milohioidea.",
+  articula:"Con los temporales (articulación temporomandibular) y con los dientes inferiores.",
+  clinica:"Se fractura a menudo en el cuello del cóndilo y en el ángulo. El dentista anestesia el nervio alveolar inferior junto al agujero mandibular para trabajar en los dientes de abajo. La luxación de la mandíbula deja la boca abierta sin poder cerrarla."},
+dientes:{cat:"hueso", grupo:"Cráneo · cara", nombre:"Dientes", latin:"Dentes",
+  resumen:"Las 32 piezas dentales del adulto (8 por cuadrante): cortan, desgarran y muelen el alimento.",
+  partes:"Por cuadrante: 2 incisivos, 1 canino, 2 premolares y 3 molares. Cada diente tiene corona (esmalte), cuello y raíz (cemento) y por dentro dentina y pulpa con vasos y nervios.",
+  articula:"Con los alvéolos del maxilar y la mandíbula mediante el ligamento periodontal (gonfosis).",
+  clinica:"La caries destruye el esmalte y la dentina; si llega a la pulpa duele mucho. Los terceros molares (muelas del juicio) a menudo quedan retenidos. El dolor de los dientes superiores puede confundirse con sinusitis."},
+hioides:{cat:"hueso", grupo:"Cuello", nombre:"Hueso hioides", latin:"Os hyoideum",
+  resumen:"Hueso en forma de U en la parte alta del cuello que no se articula con ningún otro hueso; sostiene la lengua y la laringe.",
+  partes:"Cuerpo, astas mayores (hacia atrás) y astas menores.",
+  articula:"No tiene articulaciones con otros huesos; está suspendido por músculos y ligamentos (estilohioideo, membrana tirohioidea).",
+  clinica:"Se mueve al tragar. Su fractura es rara y sugiere estrangulamiento. Es punto de referencia para localizar la arteria lingual y la bifurcación de la carótida."},
+
+/* ================= ARTICULACIONES ================= */
+articulacion_temporomandibular:{cat:"ligamento", grupo:"Articulaciones de la cabeza", nombre:"Articulación temporomandibular", latin:"Articulatio temporomandibularis",
+  resumen:"La articulación de la quijada, delante del oído; tiene un disco que permite abrir, cerrar y mover la mandíbula a los lados.",
+  une:"El cóndilo de la mandíbula con la fosa mandibular y el tubérculo articular del temporal, con un disco articular entre ambos; cápsula reforzada por el ligamento lateral.",
+  funcion:"Primero el cóndilo gira (apertura pequeña) y luego se desliza hacia delante con el disco sobre el tubérculo (apertura amplia). Permite también los movimientos de masticación a los lados.",
+  clinica:"El trastorno temporomandibular da dolor, chasquidos y bloqueo al abrir la boca, a menudo por bruxismo (apretar los dientes). Se palpa delante del trago al abrir y cerrar."},
+suturas_craneales:{cat:"ligamento", grupo:"Articulaciones de la cabeza", nombre:"Suturas craneales", latin:"Suturae cranii",
+  resumen:"Uniones fibrosas, casi inmóviles, entre los huesos de la bóveda del cráneo.",
+  une:"Coronal (frontal con parietales), sagital (entre parietales), lambdoidea (parietales con occipital) y escamosa (parietal con temporal).",
+  funcion:"En el bebé permiten que el cráneo se moldee en el parto y crezca con el cerebro; en el adulto se osifican poco a poco.",
+  clinica:"El cierre prematuro de una sutura (craneosinostosis) deforma la cabeza. La fontanela anterior (bregma) se palpa en el lactante y se cierra hacia los 18 meses; si está abultada indica presión alta dentro del cráneo."},
+
+/* ================= ÓRGANOS ================= */
+cerebro:{cat:"organo", grupo:"Sistema nervioso central", nombre:"Cerebro", latin:"Cerebrum",
+  resumen:"La parte más grande del encéfalo: dos hemisferios con corteza plegada donde se forman el pensamiento, el lenguaje, los movimientos voluntarios y las sensaciones.",
+  ubicacion:"Llena la bóveda del cráneo, sobre las fosas craneales anterior y media; separado del cerebelo por la tienda del cerebelo.",
+  partes:"Hemisferios derecho e izquierdo unidos por el cuerpo calloso; lóbulos frontal, parietal, temporal, occipital e ínsula; circunvoluciones y surcos (central o de Rolando, lateral o de Silvio); por dentro sustancia blanca, núcleos basales, tálamo y ventrículos.",
+  funcion:"Lóbulo frontal: movimiento (área motora), planeación, personalidad y habla (área de Broca, lado izquierdo). Parietal: tacto y posición del cuerpo. Temporal: audición, memoria y comprensión del lenguaje (área de Wernicke). Occipital: visión.",
+  irrigacion:"Arterias cerebrales anterior, media y posterior, unidas en el polígono de Willis. Drena por las venas cerebrales a los senos de la duramadre.",
+  inervacion:"Es el propio centro nervioso; sus envolturas (duramadre) reciben ramos del trigémino y del vago, por eso duele la cabeza aunque el tejido cerebral no sienta dolor.",
+  clinica:"Un infarto cerebral de la arteria cerebral media causa debilidad y pérdida de sensibilidad del lado opuesto del cuerpo y, si es del lado izquierdo, problemas del lenguaje. La conmoción cerebral se produce por golpes que sacuden el cerebro dentro del cráneo."},
+cerebelo:{cat:"organo", grupo:"Sistema nervioso central", nombre:"Cerebelo", latin:"Cerebellum",
+  resumen:"«Pequeño cerebro» bajo los lóbulos occipitales que coordina los movimientos, el equilibrio y la postura.",
+  ubicacion:"Fosa craneal posterior, detrás del tronco del encéfalo y bajo la tienda del cerebelo.",
+  partes:"Dos hemisferios y el vermis en la línea media; láminas finas (folias); pedúnculos cerebelosos superior, medio e inferior que lo unen al tronco.",
+  funcion:"Compara el movimiento planeado con el realizado y lo corrige; controla el equilibrio, el tono y el aprendizaje motor (andar en bicicleta, escribir).",
+  irrigacion:"Arterias cerebelosas superior (de la basilar), anteroinferior y posteroinferior (de la vertebral).",
+  inervacion:"Recibe información de la médula, del oído interno y de la corteza a través de sus pedúnculos.",
+  clinica:"Su lesión causa ataxia: marcha de borracho, temblor al acercarse a un objeto y habla escandida, del mismo lado de la lesión. El alcohol afecta primero el vermis."},
+tronco_encefalico:{cat:"organo", grupo:"Sistema nervioso central", nombre:"Tronco del encéfalo", latin:"Truncus encephali",
+  resumen:"Tallo que une el cerebro con la médula espinal; controla la respiración, el ritmo cardíaco y la conciencia, y de él salen casi todos los nervios craneales.",
+  ubicacion:"Fosa craneal posterior, apoyado sobre el clivus, delante del cerebelo; continúa con la médula en el agujero magno.",
+  partes:"Mesencéfalo (con los pedúnculos cerebrales), protuberancia o puente (abultamiento anterior) y bulbo raquídeo (con pirámides y olivas).",
+  funcion:"Lleva todas las vías entre el cerebro y la médula; contiene centros de la respiración, la presión arterial y el vómito, la formación reticular (despertar) y los núcleos de los nervios craneales III a XII.",
+  irrigacion:"Arterias vertebrales y basilar con sus ramas perforantes.",
+  inervacion:"Contiene los núcleos de los nervios craneales del III al XII.",
+  clinica:"Un infarto en el tronco da síntomas cruzados: nervio craneal afectado de un lado y debilidad del cuerpo del lado contrario. La hernia del cerebelo por el agujero magno comprime el bulbo y detiene la respiración."},
+hipofisis:{cat:"organo", grupo:"Sistema endocrino", nombre:"Hipófisis", latin:"Hypophysis (glandula pituitaria)",
+  resumen:"Glándula del tamaño de un garbanzo bajo el cerebro, la «directora» de las demás glándulas hormonales.",
+  ubicacion:"En la silla turca del esfenoides, unida al hipotálamo por el tallo hipofisario, justo detrás y debajo del quiasma óptico.",
+  partes:"Adenohipófisis (lóbulo anterior) y neurohipófisis (lóbulo posterior).",
+  funcion:"La anterior produce hormona de crecimiento, prolactina, TSH (tiroides), ACTH (suprarrenales) y FSH/LH (gónadas). La posterior libera oxitocina y hormona antidiurética, fabricadas en el hipotálamo.",
+  irrigacion:"Arterias hipofisarias superior e inferior (de la carótida interna) y sistema porta hipofisario.",
+  inervacion:"La neurohipófisis recibe axones del hipotálamo.",
+  clinica:"Un adenoma de hipófisis puede crecer hacia arriba y comprimir el quiasma: se pierde la visión de los lados (hemianopsia bitemporal). El exceso de hormona de crecimiento causa acromegalia."},
+globos_oculares:{cat:"organo", grupo:"Órganos de los sentidos", nombre:"Globos oculares", latin:"Bulbi oculi",
+  resumen:"Los ojos: esferas de unos 2.4 cm que enfocan la luz sobre la retina; se acompañan de la glándula lagrimal.",
+  ubicacion:"En la parte anterior de las órbitas, protegidos por los párpados y rodeados de grasa y de los músculos extraoculares.",
+  partes:"Capa externa (esclerótica blanca y córnea transparente), capa media (coroides, cuerpo ciliar e iris con la pupila), capa interna (retina con la mácula); cristalino, humor acuoso y humor vítreo. Glándula lagrimal en la parte superolateral de la órbita.",
+  funcion:"La córnea y el cristalino enfocan la imagen; el iris regula la luz; la retina la convierte en señales que viajan por el nervio óptico. Las lágrimas lubrican y protegen la córnea.",
+  irrigacion:"Arteria oftálmica (de la carótida interna) con la arteria central de la retina; drena por las venas oftálmicas al seno cavernoso.",
+  inervacion:"Nervio óptico (visión); nervio nasociliar del trigémino (sensibilidad de la córnea); parasimpático por el oculomotor (cierra la pupila) y simpático (la dilata).",
+  clinica:"El glaucoma (presión alta) daña el nervio óptico sin dolor. La catarata opaca el cristalino. El reflejo corneal (tocar la córnea hace parpadear) prueba los nervios trigémino y facial."},
+oido:{cat:"organo", grupo:"Órganos de los sentidos", nombre:"Oído (externo, medio e interno)", latin:"Auris",
+  resumen:"Órgano de la audición y del equilibrio: recoge el sonido, lo amplifica y lo convierte en señales nerviosas.",
+  ubicacion:"El pabellón a los lados de la cabeza; el conducto auditivo, el oído medio y el interno dentro del hueso temporal.",
+  partes:"Oído externo: pabellón auricular (oreja) y conducto auditivo externo. Oído medio: membrana timpánica, huesecillos (martillo, yunque y estribo) y trompa de Eustaquio. Oído interno: cóclea (audición) y conductos semicirculares con el vestíbulo (equilibrio).",
+  funcion:"El tímpano vibra con el sonido, los huesecillos amplifican la vibración hacia la cóclea, que la transforma en señales para el nervio coclear. Los conductos semicirculares detectan los giros de la cabeza.",
+  irrigacion:"Ramas de la carótida externa (auricular posterior, temporal superficial, maxilar) y arteria laberíntica para el oído interno.",
+  inervacion:"Sensibilidad del pabellón y del conducto por el auricular mayor, el auriculotemporal, el facial y el vago; nervio vestibulococlear para el oído interno.",
+  clinica:"La otitis media es muy común en niños por su trompa de Eustaquio corta y horizontal. El vértigo posicional se debe a cristales sueltos en los conductos semicirculares. El ruido intenso daña la cóclea de forma permanente."},
+lengua:{cat:"organo", grupo:"Aparato digestivo · boca", nombre:"Lengua", latin:"Lingua",
+  resumen:"Órgano muscular de la boca que mueve el alimento, permite tragar, hablar y percibir el sabor.",
+  ubicacion:"En el piso de la boca; su raíz se une al hioides y a la mandíbula y forma la pared anterior de la orofaringe.",
+  partes:"Punta, cuerpo (dos tercios anteriores) y raíz (tercio posterior), separados por el surco terminal en V; papilas gustativas; músculos intrínsecos y extrínsecos (geniogloso, hiogloso, estilogloso, palatogloso).",
+  funcion:"Forma el bolo alimenticio y lo empuja hacia la faringe; articula los sonidos del habla; percibe sabores dulce, salado, ácido, amargo y umami.",
+  irrigacion:"Arteria lingual (de la carótida externa).",
+  inervacion:"Motora: nervio hipogloso (XII). Tacto de los 2/3 anteriores: nervio lingual (trigémino); gusto de los 2/3 anteriores: cuerda del tímpano (facial). Tercio posterior: glosofaríngeo (IX).",
+  clinica:"Al sacar la lengua, si el hipogloso está lesionado se desvía hacia el lado lesionado. En una persona inconsciente boca arriba, la lengua cae hacia atrás y obstruye la vía aérea. El cáncer de lengua aparece sobre todo en sus bordes."},
+faringe:{cat:"organo", grupo:"Aparato digestivo y respiratorio", nombre:"Faringe y paladar blando", latin:"Pharynx et palatum molle",
+  resumen:"Tubo muscular detrás de la nariz, la boca y la laringe, por donde pasan el aire y el alimento.",
+  ubicacion:"Desde la base del cráneo hasta el borde inferior del cartílago cricoides (C6), donde continúa con el esófago; delante de las vértebras cervicales.",
+  partes:"Nasofaringe (con las adenoides y la desembocadura de la trompa de Eustaquio), orofaringe (con las amígdalas palatinas y el paladar blando con la úvula) y laringofaringe.",
+  funcion:"Conduce el aire a la laringe y el alimento al esófago; al tragar, el paladar blando cierra la nariz y la laringe se eleva para que la comida no entre a la vía aérea.",
+  irrigacion:"Ramas de la carótida externa: faríngea ascendente, palatina ascendente (facial), lingual y maxilar.",
+  inervacion:"Plexo faríngeo formado por el glosofaríngeo (sensibilidad) y el vago (motor).",
+  clinica:"La amigdalitis inflama las amígdalas palatinas. Las adenoides grandes en niños obstruyen la nariz y causan ronquido. El reflejo nauseoso prueba los nervios glosofaríngeo y vago."},
+laringe:{cat:"organo", grupo:"Aparato respiratorio", nombre:"Laringe", latin:"Larynx",
+  resumen:"Caja de cartílago en el cuello que protege la vía aérea al tragar y contiene las cuerdas vocales que producen la voz.",
+  ubicacion:"Delante de la laringofaringe, entre el hioides y la tráquea (de C3 a C6).",
+  partes:"Cartílagos tiroides (manzana de Adán), cricoides (anillo completo), aritenoides y epiglotis; cuerdas vocales verdaderas y falsas (vestibulares); membranas y músculos intrínsecos.",
+  funcion:"Al tragar la epiglotis se dobla y las cuerdas se cierran para proteger los pulmones; las cuerdas vocales vibran con el aire para producir la voz; permite toser.",
+  irrigacion:"Arterias laríngeas superior (de la tiroidea superior) e inferior (de la tiroidea inferior).",
+  inervacion:"Nervio laríngeo superior y nervio laríngeo recurrente, ramas del vago.",
+  clinica:"La lesión del laríngeo recurrente (por cirugía de tiroides o tumores del tórax) deja ronquera. En una obstrucción grave de la vía aérea se abre la membrana entre tiroides y cricoides (cricotirotomía)."},
+tiroides:{cat:"organo", grupo:"Sistema endocrino", nombre:"Glándula tiroides", latin:"Glandula thyroidea",
+  resumen:"Glándula en forma de mariposa delante de la tráquea que produce las hormonas que regulan el metabolismo.",
+  ubicacion:"Lóbulos a los lados de la laringe y la tráquea (C5 a T1) y el istmo delante de los anillos traqueales 2 a 4; cubierta por los músculos infrahioideos.",
+  partes:"Dos lóbulos, istmo y, a veces, lóbulo piramidal.",
+  funcion:"Produce tiroxina (T4) y triyodotironina (T3), que aceleran el metabolismo, y calcitonina, que baja el calcio de la sangre.",
+  irrigacion:"Arterias tiroideas superiores (de la carótida externa) e inferiores (del tronco tirocervical); venas tiroideas a la yugular interna y braquiocefálica.",
+  inervacion:"Simpático de los ganglios cervicales; su función la controla la TSH de la hipófisis.",
+  clinica:"Sube y baja al tragar porque está unida a la laringe. El hipotiroidismo da cansancio, frío y aumento de peso; el hipertiroidismo, nerviosismo, palpitaciones y pérdida de peso. El bocio es su aumento de tamaño."},
+paratiroides:{cat:"organo", grupo:"Sistema endocrino", nombre:"Glándulas paratiroides", latin:"Glandulae parathyroideae",
+  resumen:"Cuatro glándulas diminutas detrás de la tiroides que controlan el calcio de la sangre.",
+  ubicacion:"Dos superiores y dos inferiores en la cara posterior de los lóbulos tiroideos.",
+  partes:"Cuatro nódulos de unos 5 mm, a veces en posiciones variables (incluso en el tórax).",
+  funcion:"Producen parathormona, que sube el calcio sacándolo del hueso, reteniéndolo en el riñón y activando la vitamina D.",
+  irrigacion:"Sobre todo por las arterias tiroideas inferiores.",
+  inervacion:"Simpático; su función depende del nivel de calcio.",
+  clinica:"Si se lesionan en una cirugía de tiroides, baja el calcio: hormigueo y calambres (tetania). Un adenoma produce exceso de hormona: cálculos renales y huesos frágiles."},
+glandula_parotida:{cat:"organo", grupo:"Glándulas salivales", nombre:"Glándula parótida", latin:"Glandula parotidea",
+  resumen:"La glándula salival más grande, delante y debajo de la oreja; vierte su saliva en la boca a la altura del segundo molar superior.",
+  ubicacion:"Detrás de la rama de la mandíbula y sobre el masetero, delante del oído y del esternocleidomastoideo.",
+  partes:"Porciones superficial y profunda separadas por el nervio facial; conducto parotídeo (de Stensen), que cruza el masetero y perfora el buccinador.",
+  funcion:"Produce saliva acuosa con amilasa, que comienza a digerir los almidones.",
+  irrigacion:"Ramas de la carótida externa, que la atraviesa (temporal superficial y transversa de la cara).",
+  inervacion:"Parasimpático del glosofaríngeo a través del ganglio ótico y el nervio auriculotemporal. El nervio facial la cruza, pero no la inerva.",
+  clinica:"Las paperas inflaman las parótidas. Los tumores de la parótida se operan cuidando el nervio facial, que la atraviesa: su lesión paraliza la cara."},
+glandula_submandibular:{cat:"organo", grupo:"Glándulas salivales", nombre:"Glándula submandibular", latin:"Glandula submandibularis",
+  resumen:"Glándula salival bajo la mandíbula que produce casi el 70 % de la saliva en reposo.",
+  ubicacion:"En el triángulo submandibular, bajo el borde de la mandíbula, rodeando el borde posterior del milohioideo.",
+  partes:"Porción superficial y profunda; conducto submandibular (de Wharton), que se abre a los lados del frenillo de la lengua.",
+  funcion:"Produce saliva mixta (acuosa y mucosa).",
+  irrigacion:"Ramas de la arteria facial.",
+  inervacion:"Parasimpático del facial (cuerda del tímpano) a través del nervio lingual y el ganglio submandibular.",
+  clinica:"Es la glándula donde más se forman cálculos salivales: se hincha y duele al comer. La arteria facial pasa por encima de ella."},
+glandula_sublingual:{cat:"organo", grupo:"Glándulas salivales", nombre:"Glándula sublingual", latin:"Glandula sublingualis",
+  resumen:"La más pequeña de las glándulas salivales mayores, en el piso de la boca bajo la lengua.",
+  ubicacion:"Sobre el milohioideo, bajo la mucosa del piso de la boca, junto a la cara interna de la mandíbula.",
+  partes:"Glándula alargada con muchos conductos pequeños que se abren en el pliegue sublingual.",
+  funcion:"Produce saliva sobre todo mucosa, que lubrica.",
+  irrigacion:"Arterias sublingual (de la lingual) y submentoniana (de la facial).",
+  inervacion:"Parasimpático del facial por la cuerda del tímpano y el ganglio submandibular.",
+  clinica:"La obstrucción de sus conductos forma la ránula, un quiste azulado bajo la lengua. Por el piso de la boca se absorben bien algunos medicamentos (como la nitroglicerina)."},
+
+/* ================= MÚSCULOS DE LA CARA ================= */
+occipitofrontal:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · cuero cabelludo", nombre:"Occipitofrontal", latin:"Musculus occipitofrontalis",
+  resumen:"Músculo del cuero cabelludo con dos vientres (frontal y occipital) unidos por una gran aponeurosis (galea): levanta las cejas y arruga la frente.",
+  origen:"Vientre frontal: piel de las cejas y la glabela. Vientre occipital: dos tercios laterales de la línea nucal superior y apófisis mastoides.",
+  insercion:"Ambos vientres en la aponeurosis epicraneal (galea aponeurótica) que cubre la bóveda.",
+  inervacion:"Nervio facial: ramo temporal (frontal) y ramo auricular posterior (occipital).",
+  irrigacion:"Arterias supraorbitaria, supratroclear, temporal superficial y occipital.",
+  accion:"Eleva las cejas y forma las arrugas horizontales de la frente (sorpresa); el vientre occipital tira del cuero cabelludo hacia atrás.",
+  clinica:"En la parálisis facial periférica la frente del lado afectado no se arruga; en un infarto cerebral sí se arruga, porque la frente recibe órdenes de ambos hemisferios. Las heridas del cuero cabelludo que cortan la galea se abren y sangran mucho.",
+  prueba:"Pedir que levante las cejas con fuerza y observar si se arrugan los dos lados de la frente."},
+orbicular_ojo:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · alrededor del ojo", nombre:"Orbicular del ojo", latin:"Musculus orbicularis oculi",
+  resumen:"Esfínter de anillos alrededor del ojo que cierra los párpados.",
+  origen:"Borde medial de la órbita, ligamento palpebral medial y hueso lagrimal.",
+  insercion:"Sus fibras rodean la órbita y los párpados y vuelven al ligamento palpebral lateral y a la piel de alrededor.",
+  inervacion:"Nervio facial (ramos temporal y cigomático).",
+  irrigacion:"Ramas de las arterias facial, temporal superficial y oftálmica.",
+  accion:"Porción palpebral: cierra los párpados suavemente (parpadeo). Porción orbitaria: los cierra con fuerza y forma las «patas de gallo». Ayuda a llevar las lágrimas hacia el lagrimal.",
+  clinica:"En la parálisis de Bell el ojo no cierra y se reseca; hay que protegerlo. La toxina botulínica se aplica aquí para las arrugas de los ojos y para el blefaroespasmo.",
+  prueba:"Cerrar los ojos con fuerza mientras se intenta abrirlos; normalmente no se logra separar los párpados."},
+orbicular_boca:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · alrededor de la boca", nombre:"Orbicular de la boca", latin:"Musculus orbicularis oris",
+  resumen:"Esfínter de los labios formado por anillos de fibras alrededor de la boca.",
+  origen:"Fibras del modiolo (nudo muscular junto a la comisura) y de los músculos que llegan a los labios, además de los maxilares y la mandíbula cerca de la línea media.",
+  insercion:"Piel y mucosa de los labios.",
+  inervacion:"Nervio facial (ramos bucales y mandibular marginal).",
+  irrigacion:"Arterias labiales superior e inferior (de la facial).",
+  accion:"Cierra y frunce los labios (besar, silbar, soplar) y mantiene la comida dentro de la boca al masticar.",
+  clinica:"En la parálisis facial se escurre la saliva y el líquido por la comisura del lado afectado. Es clave para la articulación de las letras p, b y m.",
+  prueba:"Inflar las mejillas con los labios cerrados y resistir cuando se presionan suavemente."},
+nasal:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · nariz", nombre:"Músculo nasal", latin:"Musculus nasalis",
+  resumen:"Pequeño músculo sobre la nariz que comprime o abre las fosas nasales.",
+  origen:"Maxilar, sobre la raíz del canino y el incisivo lateral.",
+  insercion:"Porción transversa: aponeurosis sobre el dorso de la nariz. Porción alar: cartílago del ala de la nariz.",
+  inervacion:"Nervio facial (ramo bucal).",
+  irrigacion:"Ramas de la arteria facial (labial superior y nasal lateral).",
+  accion:"La porción transversa comprime la narina; la alar la abre (aleteo nasal al respirar con esfuerzo).",
+  clinica:"El aleteo nasal en un bebé es signo de dificultad para respirar.",
+  prueba:"Abrir y cerrar las fosas nasales a voluntad, observando el movimiento del ala de la nariz."},
+elevador_labio_superior:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · alrededor de la boca", nombre:"Elevador del labio superior (y del ala de la nariz)", latin:"Musculus levator labii superioris (et alaeque nasi)",
+  resumen:"Músculos planos que van del borde de la órbita y la nariz al labio superior y lo levantan.",
+  origen:"Borde infraorbitario del maxilar (elevador del labio superior) y apófisis frontal del maxilar (elevador del labio y del ala de la nariz).",
+  insercion:"Piel y músculo del labio superior; el segundo, también en el ala de la nariz.",
+  inervacion:"Nervio facial (ramos cigomático y bucal).",
+  irrigacion:"Arterias facial e infraorbitaria.",
+  accion:"Eleva y evierte el labio superior (gesto de desprecio) y profundiza el surco nasolabial; abre la narina.",
+  clinica:"El surco nasolabial se borra en la parálisis facial. Bajo este músculo sale el nervio infraorbitario.",
+  prueba:"Mostrar los dientes de arriba levantando el labio superior."},
+cigomatico_menor:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · alrededor de la boca", nombre:"Cigomático menor", latin:"Musculus zygomaticus minor",
+  resumen:"Cinta delgada del pómulo al labio superior que ayuda a sonreír y a mostrar tristeza.",
+  origen:"Cara lateral del hueso cigomático, por dentro del cigomático mayor.",
+  insercion:"Labio superior, por fuera del elevador del labio superior.",
+  inervacion:"Nervio facial (ramo cigomático y bucal).",
+  irrigacion:"Arteria facial.",
+  accion:"Eleva el labio superior y marca el surco nasolabial.",
+  clinica:"Participa en la sonrisa que muestra los dientes de arriba; su debilidad hace la sonrisa asimétrica.",
+  prueba:"Sonreír mostrando los dientes superiores."},
+cigomatico_mayor:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · alrededor de la boca", nombre:"Cigomático mayor", latin:"Musculus zygomaticus major",
+  resumen:"El músculo de la sonrisa: va del pómulo a la comisura de la boca.",
+  origen:"Cara lateral del hueso cigomático, delante de la sutura cigomaticotemporal.",
+  insercion:"Modiolo y piel de la comisura de la boca.",
+  inervacion:"Nervio facial (ramos cigomático y bucal).",
+  irrigacion:"Arteria facial y transversa de la cara.",
+  accion:"Tira de la comisura hacia arriba y afuera al sonreír o reír.",
+  clinica:"En la parálisis facial la sonrisa se tuerce hacia el lado sano. A veces tiene dos haces, y eso forma el hoyuelo de la mejilla.",
+  prueba:"Pedir una sonrisa amplia y comparar la elevación de ambas comisuras."},
+risorio:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · alrededor de la boca", nombre:"Risorio", latin:"Musculus risorius",
+  resumen:"Fino músculo horizontal de la mejilla que estira la comisura hacia el lado.",
+  origen:"Fascia del masetero y de la parótida.",
+  insercion:"Modiolo y piel de la comisura de la boca.",
+  inervacion:"Nervio facial (ramo bucal).",
+  irrigacion:"Arteria facial.",
+  accion:"Tira de la comisura hacia el lado (sonrisa forzada o gesto de tensión).",
+  clinica:"Es inconstante y muy variable entre personas. En el tétanos su espasmo junto con otros músculos produce la «risa sardónica».",
+  prueba:"Estirar las comisuras hacia los lados con los labios cerrados."},
+buccinador:{cat:"musculo", capa:"Profundo", grupo:"Músculos de la expresión facial · mejilla", nombre:"Buccinador", latin:"Musculus buccinator",
+  resumen:"Músculo profundo de la mejilla que la mantiene pegada a los dientes; es el músculo del trompetista.",
+  origen:"Apófisis alveolares del maxilar y la mandíbula a la altura de los molares y rafe pterigomandibular.",
+  insercion:"Modiolo y labios, mezclándose con el orbicular de la boca.",
+  inervacion:"Nervio facial (ramos bucales). El nervio bucal del trigémino que lo atraviesa es sensitivo.",
+  irrigacion:"Arterias facial y bucal (de la maxilar).",
+  accion:"Comprime la mejilla contra los dientes para que la comida no se quede en el vestíbulo de la boca; expulsa el aire al soplar.",
+  clinica:"Si está paralizado, la comida se acumula entre la mejilla y los dientes. El conducto de la parótida lo perfora frente al segundo molar superior.",
+  prueba:"Inflar las mejillas y soplar con fuerza contra resistencia."},
+depresor_angulo_boca:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · alrededor de la boca", nombre:"Depresor del ángulo de la boca", latin:"Musculus depressor anguli oris",
+  resumen:"Músculo triangular de la barbilla que baja la comisura (gesto de tristeza).",
+  origen:"Línea oblicua de la mandíbula, por debajo del canino y los premolares.",
+  insercion:"Modiolo y piel de la comisura.",
+  inervacion:"Nervio facial (ramo mandibular marginal y bucal).",
+  irrigacion:"Arterias facial y labial inferior.",
+  accion:"Baja y lleva hacia fuera la comisura de la boca.",
+  clinica:"El ramo mandibular marginal del facial pasa bajo el borde de la mandíbula y se lesiona en cirugías del cuello: la comisura no baja del lado afectado.",
+  prueba:"Hacer un gesto de tristeza bajando las comisuras."},
+depresor_labio_inferior:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · alrededor de la boca", nombre:"Depresor del labio inferior", latin:"Musculus depressor labii inferioris",
+  resumen:"Músculo cuadrado bajo el labio inferior que lo baja y evierte.",
+  origen:"Mandíbula, entre la sínfisis y el agujero mentoniano.",
+  insercion:"Piel y mucosa del labio inferior.",
+  inervacion:"Nervio facial (ramo mandibular marginal).",
+  irrigacion:"Arteria labial inferior.",
+  accion:"Baja y evierte el labio inferior (enseñar los dientes de abajo).",
+  clinica:"Su parálisis por lesión del ramo mandibular marginal hace asimétrica la sonrisa amplia.",
+  prueba:"Mostrar los dientes inferiores bajando el labio."},
+mentoniano:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · barbilla", nombre:"Mentoniano (borla del mentón)", latin:"Musculus mentalis",
+  resumen:"Pequeño músculo de la barbilla que eleva la piel del mentón y saca el labio inferior (puchero).",
+  origen:"Fosa incisiva de la mandíbula.",
+  insercion:"Piel del mentón.",
+  inervacion:"Nervio facial (ramo mandibular marginal).",
+  irrigacion:"Arterias mentoniana y labial inferior.",
+  accion:"Eleva y arruga la piel del mentón y protruye el labio inferior.",
+  clinica:"Su contracción da el aspecto de «piel de naranja» en la barbilla al hacer pucheros.",
+  prueba:"Hacer un puchero arrugando el mentón."},
+platisma:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la expresión facial · cuello", nombre:"Platisma", latin:"Platysma",
+  resumen:"Lámina muscular muy delgada bajo la piel del cuello, desde el pecho hasta la mandíbula.",
+  origen:"Fascia de la parte alta del pectoral mayor y del deltoides.",
+  insercion:"Borde inferior de la mandíbula, piel de la parte baja de la cara y comisura de la boca.",
+  inervacion:"Nervio facial (ramo cervical).",
+  irrigacion:"Ramas de la submentoniana y de la supraescapular.",
+  accion:"Tensa la piel del cuello (gesto de horror o esfuerzo) y baja la mandíbula y las comisuras.",
+  clinica:"Con la edad sus bordes forman las «bandas» del cuello. En las heridas del cuello, si se atraviesa el platisma se considera herida penetrante.",
+  prueba:"Apretar los dientes y bajar las comisuras: se marcan bandas en el cuello."},
+
+/* ================= MASTICACIÓN ================= */
+masetero:{cat:"musculo", capa:"Superficial", grupo:"Músculos de la masticación", nombre:"Masetero", latin:"Musculus masseter",
+  resumen:"Músculo grueso y cuadrado de la mejilla que cierra la mandíbula con gran fuerza.",
+  origen:"Borde inferior y cara interna del arco cigomático.",
+  insercion:"Cara lateral de la rama y del ángulo de la mandíbula.",
+  inervacion:"Nervio masetérico, de la división mandibular del trigémino (V3).",
+  irrigacion:"Arteria masetérica (de la maxilar) y ramas de la facial y la transversa de la cara.",
+  accion:"Eleva la mandíbula (cierra la boca) y aprieta los dientes; su parte superficial ayuda a proyectarla hacia delante.",
+  clinica:"Se palpa duro al apretar los dientes. Crece en quienes aprietan los dientes (bruxismo) y duele en el trastorno temporomandibular. En el tétanos su espasmo causa el trismo (no poder abrir la boca).",
+  prueba:"Apretar los dientes y palpar ambos maseteros por encima del ángulo de la mandíbula."},
+temporal:{cat:"musculo", capa:"Profundo", grupo:"Músculos de la masticación", nombre:"Temporal", latin:"Musculus temporalis",
+  resumen:"Músculo en abanico de la sien que cierra la mandíbula y la lleva hacia atrás.",
+  origen:"Fosa temporal (bajo la línea temporal inferior) y fascia temporal.",
+  insercion:"Apófisis coronoides y borde anterior de la rama de la mandíbula, pasando por debajo del arco cigomático.",
+  inervacion:"Nervios temporales profundos, de la división mandibular del trigémino (V3).",
+  irrigacion:"Arterias temporales profundas (de la maxilar) y temporal media.",
+  accion:"Eleva la mandíbula; sus fibras posteriores (horizontales) la retraen.",
+  clinica:"Su contractura da dolor de cabeza en la sien (cefalea tensional) y se relaciona con apretar los dientes.",
+  prueba:"Apretar los dientes y palpar la sien, por encima del arco cigomático."},
+pterigoideo_lateral:{cat:"musculo", capa:"Profundo", grupo:"Músculos de la masticación", nombre:"Pterigoideo lateral", latin:"Musculus pterygoideus lateralis",
+  resumen:"Músculo horizontal profundo que tira del cóndilo hacia delante para abrir la boca.",
+  origen:"Cabeza superior: cara infratemporal del ala mayor del esfenoides. Cabeza inferior: cara lateral de la lámina lateral de la apófisis pterigoides.",
+  insercion:"Fosita pterigoidea del cuello del cóndilo, disco y cápsula de la articulación temporomandibular.",
+  inervacion:"Nervio pterigoideo lateral, de la división mandibular del trigémino (V3).",
+  irrigacion:"Ramas pterigoideas de la arteria maxilar.",
+  accion:"Protruye la mandíbula y ayuda a abrir la boca; actuando de un solo lado la mueve hacia el lado contrario (movimiento de molienda).",
+  clinica:"Su espasmo se asocia a chasquidos y dolor de la articulación temporomandibular. En la luxación de la mandíbula lleva el cóndilo por delante del tubérculo articular.",
+  prueba:"Mover la mandíbula hacia el lado contrario y hacia delante contra resistencia."},
+pterigoideo_medial:{cat:"musculo", capa:"Profundo", grupo:"Músculos de la masticación", nombre:"Pterigoideo medial", latin:"Musculus pterygoideus medialis",
+  resumen:"Músculo profundo, gemelo interno del masetero, que cierra la mandíbula.",
+  origen:"Cara medial de la lámina lateral de la apófisis pterigoides y tuberosidad del maxilar.",
+  insercion:"Cara medial del ángulo y la rama de la mandíbula.",
+  inervacion:"Nervio pterigoideo medial, de la división mandibular del trigémino (V3).",
+  irrigacion:"Ramas pterigoideas de la arteria maxilar.",
+  accion:"Eleva y protruye la mandíbula; de un solo lado la mueve al lado contrario.",
+  clinica:"La anestesia del nervio alveolar inferior se inyecta junto a este músculo; si se pincha puede causar trismo temporal.",
+  prueba:"Apretar los dientes y mover la mandíbula a los lados contra resistencia."},
+
+/* ================= MÚSCULOS DEL OJO ================= */
+recto_superior:{cat:"musculo", capa:"Profundo", grupo:"Músculos extraoculares", nombre:"Recto superior", latin:"Musculus rectus superior",
+  resumen:"Músculo de la órbita que mira hacia arriba.",
+  origen:"Anillo tendinoso común en el vértice de la órbita.",
+  insercion:"Esclerótica, en la parte superior del ojo, por delante del ecuador.",
+  inervacion:"Nervio oculomotor (III), ramo superior.",
+  irrigacion:"Arteria oftálmica (ramos musculares).",
+  accion:"Eleva el ojo; también lo gira hacia dentro y lo lleva un poco hacia la nariz. Mira mejor hacia arriba cuando el ojo está dirigido hacia afuera.",
+  clinica:"La lesión del oculomotor deja el ojo mirando hacia abajo y afuera, con el párpado caído y la pupila dilatada.",
+  prueba:"Pedir que siga un dedo hacia arriba y afuera."},
+recto_inferior:{cat:"musculo", capa:"Profundo", grupo:"Músculos extraoculares", nombre:"Recto inferior", latin:"Musculus rectus inferior",
+  resumen:"Músculo de la órbita que mira hacia abajo.",
+  origen:"Anillo tendinoso común.",
+  insercion:"Esclerótica, en la parte inferior del ojo.",
+  inervacion:"Nervio oculomotor (III), ramo inferior.",
+  irrigacion:"Arteria oftálmica y ramas de la infraorbitaria.",
+  accion:"Baja el ojo; también lo gira hacia fuera y lo aproxima a la nariz.",
+  clinica:"En la fractura del piso de la órbita (golpe con una pelota) el recto inferior queda atrapado: no se puede mirar hacia arriba y hay visión doble.",
+  prueba:"Seguir un dedo hacia abajo y afuera."},
+recto_medial:{cat:"musculo", capa:"Profundo", grupo:"Músculos extraoculares", nombre:"Recto medial", latin:"Musculus rectus medialis",
+  resumen:"El músculo más fuerte del ojo: lo lleva hacia la nariz.",
+  origen:"Anillo tendinoso común.",
+  insercion:"Esclerótica, en el lado nasal del ojo.",
+  inervacion:"Nervio oculomotor (III), ramo inferior.",
+  irrigacion:"Arteria oftálmica.",
+  accion:"Aduce el ojo (lo dirige hacia la nariz); los dos juntos hacen converger la mirada para ver de cerca.",
+  clinica:"Su exceso de fuerza produce estrabismo convergente (ojo desviado hacia dentro).",
+  prueba:"Seguir un dedo hacia la nariz y acercarlo para provocar la convergencia."},
+recto_lateral:{cat:"musculo", capa:"Profundo", grupo:"Músculos extraoculares", nombre:"Recto lateral", latin:"Musculus rectus lateralis",
+  resumen:"Músculo que lleva el ojo hacia afuera.",
+  origen:"Anillo tendinoso común, por fuera del agujero óptico.",
+  insercion:"Esclerótica, en el lado temporal del ojo.",
+  inervacion:"Nervio abducens (VI).",
+  irrigacion:"Arteria oftálmica y lagrimal.",
+  accion:"Abduce el ojo (lo dirige hacia afuera).",
+  clinica:"El nervio abducens tiene un trayecto muy largo y se afecta pronto cuando sube la presión dentro del cráneo: el ojo no puede mirar hacia afuera y aparece visión doble horizontal.",
+  prueba:"Seguir un dedo hacia el lado."},
+oblicuo_superior_ojo:{cat:"musculo", capa:"Profundo", grupo:"Músculos extraoculares", nombre:"Oblicuo superior", latin:"Musculus obliquus superior",
+  resumen:"Músculo largo cuyo tendón pasa por una polea (tróclea) y hace girar el ojo hacia abajo y adentro.",
+  origen:"Cuerpo del esfenoides, por encima y por dentro del conducto óptico.",
+  insercion:"Su tendón pasa por la tróclea del frontal y gira hacia atrás para insertarse en la esclerótica, en la parte superolateral posterior del ojo.",
+  inervacion:"Nervio troclear (IV).",
+  irrigacion:"Arteria oftálmica.",
+  accion:"Rota el ojo hacia dentro (intorsión), lo baja y lo lleva hacia fuera; baja mejor el ojo cuando mira hacia la nariz (como al leer o bajar escaleras).",
+  clinica:"La lesión del troclear da visión doble al bajar escaleras; la persona inclina la cabeza hacia el lado sano para compensar.",
+  prueba:"Mirar hacia la nariz y luego hacia abajo."},
+oblicuo_inferior_ojo:{cat:"musculo", capa:"Profundo", grupo:"Músculos extraoculares", nombre:"Oblicuo inferior", latin:"Musculus obliquus inferior",
+  resumen:"El único músculo del ojo que nace en la parte anterior de la órbita; gira el ojo hacia arriba y afuera.",
+  origen:"Piso de la órbita, en el maxilar, junto al surco lagrimal.",
+  insercion:"Esclerótica, en la parte inferolateral posterior del ojo.",
+  inervacion:"Nervio oculomotor (III), ramo inferior.",
+  irrigacion:"Arterias oftálmica e infraorbitaria.",
+  accion:"Rota el ojo hacia fuera (extorsión), lo eleva y lo abduce; eleva mejor el ojo cuando mira hacia la nariz.",
+  clinica:"Su hiperfunción es común en algunos estrabismos infantiles.",
+  prueba:"Mirar hacia la nariz y luego hacia arriba."},
+elevador_parpado:{cat:"musculo", capa:"Profundo", grupo:"Músculos extraoculares", nombre:"Elevador del párpado superior", latin:"Musculus levator palpebrae superioris",
+  resumen:"Músculo delgado del techo de la órbita que abre el ojo levantando el párpado.",
+  origen:"Ala menor del esfenoides, por encima del conducto óptico.",
+  insercion:"Piel y tarso del párpado superior.",
+  inervacion:"Nervio oculomotor (III); su porción de músculo liso (de Müller) recibe fibras simpáticas.",
+  irrigacion:"Arteria oftálmica.",
+  accion:"Eleva el párpado superior y mantiene el ojo abierto.",
+  clinica:"La ptosis (párpado caído) aparece en la lesión del oculomotor, en el síndrome de Horner (falta de simpático, caída leve) y en la miastenia gravis, que empeora al final del día.",
+  prueba:"Mirar hacia arriba y observar si los dos párpados suben por igual."},
+
+/* ================= MÚSCULOS DEL CUELLO ================= */
+esternocleidomastoideo:{cat:"musculo", capa:"Superficial", grupo:"Músculos del cuello · lateral", nombre:"Esternocleidomastoideo", latin:"Musculus sternocleidomastoideus",
+  resumen:"El gran músculo en diagonal a cada lado del cuello; gira la cabeza hacia el lado contrario y divide el cuello en triángulos anterior y posterior.",
+  origen:"Cabeza esternal: cara anterior del manubrio del esternón. Cabeza clavicular: tercio medial de la clavícula.",
+  insercion:"Cara lateral de la apófisis mastoides y mitad lateral de la línea nucal superior.",
+  inervacion:"Nervio accesorio (XI) para el movimiento; ramos de C2–C3 para la sensibilidad propia.",
+  irrigacion:"Arterias occipital, tiroidea superior y supraescapular.",
+  accion:"Uno solo: inclina la cabeza hacia su lado y la gira hacia el lado contrario. Los dos juntos: flexionan el cuello y adelantan la cabeza; con la cabeza fija, elevan el esternón para ayudar a respirar.",
+  clinica:"La tortícolis congénita se debe a su acortamiento en el bebé. Es la referencia para encontrar la carótida, la yugular interna y el punto donde emergen los nervios del plexo cervical. En la dificultad respiratoria se marca al inspirar.",
+  prueba:"Girar la cabeza hacia un lado contra la resistencia de una mano en la mejilla: se marca el músculo del lado contrario."},
+digastrico:{cat:"musculo", capa:"Profundo", grupo:"Músculos del cuello · suprahioideos", nombre:"Digástrico", latin:"Musculus digastricus",
+  resumen:"Músculo con dos vientres unidos por un tendón que pasa por un ojal junto al hioides; baja la mandíbula y eleva el hioides.",
+  origen:"Vientre posterior: escotadura mastoidea del temporal. Vientre anterior: fosa digástrica de la mandíbula.",
+  insercion:"Tendón intermedio fijado al cuerpo y asta mayor del hioides por un asa fibrosa.",
+  inervacion:"Vientre anterior: nervio milohioideo (trigémino, V3). Vientre posterior: nervio facial (VII).",
+  irrigacion:"Arterias submentoniana (facial) y occipital y auricular posterior.",
+  accion:"Abre la boca (baja la mandíbula) y eleva el hioides al tragar y hablar.",
+  clinica:"Sus vientres limitan el triángulo submandibular, donde se palpan la glándula submandibular y los ganglios linfáticos. Su doble inervación refleja su doble origen embrionario.",
+  prueba:"Abrir la boca contra la resistencia de una mano bajo el mentón."},
+estilohioideo:{cat:"musculo", capa:"Profundo", grupo:"Músculos del cuello · suprahioideos", nombre:"Estilohioideo", latin:"Musculus stylohyoideus",
+  resumen:"Músculo delgado que va de la apófisis estiloides al hioides, junto al digástrico.",
+  origen:"Apófisis estiloides del temporal.",
+  insercion:"Cuerpo del hioides, abriéndose en dos haces para dejar pasar el tendón del digástrico.",
+  inervacion:"Nervio facial (VII).",
+  irrigacion:"Ramas de las arterias facial y occipital.",
+  accion:"Eleva el hioides y lo lleva hacia atrás al tragar.",
+  clinica:"En el síndrome de Eagle, la apófisis estiloides larga o el ligamento calcificado causan dolor de garganta al tragar.",
+  prueba:"Tragar mientras se palpa el ascenso del hioides."},
+milohioideo:{cat:"musculo", capa:"Profundo", grupo:"Músculos del cuello · suprahioideos", nombre:"Milohioideo", latin:"Musculus mylohyoideus",
+  resumen:"Lámina muscular que forma el piso de la boca, como una hamaca entre las dos mitades de la mandíbula.",
+  origen:"Línea milohioidea de la cara interna de la mandíbula.",
+  insercion:"Rafe medio (unión con el del otro lado) y cuerpo del hioides.",
+  inervacion:"Nervio milohioideo, de la división mandibular del trigémino (V3).",
+  irrigacion:"Arteria submentoniana (facial) y milohioidea (alveolar inferior).",
+  accion:"Eleva el piso de la boca y la lengua al tragar; eleva el hioides o baja la mandíbula.",
+  clinica:"Las infecciones de los molares inferiores pueden extenderse por debajo de él (angina de Ludwig) y elevar la lengua hasta tapar la vía aérea.",
+  prueba:"Empujar la lengua contra el paladar y palpar el piso de la boca bajo el mentón."},
+geniohioideo:{cat:"musculo", capa:"Profundo", grupo:"Músculos del cuello · suprahioideos", nombre:"Geniohioideo", latin:"Musculus geniohyoideus",
+  resumen:"Músculo corto en forma de cinta sobre el milohioideo, que lleva el hioides hacia delante.",
+  origen:"Espina mentoniana inferior, en la cara interna de la sínfisis de la mandíbula.",
+  insercion:"Cara anterior del cuerpo del hioides.",
+  inervacion:"Fibras de C1 que viajan con el nervio hipogloso.",
+  irrigacion:"Arteria sublingual (de la lingual).",
+  accion:"Tira del hioides hacia delante y arriba (ensancha la faringe al tragar) o baja la mandíbula.",
+  clinica:"Ayuda a mantener abierta la vía aérea superior; su relajación durante el sueño contribuye a la apnea obstructiva.",
+  prueba:"Tragar y palpar el avance del hioides."},
+esternohioideo:{cat:"musculo", capa:"Superficial", grupo:"Músculos del cuello · infrahioideos", nombre:"Esternohioideo", latin:"Musculus sternohyoideus",
+  resumen:"Músculo en cinta delante de la laringe que baja el hioides.",
+  origen:"Cara posterior del manubrio del esternón y extremo medial de la clavícula.",
+  insercion:"Borde inferior del cuerpo del hioides.",
+  inervacion:"Asa cervical (C1–C3).",
+  irrigacion:"Arterias tiroidea superior y lingual.",
+  accion:"Baja el hioides después de tragar o hablar.",
+  clinica:"En la cirugía de tiroides se separa en la línea media para llegar a la glándula.",
+  prueba:"Bajar la mandíbula contra resistencia y palpar la cinta a los lados de la laringe."},
+esternotiroideo:{cat:"musculo", capa:"Profundo", grupo:"Músculos del cuello · infrahioideos", nombre:"Esternotiroideo", latin:"Musculus sternothyroideus",
+  resumen:"Músculo en cinta, más profundo y ancho que el esternohioideo, que baja la laringe.",
+  origen:"Cara posterior del manubrio y primer cartílago costal.",
+  insercion:"Línea oblicua del cartílago tiroides.",
+  inervacion:"Asa cervical (C1–C3).",
+  irrigacion:"Arteria tiroidea superior.",
+  accion:"Baja el cartílago tiroides y la laringe.",
+  clinica:"Cubre directamente la glándula tiroides y limita su crecimiento hacia arriba: por eso el bocio crece hacia abajo, hacia el tórax.",
+  prueba:"Tragar y palpar el descenso de la laringe al terminar."},
+tirohioideo:{cat:"musculo", capa:"Profundo", grupo:"Músculos del cuello · infrahioideos", nombre:"Tirohioideo", latin:"Musculus thyrohyoideus",
+  resumen:"Músculo corto que continúa al esternotiroideo hasta el hioides.",
+  origen:"Línea oblicua del cartílago tiroides.",
+  insercion:"Borde inferior del asta mayor y del cuerpo del hioides.",
+  inervacion:"Fibras de C1 que viajan con el hipogloso.",
+  irrigacion:"Arteria tiroidea superior.",
+  accion:"Baja el hioides; con el hioides fijo, eleva la laringe al tragar.",
+  clinica:"Bajo él pasan la rama interna del laríngeo superior y la arteria laríngea superior hacia la laringe.",
+  prueba:"Tragar y palpar el ascenso de la laringe."},
+omohioideo:{cat:"musculo", capa:"Superficial", grupo:"Músculos del cuello · infrahioideos", nombre:"Omohioideo", latin:"Musculus omohyoideus",
+  resumen:"Músculo largo con dos vientres que va de la escápula al hioides cruzando el cuello por debajo del esternocleidomastoideo.",
+  origen:"Vientre inferior: borde superior de la escápula, junto a la escotadura supraescapular.",
+  insercion:"Vientre superior: borde inferior del cuerpo del hioides. Los vientres se unen por un tendón intermedio fijado a la clavícula.",
+  inervacion:"Asa cervical (C1–C3).",
+  irrigacion:"Arterias tiroidea superior y transversa del cuello.",
+  accion:"Baja y fija el hioides; tensa la fascia del cuello y protege la yugular interna.",
+  clinica:"Cruza la vena yugular interna y la carótida: es una referencia en cirugía del cuello. Divide el triángulo posterior del cuello en dos.",
+  prueba:"Tragar profundamente mientras se palpa el triángulo posterior del cuello."},
+largo_cuello:{cat:"musculo", capa:"Profundo", grupo:"Músculos del cuello · prevertebrales", nombre:"Largo del cuello", latin:"Musculus longus colli",
+  resumen:"Músculo profundo pegado a la cara anterior de las vértebras cervicales y torácicas altas.",
+  origen:"Cuerpos de C5 a T3 y apófisis transversas de C3 a C5.",
+  insercion:"Tubérculo anterior del atlas, cuerpos de C2 a C4 y apófisis transversas de C5 y C6.",
+  inervacion:"Ramos ventrales de C2 a C6.",
+  irrigacion:"Arterias vertebral, tiroidea inferior y faríngea ascendente.",
+  accion:"Flexiona el cuello y endereza la lordosis cervical; ayuda a la rotación.",
+  clinica:"Se lesiona en el latigazo cervical. Se separa en la cirugía de la columna cervical por delante.",
+  prueba:"Meter la barbilla (doble mentón) acostado boca arriba y levantar la cabeza unos centímetros."},
+largo_cabeza:{cat:"musculo", capa:"Profundo", grupo:"Músculos del cuello · prevertebrales", nombre:"Largo de la cabeza", latin:"Musculus longus capitis",
+  resumen:"Músculo profundo prevertebral que va de las cervicales a la base del cráneo.",
+  origen:"Tubérculos anteriores de las apófisis transversas de C3 a C6.",
+  insercion:"Porción basilar del occipital, delante del agujero magno.",
+  inervacion:"Ramos ventrales de C1 a C3.",
+  irrigacion:"Arterias faríngea ascendente y vertebral.",
+  accion:"Flexiona la cabeza sobre el cuello (asentir).",
+  clinica:"Puede inflamarse por depósitos de calcio (tendinitis del largo del cuello) y dar dolor al tragar y rigidez.",
+  prueba:"Asentir con la cabeza contra resistencia en la frente."},
+constrictores_faringe:{cat:"musculo", capa:"Profundo", grupo:"Músculos de la faringe", nombre:"Constrictores de la faringe", latin:"Musculi constrictores pharyngis",
+  resumen:"Tres músculos curvos superpuestos (superior, medio e inferior) que forman la pared posterior de la faringe y empujan el alimento hacia el esófago.",
+  origen:"Superior: lámina pterigoidea medial, rafe pterigomandibular y mandíbula. Medio: astas del hioides y ligamento estilohioideo. Inferior: cartílagos tiroides y cricoides.",
+  insercion:"Rafe faríngeo en la línea media posterior, unido al tubérculo faríngeo del occipital.",
+  inervacion:"Plexo faríngeo (vago); el inferior también por ramas del laríngeo superior y recurrente.",
+  irrigacion:"Arteria faríngea ascendente y ramas de la tiroidea superior e inferior.",
+  accion:"Se contraen en secuencia de arriba abajo para empujar el bolo durante la deglución.",
+  clinica:"Entre el constrictor inferior y el cricofaríngeo hay una zona débil donde se forma el divertículo de Zenker (comida que se regresa y mal aliento). Su debilidad tras un infarto cerebral causa atragantamiento.",
+  prueba:"Observar la deglución y el reflejo nauseoso; decir «a» y ver que el paladar y la pared faríngea suben por igual."},
+
+/* ================= ARTERIAS ================= */
+carotida_interna:{cat:"arteria", grupo:"Cabeza y cuello", nombre:"Arteria carótida interna", latin:"Arteria carotis interna",
+  resumen:"Rama de la carótida común que sube sin ramas por el cuello y entra al cráneo para irrigar el cerebro y el ojo.",
+  origen:"Bifurcación de la carótida común, a la altura del borde superior del cartílago tiroides (C4).",
+  trayecto:"Sube por la vaina carotídea con la yugular interna y el vago, entra por el conducto carotídeo del temporal, cruza el seno cavernoso formando una curva en S (sifón carotídeo) y termina junto al quiasma óptico.",
+  ramas:"No da ramas en el cuello. Dentro del cráneo: oftálmica, comunicante posterior, coroidea anterior, cerebral anterior y cerebral media.",
+  irriga:"La mayor parte del cerebro (lóbulos frontal, parietal y temporal), el ojo y la frente.",
+  clinica:"Las placas en su inicio (bulbo carotídeo) pueden soltar émbolos que causan infartos cerebrales o ceguera pasajera de un ojo. El bulbo carotídeo tiene receptores de presión; masajearlo baja la frecuencia cardíaca."},
+carotida_externa:{cat:"arteria", grupo:"Cabeza y cuello", nombre:"Arteria carótida externa", latin:"Arteria carotis externa",
+  resumen:"Rama de la carótida común que irriga el cuello, la cara, el cuero cabelludo y las meninges.",
+  origen:"Bifurcación de la carótida común (C4).",
+  trayecto:"Sube por delante de la carótida interna, cruzada por el hipogloso y el digástrico, entra en la parótida y termina detrás del cuello de la mandíbula dividiéndose en temporal superficial y maxilar.",
+  ramas:"Tiroidea superior, lingual, facial, faríngea ascendente, occipital, auricular posterior, temporal superficial (pulso delante de la oreja) y maxilar.",
+  irriga:"Tiroides, laringe, lengua, cara, cuero cabelludo, nariz, dientes, músculos de la masticación y duramadre.",
+  clinica:"El pulso de la temporal superficial se toma delante del trago. En la arteritis de la temporal (adultos mayores) duele la sien y hay riesgo de ceguera. Las heridas del cuero cabelludo sangran mucho por su rica irrigación."},
+a_facial:{cat:"arteria", grupo:"Cabeza y cuello", nombre:"Arteria facial", latin:"Arteria facialis",
+  resumen:"Arteria sinuosa que cruza la mandíbula y sube por la cara hasta el ángulo del ojo.",
+  origen:"Carótida externa, por encima de la lingual.",
+  trayecto:"Pasa por encima de la glándula submandibular, cruza el borde de la mandíbula delante del masetero (donde se palpa su pulso), sube por la mejilla junto a la comisura y la nariz y termina como arteria angular en el ángulo interno del ojo.",
+  ramas:"Palatina ascendente, amigdalina, submentoniana, labiales inferior y superior, nasal lateral y angular.",
+  irriga:"Amígdala, paladar blando, glándula submandibular, músculos y piel de la cara, labios y nariz.",
+  clinica:"Su pulso se palpa en el borde de la mandíbula, delante del masetero. Las arterias labiales de ambos lados se unen y por eso un corte del labio sangra por los dos extremos."},
+a_maxilar:{cat:"arteria", grupo:"Cabeza y cuello", nombre:"Arteria maxilar", latin:"Arteria maxillaris",
+  resumen:"Rama terminal profunda de la carótida externa que irriga los dientes, la nariz, los músculos de la masticación y las meninges.",
+  origen:"Carótida externa, detrás del cuello del cóndilo de la mandíbula.",
+  trayecto:"Pasa por dentro del cuello de la mandíbula, cruza la fosa infratemporal junto al pterigoideo lateral y entra en la fosa pterigopalatina.",
+  ramas:"Meníngea media (entra al cráneo por el agujero espinoso), alveolar inferior (dientes de abajo), temporales profundas, maseterina, pterigoideas, bucal, alveolares superiores, infraorbitaria, palatina descendente y esfenopalatina (nariz).",
+  irriga:"Duramadre y bóveda craneal, dientes y encías, músculos masticadores, paladar y cavidad nasal.",
+  clinica:"La rotura de la meníngea media por una fractura del pterion causa un hematoma epidural: tras un periodo de lucidez la persona se deteriora rápidamente. La esfenopalatina es la causa de los sangrados nasales posteriores graves."},
+poligono_willis:{cat:"arteria", grupo:"Cabeza y cuello · encéfalo", nombre:"Polígono de Willis y arterias cerebrales", latin:"Circulus arteriosus cerebri",
+  resumen:"Anillo de arterias en la base del cerebro que une las carótidas internas con la arteria basilar y reparte la sangre a todo el encéfalo.",
+  origen:"Carótidas internas (circulación anterior) y arterias vertebrales, que se unen en la arteria basilar (circulación posterior).",
+  trayecto:"La basilar sube por delante de la protuberancia y se divide en las cerebrales posteriores; las comunicantes posteriores las unen con las carótidas; las cerebrales anteriores se unen por la comunicante anterior. Alrededor del quiasma óptico y la hipófisis.",
+  ramas:"Cerebral anterior (cara interna del hemisferio), cerebral media (cara lateral, entra por la cisura de Silvio), cerebral posterior (lóbulo occipital), cerebelosas superiores y posteroinferiores, y perforantes al tálamo y los núcleos basales.",
+  irriga:"Todo el encéfalo: cerebro, tronco y cerebelo.",
+  clinica:"Los aneurismas se forman en sus uniones, sobre todo en la comunicante anterior; su rotura causa hemorragia subaracnoidea con el «peor dolor de cabeza de la vida». La cerebral media es la que más se tapa en los infartos cerebrales."},
+
+/* ================= VENAS ================= */
+v_yugular_interna:{cat:"vena", grupo:"Cabeza y cuello", nombre:"Vena yugular interna", latin:"Vena jugularis interna",
+  resumen:"La gran vena del cuello que recoge la sangre del cerebro, la cara y el cuello.",
+  trayecto:"Comienza en el agujero yugular como continuación del seno sigmoideo (con un ensanchamiento, el bulbo), baja por la vaina carotídea por fuera de la carótida, bajo el esternocleidomastoideo, y se une a la subclavia detrás de la clavícula.",
+  drena:"Vena braquiocefálica. Recibe los senos venosos del cráneo y las venas facial, lingual, faríngeas y tiroideas.",
+  clinica:"Se usa para colocar catéteres venosos centrales entre las dos cabezas del esternocleidomastoideo. Su pulso refleja la presión de la aurícula derecha (ingurgitación yugular en la insuficiencia cardíaca)."},
+v_yugular_externa:{cat:"vena", grupo:"Cabeza y cuello", nombre:"Vena yugular externa", latin:"Vena jugularis externa",
+  resumen:"Vena superficial del cuello que se ve cruzando el esternocleidomastoideo.",
+  trayecto:"Se forma detrás del ángulo de la mandíbula por la unión de la retromandibular y la auricular posterior, baja sobre el esternocleidomastoideo bajo el platisma y atraviesa la fascia sobre la clavícula.",
+  drena:"Vena subclavia.",
+  clinica:"Se hincha al toser, hacer esfuerzo o en la insuficiencia cardíaca derecha. En emergencias puede usarse para poner una vía venosa."},
+v_facial:{cat:"vena", grupo:"Cabeza y cuello", nombre:"Vena facial", latin:"Vena facialis",
+  resumen:"Vena de la cara que acompaña a la arteria facial y no tiene válvulas.",
+  trayecto:"Comienza como vena angular junto al ojo, baja por detrás de la arteria facial, cruza el borde de la mandíbula y se une a la yugular interna.",
+  drena:"Vena yugular interna. Se comunica con el seno cavernoso por las venas oftálmicas.",
+  clinica:"El «triángulo peligroso de la cara» (nariz y labio superior): una infección ahí puede viajar por esta vena hasta el seno cavernoso y causar una trombosis grave. Por eso no conviene exprimir granos en esa zona."},
+senos_venosos:{cat:"vena", grupo:"Cabeza y cuello · encéfalo", nombre:"Senos venosos de la duramadre", latin:"Sinus durae matris",
+  resumen:"Canales venosos dentro de la duramadre que recogen la sangre del cerebro y el líquido cefalorraquídeo.",
+  trayecto:"El seno sagital superior recorre la línea media del techo del cráneo; se une con el seno recto en la confluencia de los senos, junto a la protuberancia occipital interna; de ahí los senos transversos van a los lados y continúan como senos sigmoideos hasta el agujero yugular. Los senos cavernosos están a los lados de la silla turca.",
+  drena:"Vena yugular interna.",
+  clinica:"Por el seno cavernoso pasan la carótida interna y los nervios III, IV, V1, V2 y VI: su trombosis da dolor, ojo saltón y parálisis de los músculos del ojo. Las granulaciones aracnoideas devuelven el líquido cefalorraquídeo al seno sagital superior."},
+
+/* ================= NERVIOS ================= */
+n_olfatorio:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervio olfatorio (I)", latin:"Nervus olfactorius",
+  resumen:"Primer nervio craneal, del olfato.",
+  raices:"Neuronas de la mucosa del techo de la nariz.",
+  trayecto:"Sus fibras atraviesan la lámina cribosa del etmoides y llegan al bulbo olfatorio, bajo el lóbulo frontal; la cintilla olfatoria lleva la señal hacia atrás al lóbulo temporal.",
+  inerva:"Mucosa olfatoria (olfato).",
+  clinica:"Los golpes en la cabeza pueden cortar sus fibras en la lámina cribosa y causar pérdida del olfato (anosmia), a veces con salida de líquido por la nariz. Las infecciones virales también pueden quitar el olfato."},
+n_optico:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervio óptico (II) y quiasma", latin:"Nervus opticus et chiasma opticum",
+  resumen:"Segundo nervio craneal, que lleva la visión desde la retina al cerebro.",
+  raices:"Células ganglionares de la retina.",
+  trayecto:"Sale por detrás del ojo, cruza la órbita, entra al cráneo por el conducto óptico y forma el quiasma (donde se cruzan las fibras de la mitad nasal de cada retina); sigue como cintilla óptica hacia el tálamo y la corteza occipital.",
+  inerva:"Retina (visión); es la vía aferente del reflejo pupilar a la luz.",
+  clinica:"La presión alta dentro del cráneo hincha su papila (papiledema), visible en el fondo de ojo. La compresión del quiasma por un tumor de hipófisis quita la visión de los lados. La neuritis óptica es común en la esclerosis múltiple."},
+nervios_motores_ojo:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervios motores del ojo (III, IV y VI)", latin:"Nervi oculomotorius, trochlearis et abducens",
+  resumen:"Los tres nervios que mueven los ojos: oculomotor (III), troclear (IV) y abducens (VI).",
+  raices:"Núcleos del mesencéfalo (III y IV) y de la protuberancia (VI).",
+  trayecto:"Atraviesan el seno cavernoso y entran en la órbita por la fisura orbitaria superior. El troclear sale por la parte posterior del tronco; el abducens sube un largo trecho por el clivus.",
+  inerva:"III: rectos superior, inferior y medial, oblicuo inferior, elevador del párpado y fibras que cierran la pupila. IV: oblicuo superior. VI: recto lateral.",
+  clinica:"Regla «LR6 SO4, el resto 3». Una pupila dilatada de un lado puede indicar que un aneurisma o una hernia del cerebro comprime el oculomotor: es una urgencia. La lesión del VI aparece pronto en la hipertensión intracraneal."},
+n_trigemino:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervio trigémino (V)", latin:"Nervus trigeminus",
+  resumen:"Quinto nervio craneal: da la sensibilidad de toda la cara y mueve los músculos de la masticación.",
+  raices:"Protuberancia; ganglio trigeminal (de Gasser) sobre la punta del peñasco.",
+  trayecto:"Se divide en tres ramas: oftálmica (V1) por la fisura orbitaria superior hacia la frente y el ojo; maxilar (V2) por el agujero redondo hacia la mejilla (sale por el agujero infraorbitario); mandibular (V3) por el agujero oval hacia la mandíbula (nervios lingual, alveolar inferior, auriculotemporal y bucal).",
+  inerva:"Piel de la cara, córnea, mucosa de la nariz y la boca, dientes, dos tercios anteriores de la lengua (tacto) y duramadre. Motor (V3): masetero, temporal, pterigoideos, milohioideo y vientre anterior del digástrico.",
+  clinica:"La neuralgia del trigémino causa descargas de dolor intenso en la cara al masticar o tocar la piel. El herpes zóster en V1 puede afectar el ojo. El dentista bloquea el alveolar inferior para los dientes de abajo."},
+n_facial:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervio facial (VII)", latin:"Nervus facialis",
+  resumen:"Séptimo nervio craneal, que mueve los músculos de la expresión facial.",
+  raices:"Unión entre la protuberancia y el bulbo.",
+  trayecto:"Entra al conducto auditivo interno con el VIII, recorre el conducto facial del temporal (da la cuerda del tímpano), sale por el agujero estilomastoideo, entra en la parótida y se abre en cinco ramas: temporal, cigomática, bucal, mandibular marginal y cervical.",
+  inerva:"Músculos de la expresión facial, estilohioideo, vientre posterior del digástrico y estapedio; gusto de los 2/3 anteriores de la lengua; glándulas lagrimal, submandibular y sublingual.",
+  clinica:"La parálisis de Bell paraliza toda la mitad de la cara (frente incluida). En el infarto cerebral solo se afecta la parte baja de la cara. Puede lesionarse en la cirugía de parótida."},
+n_vestibulococlear:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervio vestibulococlear (VIII)", latin:"Nervus vestibulocochlearis",
+  resumen:"Octavo nervio craneal: lleva la audición y el equilibrio desde el oído interno al tronco.",
+  raices:"Unión bulboprotuberancial, detrás del facial (ángulo pontocerebeloso).",
+  trayecto:"Desde la cóclea y el vestíbulo atraviesa el conducto auditivo interno junto al facial hasta el tronco del encéfalo.",
+  inerva:"Cóclea (audición), utrículo, sáculo y conductos semicirculares (equilibrio).",
+  clinica:"El schwannoma vestibular (neurinoma del acústico) causa sordera de un oído, zumbido y mareo. La neuritis vestibular da vértigo intenso de varios días."},
+n_glosofaringeo:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervio glosofaríngeo (IX)", latin:"Nervus glossopharyngeus",
+  resumen:"Noveno nervio craneal: sensibilidad de la garganta y del tercio posterior de la lengua.",
+  raices:"Bulbo raquídeo, por detrás de la oliva.",
+  trayecto:"Sale por el agujero yugular, baja entre la carótida interna y la yugular, rodea el músculo estilofaríngeo y entra en la base de la lengua y la faringe.",
+  inerva:"Gusto y sensibilidad del tercio posterior de la lengua, sensibilidad de la faringe y del oído medio, seno y cuerpo carotídeo, glándula parótida (parasimpático) y músculo estilofaríngeo.",
+  clinica:"Es la vía sensitiva del reflejo nauseoso (el vago es la motora). Su neuralgia da dolor punzante en la garganta y el oído al tragar."},
+n_hipogloso:{cat:"nervio", grupo:"Nervios craneales", nombre:"Nervio hipogloso (XII)", latin:"Nervus hypoglossus",
+  resumen:"Duodécimo nervio craneal, que mueve la lengua.",
+  raices:"Bulbo raquídeo, entre la pirámide y la oliva.",
+  trayecto:"Sale por el conducto del hipogloso, baja entre la carótida interna y la yugular, cruza por fuera las carótidas por encima del hioides y entra en la lengua; lleva fibras de C1 que forman la raíz superior del asa cervical.",
+  inerva:"Todos los músculos de la lengua excepto el palatogloso.",
+  clinica:"Si se lesiona, al sacar la lengua esta se desvía hacia el lado lesionado y ese lado se atrofia. Puede lesionarse en la cirugía de la carótida."},
+plexo_cervical:{cat:"nervio", grupo:"Nervios espinales · cuello", nombre:"Plexo cervical y asa cervical", latin:"Plexus cervicalis et ansa cervicalis",
+  resumen:"Red de nervios de C1 a C4 que da la sensibilidad del cuello y parte de la oreja y mueve los músculos infrahioideos y el diafragma (frénico).",
+  raices:"Ramos ventrales de C1 a C4.",
+  trayecto:"Se forma delante de las vértebras, bajo el esternocleidomastoideo. Sus ramas sensitivas salen juntas en el punto medio del borde posterior del esternocleidomastoideo (punto nervioso): occipital menor, auricular mayor, transverso del cuello y supraclaviculares. El asa cervical rodea la yugular interna.",
+  inerva:"Piel de la nuca lateral, oreja y ángulo de la mandíbula, cuello y hombro; músculos infrahioideos (asa cervical), geniohioideo y tirohioideo (C1) y diafragma (frénico, C3–C5).",
+  clinica:"El bloqueo del plexo cervical superficial en el punto nervioso permite operar el cuello (por ejemplo la carótida) con el paciente despierto. «C3, 4 y 5 mantienen vivo el diafragma»."}
+});
+
+/* ---------- regiones ---------- */
+(function(){
+  var nuevos = ["hueso_frontal", "huesos_parietales", "huesos_temporales", "esfenoides", "huesos_cigomaticos", "maxilares", "huesos_nasales", "mandibula", "dientes", "hioides",
+    "articulacion_temporomandibular", "suturas_craneales",
+    "cerebro", "cerebelo", "tronco_encefalico", "hipofisis", "globos_oculares", "oido", "lengua", "faringe", "laringe", "tiroides", "paratiroides", "glandula_parotida", "glandula_submandibular", "glandula_sublingual",
+    "occipitofrontal", "orbicular_ojo", "orbicular_boca", "nasal", "elevador_labio_superior", "cigomatico_menor", "cigomatico_mayor", "risorio", "buccinador", "depresor_angulo_boca", "depresor_labio_inferior", "mentoniano", "platisma",
+    "masetero", "temporal", "pterigoideo_lateral", "pterigoideo_medial", "recto_superior", "recto_inferior", "recto_medial", "recto_lateral", "oblicuo_superior_ojo", "oblicuo_inferior_ojo", "elevador_parpado",
+    "esternocleidomastoideo", "digastrico", "estilohioideo", "milohioideo", "geniohioideo", "esternohioideo", "esternotiroideo", "tirohioideo", "omohioideo", "largo_cuello", "largo_cabeza", "constrictores_faringe",
+    "carotida_interna", "carotida_externa", "a_facial", "a_maxilar", "poligono_willis", "v_yugular_interna", "v_yugular_externa", "v_facial", "senos_venosos",
+    "n_olfatorio", "n_optico", "nervios_motores_ojo", "n_trigemino", "n_facial", "n_vestibulococlear", "n_glosofaringeo", "n_hipogloso", "plexo_cervical"];
+  nuevos.forEach(function(id){ if(DATA[id]) DATA[id].reg = ["cabeza"]; });
+  var add = function(id){ if(DATA[id] && DATA[id].reg.indexOf("cabeza") < 0) DATA[id].reg.push("cabeza"); };
+  ["atlas", "axis", "vertebras_cervicales", "hueso_occipital", "clavicula", "esternon", "lig_nucal", "trapecio", "elevador_escapula", "esplenio_cabeza", "esplenio_cuello", "semiespinoso",
+   "recto_posterior_mayor_cabeza", "recto_posterior_menor_cabeza", "oblicuo_inferior_cabeza", "oblicuo_superior_cabeza", "escaleno_anterior", "escaleno_medio", "escaleno_posterior",
+   "carotidas_comunes", "a_vertebral", "venas_braquiocefalicas", "n_vago", "n_frenico", "n_accesorio", "n_occipital_mayor", "n_suboccipital", "medula_espinal", "tronco_simpatico", "traquea_bronquios", "esofago"].forEach(add);
+  REGIONES.forEach(function(r){ if(r.id === "cabeza") r.listo = true; });
+})();
+RGRUPO.cabeza = "ax";
+RINFO.cabeza = {nombre:"Cabeza y cuello", n:8, sub:"Cabeza", desc:"Cráneo, cara y mandíbula con los dientes; músculos de la expresión facial, de la masticación, del ojo y del cuello; encéfalo (cerebro, cerebelo y tronco), ojos, oído, lengua, faringe, laringe, tiroides y glándulas salivales; nervios craneales, plexo cervical, carótidas, polígono de Willis, yugulares y senos venosos.",
+  inicio:["cerebro", "esternocleidomastoideo", "masetero", "n_facial", "carotida_interna", "mandibula"], home:{tx:0, ty:18, tz:-2, dist:72, yaw:.35, pitch:.05}};
+
+/* =====================================================================
    GEOMETRÍA: tubos de radio variable, elipsoides, toroides, placas, lofts
    ===================================================================== */
+var CALIDAD = (function(){ var v = null; try{ v = localStorage.getItem("atlas_calidad"); }catch(e){}
+  if(v !== "alta" && v !== "ligera"){ var m = false; try{ m = !!(window.matchMedia && matchMedia("(pointer: coarse)").matches) || Math.min(screen.width, screen.height) < 820; }catch(e){} v = m ? "ligera" : "alta"; }
+  return v; })();
 var G = (function(){
+  var Q = CALIDAD === "ligera" ? {seg:.6, rad:.72, fib:.72} : {seg:1, rad:1, fib:1};
   function add(a, b){ return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
   function sub(a, b){ return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
   function sc(a, s){ return [a[0] * s, a[1] * s, a[2] * s]; }
   function dot(a, b){ return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
   function cross(a, b){ return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
-  function len(a){ return Math.hypot(a[0], a[1], a[2]); }
+  function len(a){ return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]); }
   function nrm(a){ var l = len(a) || 1; return [a[0] / l, a[1] / l, a[2] / l]; }
   function lerp(a, b, t){ return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
   function mixc(a, b, t){ return lerp(a, b, t); }
@@ -3186,26 +3849,26 @@ var G = (function(){
     for(i = 1; i < P.length - 2; i++){ var l = len(sub(P[i + 1], P[i])); segL.push(l); tot += l; }
     var out = [];
     for(i = 1; i < P.length - 2; i++){
-      var m = Math.max(2, Math.round(n * segL[i - 1] / (tot || 1)));
-      for(var s = 0; s < m; s++) out.push(cr(P[i - 1], P[i], P[i + 1], P[i + 2], s / m));
+      var m = Math.max(2, Math.round(n * segL[i - 1] / (tot || 1))), p0 = P[i - 1], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2];
+      var t1 = Math.sqrt(len(sub(p1, p0)) || 1e-4), t2 = t1 + Math.sqrt(len(sub(p2, p1)) || 1e-4), t3 = t2 + Math.sqrt(len(sub(p3, p2)) || 1e-4);
+      for(var s = 0; s < m; s++) out.push(crk(p0, p1, p2, p3, t1, t2, t3, s / m));
     }
     out.push(ctrl[ctrl.length - 1].slice());
     return out;
   }
-  function cr(p0, p1, p2, p3, t){
-    var a = .5, t0 = 0, t1 = t0 + Math.pow(len(sub(p1, p0)) || 1e-4, a), t2 = t1 + Math.pow(len(sub(p2, p1)) || 1e-4, a), t3 = t2 + Math.pow(len(sub(p3, p2)) || 1e-4, a);
-    var u = t1 + (t2 - t1) * t;
-    var A1 = add(sc(p0, (t1 - u) / (t1 - t0)), sc(p1, (u - t0) / (t1 - t0)));
-    var A2 = add(sc(p1, (t2 - u) / (t2 - t1)), sc(p2, (u - t1) / (t2 - t1)));
-    var A3 = add(sc(p2, (t3 - u) / (t3 - t2)), sc(p3, (u - t2) / (t3 - t2)));
-    var B1 = add(sc(A1, (t2 - u) / (t2 - t0)), sc(A2, (u - t0) / (t2 - t0)));
-    var B2 = add(sc(A2, (t3 - u) / (t3 - t1)), sc(A3, (u - t1) / (t3 - t1)));
-    return add(sc(B1, (t2 - u) / (t2 - t1)), sc(B2, (u - t1) / (t2 - t1)));
+  function crk(p0, p1, p2, p3, t1, t2, t3, t){
+    var u = t1 + (t2 - t1) * t, o = [0, 0, 0];
+    var a1a = (t1 - u) / t1, a1b = u / t1, a2a = (t2 - u) / (t2 - t1), a2b = (u - t1) / (t2 - t1), a3a = (t3 - u) / (t3 - t2), a3b = (u - t2) / (t3 - t2);
+    var b1a = (t2 - u) / t2, b1b = u / t2, b2a = (t3 - u) / (t3 - t1), b2b = (u - t1) / (t3 - t1), ca = (t2 - u) / (t2 - t1), cb = (u - t1) / (t2 - t1);
+    for(var k = 0; k < 3; k++){ var A1 = p0[k] * a1a + p1[k] * a1b, A2 = p1[k] * a2a + p2[k] * a2b, A3 = p2[k] * a3a + p3[k] * a3b;
+      o[k] = (A1 * b1a + A2 * b1b) * ca + (A2 * b2a + A3 * b2b) * cb; }
+    return o;
   }
+  function cr(p0, p1, p2, p3, t){ var t1 = Math.sqrt(len(sub(p1, p0)) || 1e-4), t2 = t1 + Math.sqrt(len(sub(p2, p1)) || 1e-4), t3 = t2 + Math.sqrt(len(sub(p3, p2)) || 1e-4); return crk(p0, p1, p2, p3, t1, t2, t3, t); }
 
   /* Tubo de radio variable. r(t) y col(t) son funciones o constantes. */
   function tube(g, ctrl, o){
-    var n = o.seg || Math.max(8, Math.round(polyLen(ctrl) * 1.2)), rad = o.rad || 8;
+    var n = o.seg ? Math.max(4, Math.round(o.seg * Q.seg)) : Math.max(Q.seg < 1 ? 5 : 8, Math.round(polyLen(ctrl) * 1.2 * Q.seg)), rad = Math.max(4, Math.round((o.rad || 8) * Q.rad));
     var pts = spline(ctrl, n), N = pts.length, i, k;
     var T = [], L = [0];
     for(i = 0; i < N; i++){ var a = pts[Math.max(0, i - 1)], b = pts[Math.min(N - 1, i + 1)]; T.push(nrm(sub(b, a))); if(i) L.push(L[i - 1] + len(sub(pts[i], pts[i - 1]))); }
@@ -3214,12 +3877,14 @@ var G = (function(){
     var rf = typeof o.r === "function" ? o.r : function(){ return o.r; };
     var cf = typeof o.col === "function" ? o.col : function(){ return o.col; };
     var off = o.t0 || 0;
+    var fx = o.flatX || 1, fy = o.flatY || 1, CS = [], SN = [], P = g.p, Nn = g.n, Cc = g.c, Tt = g.t;
+    for(k = 0; k <= rad; k++){ CS.push(Math.cos(k / rad * Math.PI * 2) * fx); SN.push(Math.sin(k / rad * Math.PI * 2) * fy); }
     for(i = 0; i < N; i++){
       if(i){ nm = sub(nm, sc(T[i], dot(nm, T[i]))); nm = nrm(nm); }
-      var bn = cross(T[i], nm), u = L[i] / tot, r = rf(u), c = cf(u);
+      var bn = cross(T[i], nm), u = L[i] / tot, r = rf(u), c = cf(u), pp = pts[i], tv = o.revT ? (tot - L[i]) + off : L[i] + off;
       for(k = 0; k <= rad; k++){
-        var ang = k / rad * Math.PI * 2, d = add(sc(nm, Math.cos(ang) * (o.flatX || 1)), sc(bn, Math.sin(ang) * (o.flatY || 1)));
-        vert(g, add(pts[i], sc(d, r)), nrm(d), c, o.revT ? (tot - L[i]) + off : L[i] + off);
+        var dx = nm[0] * CS[k] + bn[0] * SN[k], dy = nm[1] * CS[k] + bn[1] * SN[k], dz = nm[2] * CS[k] + bn[2] * SN[k], dl = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
+        P.push(pp[0] + dx * r, pp[1] + dy * r, pp[2] + dz * r); Nn.push(dx / dl, dy / dl, dz / dl); Cc.push(c[0], c[1], c[2]); Tt.push(tv);
       }
     }
     for(i = 0; i < N - 1; i++) for(k = 0; k < rad; k++){
@@ -3233,7 +3898,7 @@ var G = (function(){
 
   /* Elipsoide. ax puede ser número (radio) o vectores de eje. */
   function ell(g, c, ax, ay, az, col, lat, lon, axes){
-    lat = lat || 14; lon = lon || 20;
+    lat = Math.max(4, Math.round((lat || 14) * Q.rad)); lon = Math.max(6, Math.round((lon || 20) * Q.rad));
     var A = axes ? axes[0] : [ax, 0, 0], Bv = axes ? axes[1] : [0, ay, 0], C = axes ? axes[2] : [0, 0, az];
     var la = len(A) || 1, lb = len(Bv) || 1, lc = len(C) || 1, base = g.p.length / 3, i, j;
     for(i = 0; i <= lat; i++){
@@ -3255,7 +3920,7 @@ var G = (function(){
   }
   /* Toroide (anillos: labrum, ligamento anular) */
   function torus(g, c, nAxis, R, r, col, seg, rad, arc){
-    seg = seg || 36; rad = rad || 8; arc = arc || Math.PI * 2;
+    seg = Math.max(8, Math.round((seg || 36) * Q.seg)); rad = Math.max(4, Math.round((rad || 8) * Q.rad)); arc = arc || Math.PI * 2;
     var n = nrm(nAxis), u = nrm(cross(n, Math.abs(n[1]) < .9 ? [0, 1, 0] : [1, 0, 0])), v = cross(n, u), base = g.p.length / 3, i, k;
     for(i = 0; i <= seg; i++){
       var a = i / seg * arc, ca = Math.cos(a), sa = Math.sin(a), dir = add(sc(u, ca), sc(v, sa)), ctr = add(c, sc(dir, R));
@@ -3309,7 +3974,7 @@ var G = (function(){
   function muscle(g, M, seed, colors){
     var R = rng(seed), tl = 0;
     M.parts.forEach(function(P, pi){
-      var n = P.n || 8;
+      var n = Math.max(1, Math.round((P.n || 8) * Q.fib));
       for(var f = 0; f < n; f++){
         var t = n === 1 ? .5 : (f + .5) / n, jt = Math.min(1, Math.max(0, t + (R() - .5) * .6 / n));
         var O = along(P.o, jt), I = along(P.i, P.cross ? 1 - jt : jt), ctrl = [O];
@@ -3330,7 +3995,7 @@ var G = (function(){
     return tl;
   }
 
-  return {B:B, tube:tube, ell:ell, ellBetween:ellBetween, torus:torus, plate:plate, loft:loft, muscle:muscle, along:along,
+  return {Q:Q, B:B, tube:tube, ell:ell, ellBetween:ellBetween, torus:torus, plate:plate, loft:loft, muscle:muscle, along:along,
     v:{add:add, sub:sub, sc:sc, nrm:nrm, lerp:lerp, len:len, cross:cross, dot:dot}, rng:rng};
 })();
 
@@ -3884,10 +4549,8 @@ var MODEL = (function(){
   /* =================== PIEL =================== */
   (function(){
     var g = G.B();
-    G.loft(g, [{y:10, w:5.6, cz:-5.2, d:5.6}, {y:7, w:7.5, cz:-5.4, d:6.6}, {y:4, w:13.5, cz:-6.2, d:8.8}, {y:1.5, w:17.5, cz:-6.4, d:10.6}, {y:-3, w:17.8, cz:-6.0, d:12.0},
+    G.loft(g, [{y:7, w:7.5, cz:-5.4, d:6.6}, {y:4, w:13.5, cz:-6.2, d:8.8}, {y:1.5, w:17.5, cz:-6.4, d:10.6}, {y:-3, w:17.8, cz:-6.0, d:12.0},
       {y:-10, w:17.0, cz:-5.8, d:12.4}, {y:-18, w:16.0, cz:-6.2, d:11.8}, {y:-26, w:14.8, cz:-6.6, d:10.8}, {y:-34, w:13.8, cz:-6.6, d:9.8}, {y:-42, w:15.2, cz:-6.4, d:10.2}], 44, COL.skin, 2.6);
-    G.tube(g, [[0, 9, -5.4], [0, 14, -4.8], [0, 19.5, -4.4]], {r:5.3, col:COL.skin, rad:24});
-    G.ell(g, [0, 26, -3.6], 7.6, 10.4, 9.2, COL.skin, 18, 26);
     var arm = [[16.5, 1, -5], [20.8, -3.2, -4.2], [21.4, -12, -3.4], [21.0, -24, -3.2], [21.2, -31.6, -3.6], [22.6, -38, -2.6], [24.4, -48, -2.0], [25.6, -56, -2.0]];
     var prof = [[0, 5.8], [.1, 5.6], [.3, 4.6], [.45, 4.0], [.55, 4.3], [.75, 3.4], [1, 2.6]];
     var rf = function(u){ for(var i = 1; i < prof.length; i++) if(u <= prof[i][0]){ var a = prof[i - 1], b = prof[i], k = (u - a[0]) / (b[0] - a[0]); return a[1] + (b[1] - a[1]) * k; } return 2.6; };
@@ -4896,6 +5559,488 @@ var MODEL = (function(){
 })();
 
 /* =====================================================================
+   MODELO · REGIÓN 8: CABEZA Y CUELLO
+   ===================================================================== */
+(function(){
+  var V = G.v, add = V.add, sub = V.sub, sc = V.sc, nrm = V.nrm, lerp = V.lerp, cross = V.cross, COL = MODEL.COL, L = MODEL.list;
+  function entry(id){ for(var i = 0; i < L.length; i++) if(L[i].id === id) return L[i]; return null; }
+  function push(id, g, opt){ L.push({id:id, g:g, opt:opt || {}}); }
+  var S2 = [1, -1], PI = Math.PI;
+  function X(p, s){ return [p[0] * s, p[1], p[2]]; }
+  function sp(v, e){ return Math.sign(v) * Math.pow(Math.abs(v), e); }
+  function ss(t){ t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
+  var C = {enamel:[.97, .95, .88], brain:[.94, .76, .74], brainD:[.72, .46, .48], cereb:[.9, .68, .64], stem:[.92, .8, .7], eye:[.97, .97, .95], iris:[.32, .48, .62], pupil:[.04, .04, .06],
+    tongue:[.86, .43, .46], muc:[.9, .6, .58], thy:[.72, .27, .3], para:[.88, .68, .36], gland:[.94, .8, .6], ear:[.94, .74, .68], hyp:[.9, .62, .5], lac:[.92, .7, .62], fold:[.97, .94, .9]};
+
+  /* ---------- utilidades de superficie ---------- */
+  function normals(gg, base, start){
+    var P = gg.p, N = gg.n, I = gg.i, k;
+    for(k = start; k < I.length; k += 3){ var A = I[k], B = I[k + 1], Cc = I[k + 2], pa = [P[A * 3], P[A * 3 + 1], P[A * 3 + 2]];
+      var fn = cross(sub([P[B * 3], P[B * 3 + 1], P[B * 3 + 2]], pa), sub([P[Cc * 3], P[Cc * 3 + 1], P[Cc * 3 + 2]], pa));
+      N[A * 3] += fn[0]; N[A * 3 + 1] += fn[1]; N[A * 3 + 2] += fn[2]; N[B * 3] += fn[0]; N[B * 3 + 1] += fn[1]; N[B * 3 + 2] += fn[2]; N[Cc * 3] += fn[0]; N[Cc * 3 + 1] += fn[1]; N[Cc * 3 + 2] += fn[2]; }
+    for(k = base; k < P.length / 3; k++){ var nn = nrm([N[k * 3], N[k * 3 + 1], N[k * 3 + 2]]); if(!nn[0] && !nn[1] && !nn[2]) nn = [0, 1, 0]; N[k * 3] = nn[0]; N[k * 3 + 1] = nn[1]; N[k * 3 + 2] = nn[2]; }
+  }
+  // Malla de cuadrícula P(u,v); wrap = cerrada en u
+  function surf(gg, nr, nc, P, col, wrap){
+    var base = gg.p.length / 3, cols = wrap ? nc : nc + 1, r, c, start = gg.i.length;
+    for(r = 0; r <= nr; r++) for(c = 0; c < cols; c++){ var u = c / nc, v = r / nr, p = P(u, v), cc = typeof col === "function" ? col(p, u, v) : col;
+      gg.p.push(p[0], p[1], p[2]); gg.n.push(0, 0, 0); gg.c.push(cc[0], cc[1], cc[2]); gg.t.push(0); }
+    for(r = 0; r < nr; r++) for(c = 0; c < nc; c++){ var c1 = wrap ? (c + 1) % nc : c + 1, a = base + r * cols + c, b = base + r * cols + c1, d = base + (r + 1) * cols + c, e = base + (r + 1) * cols + c1; gg.i.push(a, d, b, b, d, e); }
+    normals(gg, base, start);
+  }
+  // Lámina con grosor (dos caras y borde)
+  function slab(gg, P, th, col, nr, nc){
+    var pts = [], r, c, e = 1e-3;
+    for(r = 0; r <= nr; r++){ pts.push([]); for(c = 0; c <= nc; c++){ var u = c / nc, v = r / nr, p = P(u, v);
+      var pu = sub(P(Math.min(1, u + e), v), P(Math.max(0, u - e), v)), pv = sub(P(u, Math.min(1, v + e)), P(u, Math.max(0, v - e))), t = typeof th === "function" ? th(u, v) : th;
+      pts[r].push([p, nrm(cross(pu, pv)), t]); } }
+    [1, -1].forEach(function(sg){ surf(gg, nr, nc, function(u, v){ var q = pts[Math.round(v * nr)][Math.round(u * nc)]; return add(q[0], sc(q[1], sg * q[2] / 2)); }, col); });
+    var loop = []; for(c = 0; c <= nc; c++) loop.push(pts[0][c]); for(r = 1; r <= nr; r++) loop.push(pts[r][nc]); for(c = nc - 1; c >= 0; c--) loop.push(pts[nr][c]); for(r = nr - 1; r >= 1; r--) loop.push(pts[r][0]);
+    var m = loop.length; surf(gg, 1, m, function(u, v){ var q = loop[Math.round(u * m) % m]; return add(q[0], sc(q[1], (v - .5) * q[2])); }, col, true);
+  }
+  function curve(ctrl){ return G.tube(G.B(), ctrl, {r:.01, col:[0, 0, 0], seg:60, rad:3}).pts; }
+  function coons(Bc, Tc, Lc, Rc){
+    var B = curve(Bc), T = curve(Tc), Lf = curve(Lc), R = curve(Rc), P00 = B[0], P10 = B[B.length - 1], P01 = T[0], P11 = T[T.length - 1];
+    return function(u, v){ var b = G.along(B, u), t = G.along(T, u), l = G.along(Lf, v), r = G.along(R, v);
+      return [0, 1, 2].map(function(k){ return (1 - v) * b[k] + v * t[k] + (1 - u) * l[k] + u * r[k] - ((1 - u) * (1 - v) * P00[k] + u * (1 - v) * P10[k] + (1 - u) * v * P01[k] + u * v * P11[k]); }); };
+  }
+  function organ(gg, secs, col, ring, e){
+    ring = ring || 22; e = e || 2;
+    surf(gg, (secs.length - 1) * 4, ring, function(u, v){ var f = v * (secs.length - 1), i = Math.min(secs.length - 2, Math.floor(f)), t = ss(f - i), a = secs[i], b = secs[i + 1];
+      var q = {}; ["y", "cx", "cz", "rx", "rz"].forEach(function(k){ q[k] = a[k] + (b[k] - a[k]) * (k === "y" ? f - i : t); });
+      var th = u * PI * 2, k = Math.sin(PI * Math.min(1, Math.max(0, v))) > .02 ? 1 : 1; if(v === 0 || v === 1) k = .0001;
+      return [q.cx + q.rx * k * sp(Math.cos(th), 2 / e), q.y, q.cz + q.rz * k * sp(Math.sin(th), 2 / e)]; }, col, true);
+  }
+
+  /* ---------- piel de la cabeza y el cuello (reemplaza la elipse simple) ---------- */
+  var SK = [
+    {y:33.35, w:.05, zf:-3.85, zb:-3.95, ef:2.3, eb:2.3}, {y:32.95, w:2.7, zf:-.9, zb:-7.3, ef:2.3, eb:2.3}, {y:31.6, w:5.1, zf:1.9, zb:-9.9, ef:2.3, eb:2.3},
+    {y:29.6, w:6.6, zf:3.9, zb:-11.5, ef:2.4, eb:2.3}, {y:27.0, w:7.4, zf:4.8, zb:-12.4, ef:2.6, eb:2.3}, {y:24.4, w:7.6, zf:5.0, zb:-12.6, ef:2.8, eb:2.3},
+    {y:22.8, w:7.5, zf:4.5, zb:-12.4, ef:3.0, eb:2.3}, {y:21.4, w:7.3, zf:4.15, zb:-12.0, ef:3.0, eb:2.3}, {y:19.8, w:7.1, zf:4.6, zb:-11.3, ef:3.0, eb:2.3},
+    {y:18.0, w:6.8, zf:4.9, zb:-10.6, ef:3.0, eb:2.3}, {y:16.4, w:6.4, zf:5.7, zb:-10.1, ef:3.0, eb:2.3}, {y:14.6, w:6.1, zf:5.3, zb:-9.9, ef:3.0, eb:2.3},
+    {y:13.0, w:5.9, zf:5.4, zb:-9.8, ef:2.9, eb:2.3}, {y:11.6, w:5.85, zf:5.25, zb:-9.8, ef:2.7, eb:2.3}, {y:10.6, w:5.9, zf:3.7, zb:-9.9, ef:2.5, eb:2.3},
+    {y:9.6, w:6.05, zf:1.5, zb:-10.1, ef:2.4, eb:2.4}, {y:8.4, w:6.45, zf:1.25, zb:-10.6, ef:2.4, eb:2.4}, {y:7.0, w:7.45, zf:1.2, zb:-11.95, ef:2.5, eb:2.5}];
+  function cr1(p0, p1, p2, p3, t){ var t2 = t * t, t3 = t2 * t; return .5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 + (-p0 + 3 * p1 - 3 * p2 + p3) * t3); }
+  function sec(y){
+    var i = 0; while(i < SK.length - 2 && SK[i + 1].y > y) i++;
+    var a = SK[i], b = SK[i + 1], t = Math.max(0, Math.min(1, (a.y - y) / (a.y - b.y))), a0 = SK[Math.max(0, i - 1)], b1 = SK[Math.min(SK.length - 1, i + 2)], o = {y:y};
+    ["w", "zf", "zb", "ef", "eb"].forEach(function(k){ o[k] = cr1(a0[k], a[k], b[k], b1[k], t); }); o.w = Math.max(.05, o.w); return o;
+  }
+  function skinPt(y, a){ var s = sec(y), ca = Math.cos(a), sa = Math.sin(a), e = sa >= 0 ? s.ef : s.eb, zc = (s.zf + s.zb) / 2, d = sa >= 0 ? s.zf - zc : zc - s.zb;
+    return [s.w * sp(ca, 2 / e), y, zc + d * sp(sa, 2 / e)]; }
+  // Punto bajo la piel de la cara (dep = profundidad)
+  function F(x, y, dep){ var s = sec(y), zc = (s.zf + s.zb) / 2, d = s.zf - zc, t = Math.min(.985, Math.abs(x) / s.w); return [x, y, zc + d * Math.pow(1 - Math.pow(t, s.ef), 1 / s.ef) - (dep || 0)]; }
+  function Fb(x, y, dep){ var s = sec(y), zc = (s.zf + s.zb) / 2, d = zc - s.zb, t = Math.min(.985, Math.abs(x) / s.w); return [x, y, zc - d * Math.pow(1 - Math.pow(t, s.eb), 1 / s.eb) + (dep || 0)]; }
+  (function(){
+    var ed = entry("piel"); if(!ed) return; var gg = ed.g;
+    surf(gg, 110, 56, function(u, v){ return skinPt(33.35 - v * (33.35 - 7.0), u * PI * 2); }, COL.skin, true);
+    // nariz
+    var nz = F(0, 22.6, .05)[2];
+    G.tube(gg, [[0, 22.7, nz - .55], [0, 21.0, 5.0], [0, 19.75, 6.15], [0, 19.1, 6.15], [0, 18.75, 5.7]], {r:function(u){ return u < .3 ? .5 + u * .9 : u < .8 ? .77 + (u - .3) * .3 : .92 - (u - .8) * 2.2; }, col:COL.skin, rad:16, flatY:1.15, caps:true});
+    S2.forEach(function(s){ G.ell(gg, [s * 1.0, 18.95, 5.35], .62, .55, .78, COL.skin, 10, 14); });
+    // labios
+    [[15.85, .4, 5.95], [14.55, .45, 5.75]].forEach(function(l){ G.tube(gg, [-2.5, -1.6, -.8, 0, .8, 1.6, 2.5].map(function(x){ var z = F(x, l[0], 0)[2]; return [x, l[0] + (Math.abs(x) < 1 ? .04 : -.05 * Math.abs(x)), z + .05 + (2.5 - Math.abs(x)) * .03]; }), {r:function(u){ return l[1] * (.45 + .55 * Math.sin(PI * u)); }, col:COL.skin, rad:10}); });
+  })();
+
+  /* =================== HUESOS DEL CRÁNEO =================== */
+  var C0 = [0, 24.2, -3.8], R0 = [6.9, 8.4, 8.0];
+  function skn(la, lo){ return [Math.cos(la) * Math.sin(lo), Math.sin(la), -Math.cos(la) * Math.cos(lo)]; }
+  function sk(la, lo, off){ var n = skn(la, lo), p = [C0[0] + n[0] * R0[0], C0[1] + n[1] * R0[1], C0[2] + n[2] * R0[2]];
+    if(off){ p = add(p, sc(nrm([n[0] / R0[0], n[1] / R0[1], n[2] / R0[2]]), off)); } return p; }
+  function skS(s, la, lo, off){ return X(sk(la, lo, off), s); }
+  function skXY(x, y, front, off){ var la = Math.asin(Math.max(-1, Math.min(1, (y - C0[1]) / R0[1]))), cl = Math.max(1e-3, Math.cos(la)), sl = Math.max(-1, Math.min(1, x / (R0[0] * cl)));
+    return sk(la, front ? PI - Math.asin(sl) : Math.asin(sl), off || 0); }
+  function inner(p, f){ return add(C0, sc(sub(p, C0), f)); }
+  function patch(gg, la0, la1, lo0, lo1, nr, nc, th, col){
+    col = col || COL.bone; var kin = 1 - th / R0[0];
+    var P = function(u, v, k){ var n = skn(la0 + (la1 - la0) * v, lo0 + (lo1 - lo0) * u); return [C0[0] + n[0] * R0[0] * k, C0[1] + n[1] * R0[1] * k, C0[2] + n[2] * R0[2] * k]; };
+    surf(gg, nr, nc, function(u, v){ return P(u, v, 1); }, col); surf(gg, nr, nc, function(u, v){ return P(u, v, kin); }, col);
+    [[0, null], [1, null], [null, 0], [null, 1]].forEach(function(ed){ var n = ed[0] === null ? nc : nr;
+      surf(gg, 1, n, function(t, w){ var u = ed[0] === null ? t : ed[0], v = ed[1] === null ? t : ed[1]; return P(u, v, 1 - (1 - kin) * w); }, col); });
+  }
+  // Órbita: borde (θ: 0 lateral, π/2 arriba, π medial) y paredes hasta el vértice
+  var OC = [3.2, 21.7], EYE = [3.2, 21.7, 1.95], APEX = [1.75, 21.5, -2.4];
+  function rim(s, th){ var c = Math.cos(th), sn = Math.sin(th), pc = sp(c, 2 / 2.6), ps = sp(sn, 2 / 2.6), x = OC[0] + 1.95 * pc, z = 3.6 - 1.12 * (1 + pc) + .3 * ps;
+    if(ps > 0){ var q = 1 - Math.pow(x / (R0[0] * .995), 2), ez = C0[2] + R0[2] * .995 * Math.sqrt(Math.max(0, q)) - .15; z = z + (ez - z) * Math.pow(ps, 1.5); }
+    return [s * x, OC[1] + 1.72 * ps, z]; }
+  function orbW(s, th, k){ var R = rim(s, th), ax = lerp([s * 3.2, 21.7, 2.8], X(APEX, s), k), ap = add(X(APEX, s), sc(sub(R, [s * 3.2, 21.7, 2.8]), .14)), p = lerp(R, ap, k);
+    return add(ax, sc(sub(p, ax), 1 + .1 * Math.sin(PI * k) * (1 - k * .5))); }
+  function orbit(gg, s, t0, t1, k0, k1, rimR){
+    surf(gg, 7, 12, function(u, v){ return orbW(s, t0 + (t1 - t0) * u, k0 + (k1 - k0) * v); }, COL.bone);
+    if(rimR){ var pts = []; for(var i = 0; i <= 12; i++) pts.push(add(rim(s, t0 + (t1 - t0) * i / 12), [0, 0, -.05])); G.tube(gg, pts, {r:rimR, col:COL.bone, rad:8}); }
+  }
+  var g;
+  // Frontal
+  g = G.B();
+  patch(g, -.1, PI / 2, 2.15, 2 * PI - 2.15, 16, 30, .5);
+  S2.forEach(function(s){
+    orbit(g, s, .4, 2.9, 0, 1, .2);
+    G.tube(g, [skXY(s * 4.5, 23.45, 1, -.05), X([4.95, 23.0, 1.8], s), X([5.1, 22.45, 1.85], s)], {r:.24, col:COL.bone, rad:8, flatX:1.4});
+  });
+  G.ell(g, skXY(0, 23.65, 1, .1), 1.0, .45, .4, COL.bone, 8, 12);
+  push("hueso_frontal", g, {layer:"hueso"});
+  // Parietales
+  g = G.B();
+  patch(g, .75, PI / 2, -2.15, 2.15, 10, 28, .5);
+  patch(g, .2, .75, 1.25, 2.15, 6, 8, .5); patch(g, .2, .75, -2.15, -1.25, 6, 8, .5);
+  push("huesos_parietales", g, {layer:"hueso"});
+  // Temporales
+  g = G.B();
+  patch(g, -.6, .2, 1.25, 2.15, 8, 10, .5); patch(g, -.6, .2, -2.15, -1.25, 8, 10, .5);
+  S2.forEach(function(s){
+    G.tube(g, [X([5.85, 20.05, -3.4], s), X([6.2, 20.15, -2.2], s), X([6.18, 20.08, -1.0], s)], {r:.3, col:COL.bone, rad:8, flatY:1.55});
+    G.ell(g, X([5.05, 19.78, -2.75], s), .7, .28, .35, COL.bone, 8, 10);
+    G.torus(g, X([5.9, 19.7, -4.9], s), [1, 0, 0], .42, .14, COL.bone, 18, 6);
+    G.tube(g, [X([3.95, 18.9, -5.15], s), X([3.45, 17.1, -4.55], s), X([3.0, 15.9, -4.05], s)], {r:function(u){ return .15 - u * .1; }, col:COL.bone, rad:6, caps:true});
+    G.tube(g, [X([5.3, 20.45, -6.4], s), X([3.6, 20.6, -5.4], s), X([1.95, 20.42, -4.3], s)], {r:.42, col:COL.bone, rad:8, flatY:.75});
+  });
+  push("huesos_temporales", g, {layer:"hueso"});
+  // Esfenoides (alas mayores, base del cráneo, apófisis pterigoides)
+  g = G.B();
+  patch(g, -.6, -.1, 2.15, 2.32, 6, 3, .45); patch(g, -.6, -.1, 2 * PI - 2.32, 2 * PI - 2.15, 6, 3, .45);
+  function fy(z){ return z > .6 ? 23.55 : z > -1.6 ? 20.2 + 3.35 * ss((z + 1.6) / 2.2) : 20.2; }
+  slab(g, function(u, v){ var z = -5.2 + v * 8.9, y = fy(z), q = 1 - Math.pow((y - C0[1]) / R0[1], 2) - Math.pow((z - C0[2]) / R0[2], 2), W = R0[0] * .935 * Math.sqrt(Math.max(.002, q)); return [(u * 2 - 1) * W, y, z]; }, .32, COL.bone, 18, 16);
+  G.ell(g, [0, 20.05, -3.45], 1.15, .55, 1.05, COL.bone, 10, 12);
+  G.tube(g, [[-.9, 20.6, -4.3], [0, 20.85, -4.45], [.9, 20.6, -4.3]], {r:.2, col:COL.bone, rad:6});
+  S2.forEach(function(s){
+    orbit(g, s, 5.0, 2 * PI + .4, .45, 1, 0);
+    slab(g, coons([X([1.95, 19.9, -1.5], s), X([2.85, 19.7, -2.65], s)], [X([2.0, 16.5, -1.3], s), X([2.85, 17.3, -2.8], s)], [X([1.95, 19.9, -1.5], s), X([2.0, 16.5, -1.3], s)], [X([2.85, 19.7, -2.65], s), X([2.85, 17.3, -2.8], s)]), .22, COL.bone, 4, 4);
+    slab(g, coons([X([1.35, 19.9, -1.5], s), X([1.5, 19.8, -2.5], s)], [X([1.4, 16.4, -1.35], s), X([1.55, 17.3, -2.55], s)], [X([1.35, 19.9, -1.5], s), X([1.4, 16.4, -1.35], s)], [X([1.5, 19.8, -2.5], s), X([1.55, 17.3, -2.55], s)]), .18, COL.bone, 4, 4);
+    G.ell(g, X([1.45, 16.25, -1.45], s), .12, .2, .12, COL.bone, 5, 6);
+  });
+  push("esfenoides", g, {layer:"hueso"});
+  // Fosa posterior (se añade al occipital)
+  (function(){ var e = entry("hueso_occipital"); if(!e) return;
+    surf(e.g, 6, 36, function(u, v){ var ph = u * PI * 2, c = Math.cos(ph), sn = Math.sin(ph), back = sn < 0;
+      var a = [1.75 * c, 17.0, -6.6 + 1.75 * sn], b = [5.5 * c, back ? 19.1 : 19.9, -6.6 + (back ? 3.6 : 2.0) * sn], p = lerp(a, b, v); p[1] -= .55 * Math.sin(PI * v) * (back ? 1 : .2); return p; }, COL.bone, true);
+  })();
+  // Cigomáticos
+  g = G.B();
+  S2.forEach(function(s){
+    orbit(g, s, 5.0, 2 * PI + .4, 0, .45, .24);
+    slab(g, function(u, v){ var p = coons([X([4.6, 18.85, 1.75], s), X([5.75, 19.75, .15], s)], [X([4.25, 20.15, 2.25], s), X([5.25, 21.4, 1.25], s)], [X([4.6, 18.85, 1.75], s), X([4.25, 20.15, 2.25], s)], [X([5.75, 19.75, .15], s), X([5.25, 21.4, 1.25], s)])(u, v);
+      return add(p, sc(nrm([s * .8, 0, .6]), .3 * Math.sin(PI * u) * Math.sin(PI * v))); }, .55, COL.bone, 6, 6);
+    G.tube(g, [X([5.35, 19.95, .9], s), X([5.95, 20.05, -.2], s), X([6.18, 20.08, -1.0], s)], {r:.3, col:COL.bone, rad:8, flatY:1.6});
+  });
+  push("huesos_cigomaticos", g, {layer:"hueso"});
+  // Maxilares
+  var UP = [[.45, 4.3], [1.2, 3.95], [1.85, 3.4], [2.3, 2.65], [2.55, 1.85], [2.8, .85], [3.0, -.25], [3.15, -1.25]];
+  var LO = [[.3, 3.95], [.85, 3.72], [1.45, 3.25], [2.0, 2.45], [2.32, 1.6], [2.6, .6], [2.8, -.45], [2.95, -1.4]];
+  function archPts(A, k, dz){ var pts = []; for(var i = A.length - 1; i >= 0; i--) pts.push([-A[i][0] * k, 0, A[i][1] + dz]); A.forEach(function(q){ pts.push([q[0] * k, 0, q[1] + dz]); }); return pts; }
+  g = G.B();
+  S2.forEach(function(s){
+    organ(g, [{y:16.3, cx:s * 2.4, cz:.7, rx:1.12, rz:2.15}, {y:17.4, cx:s * 2.55, cz:.7, rx:1.3, rz:2.25}, {y:18.8, cx:s * 2.7, cz:.6, rx:1.38, rz:2.1}, {y:19.95, cx:s * 2.9, cz:.45, rx:1.25, rz:1.75}], COL.bone, 22, 2.6);
+    orbit(g, s, 2.9, 5.0, 0, 1, .2);
+    slab(g, coons([X([1.2, 19.5, 3.35], s), X([1.95, 19.85, 2.85], s)], [X([.62, 23.05, 3.95], s), X([1.4, 23.15, 3.55], s)], [X([1.2, 19.5, 3.35], s), X([.85, 21.4, 3.9], s), X([.62, 23.05, 3.95], s)], [X([1.95, 19.85, 2.85], s), X([1.5, 21.4, 3.45], s), X([1.4, 23.15, 3.55], s)]), .3, COL.bone, 5, 4);
+    G.tube(g, [X([3.6, 19.2, 1.4], s), X([4.4, 19.6, 1.55], s)], {r:.45, col:COL.bone, rad:8});
+    G.plate(g, [0, 16.45, 3.0], X([2.25, 16.45, -1.4], s), [0, 16.45, -1.55], .3, [0, .1, 0], COL.bone, 6);
+    G.plate(g, [0, 16.45, 3.0], X([1.95, 16.45, 2.3], s), X([2.25, 16.45, -1.4], s), .3, [0, .1, 0], COL.bone, 6);
+  });
+  G.tube(g, archPts(UP, 1.04, .05).map(function(p){ return [p[0], 16.15, p[2]]; }), {r:.5, col:COL.bone, rad:10, flatY:1.55, caps:true, seg:70});
+  G.ell(g, [0, 16.75, 3.95], .2, .15, .45, COL.bone, 6, 8);
+  push("maxilares", g, {layer:"hueso"});
+  // Huesos nasales, vómer y cornetes
+  g = G.B();
+  S2.forEach(function(s){
+    slab(g, coons([[0, 21.0, 4.95], X([.85, 21.0, 4.45], s)], [[0, 23.15, 4.1], X([.6, 23.05, 3.9], s)], [[0, 21.0, 4.95], [0, 22.1, 4.55], [0, 23.15, 4.1]], [X([.85, 21.0, 4.45], s), X([.75, 22.0, 4.15], s), X([.6, 23.05, 3.9], s)]), .2, COL.bone, 4, 4);
+    G.ell(g, X([.95, 17.45, .6], s), .28, .33, 1.75, COL.bone, 8, 12); G.ell(g, X([.85, 18.7, .1], s), .24, .28, 1.35, COL.bone, 8, 12);
+  });
+  G.plate(g, [0, 16.75, 3.4], [0, 22.4, 3.75], [0, 17.0, -1.4], .14, [0, 0, 0], COL.bone, 8);
+  G.plate(g, [0, 22.4, 3.75], [0, 21.4, -1.0], [0, 17.0, -1.4], .14, [0, 0, 0], COL.bone, 8);
+  push("huesos_nasales", g, {layer:"hueso"});
+  // Mandíbula
+  g = G.B();
+  var MB = [[-4.6, 12.7, -3.8], [-3.8, 12.8, -2.9], [-3.2, 12.8, -1.6], [-2.85, 12.7, 0], [-2.5, 12.6, 1.5], [-1.7, 12.5, 3.0], [0, 12.4, 3.7], [1.7, 12.5, 3.0], [2.5, 12.6, 1.5], [2.85, 12.7, 0], [3.2, 12.8, -1.6], [3.8, 12.8, -2.9], [4.6, 12.7, -3.8]];
+  var MBot = curve([[-4.7, 12.3, -4.0], [-4.2, 11.7, -2.8], [-3.45, 11.3, -1.0], [-2.85, 11.1, 1.0], [-1.95, 10.95, 2.75], [0, 10.85, 3.9], [1.95, 10.95, 2.75], [2.85, 11.1, 1.0], [3.45, 11.3, -1.0], [4.2, 11.7, -2.8], [4.7, 12.3, -4.0]]);
+  var MTop = curve([[-4.0, 13.5, -3.1], [-3.35, 13.85, -1.7], [-3.0, 13.9, 0], [-2.65, 13.9, 1.5], [-1.85, 13.9, 3.0], [0, 13.9, 3.95], [1.85, 13.9, 3.0], [2.65, 13.9, 1.5], [3.0, 13.9, 0], [3.35, 13.85, -1.7], [4.0, 13.5, -3.1]]);
+  slab(g, function(u, v){ var b = G.along(MBot, u), t = G.along(MTop, u), p = lerp(b, t, v), o = nrm([p[0], 0, p[2] + 1.2]); return add(p, sc(o, .18 * Math.sin(PI * v) + (Math.abs(p[0]) < 1.6 ? .22 * Math.exp(-Math.pow((v - .2) / .25, 2)) : 0))); },
+    function(u, v){ return .95 - .35 * v; }, COL.bone, 8, 60);
+  G.tube(g, MBot.map(function(p){ return add(p, sc(nrm([p[0], 0, p[2] + 1.2]), .08)); }), {r:.42, col:COL.bone, rad:8});
+  G.tube(g, MTop.map(function(p){ return add(p, [0, -.1, 0]); }), {r:.28, col:COL.bone, rad:8});
+  S2.forEach(function(s){
+    var rp = coons([X([4.75, 12.3, -4.05], s), X([4.45, 12.9, -2.8], s), X([4.05, 13.5, -1.9], s)], [X([5.0, 18.5, -4.15], s), X([4.95, 17.9, -2.9], s), X([4.9, 19.4, -1.65], s)],
+      [X([4.75, 12.3, -4.05], s), X([4.85, 14.4, -4.35], s), X([4.95, 16.8, -4.35], s), X([5.0, 18.5, -4.15], s)], [X([4.05, 13.5, -1.9], s), X([4.45, 15.5, -1.55], s), X([4.75, 17.8, -1.45], s), X([4.9, 19.4, -1.65], s)]);
+    slab(g, function(u, v){ var p = rp(u, v); p[0] += s * .2 * Math.sin(PI * u) * Math.sin(PI * v); return p; }, .42, COL.bone, 10, 8);
+    G.ell(g, X([5.05, 19.0, -4.0], s), .95, .42, .48, COL.bone, 10, 14);
+  });
+  push("mandibula", g, {layer:"hueso"});
+  // Dientes
+  g = G.B();
+  var SZU = [[.42, .3, .5], [.33, .28, .45], [.38, .38, .52], [.34, .42, .43], [.34, .42, .42], [.5, .5, .4], [.48, .48, .38], [.43, .44, .35]];
+  var SZL = [[.27, .28, .45], [.3, .28, .45], [.35, .35, .5], [.34, .38, .42], [.35, .4, .42], [.53, .48, .4], [.5, .46, .38], [.46, .44, .35]];
+  function teeth(A, SZ, yc, up){
+    S2.forEach(function(s){ A.forEach(function(q, i){
+      var nx = A[Math.min(A.length - 1, i + 1)], pv = A[Math.max(0, i - 1)], tg = nrm([s * (nx[0] - pv[0]) || s, 0, nx[1] - pv[1]]), out = nrm([tg[2] * s * -1 * -s, 0, -tg[0] * -1]);
+      var c = [s * q[0], yc, q[1]], z = SZ[i], rt = i > 4 ? 2 : 1;
+      G.ell(g, c, 0, 0, 0, C.enamel, 8, 10, [sc(tg, z[0]), [0, z[2], 0], sc(nrm(cross(tg, [0, 1, 0])), z[1])]);
+      for(var r = 0; r < rt; r++){ var off = rt > 1 ? sc(tg, (r - .5) * z[0] * .9) : [0, 0, 0];
+        G.tube(g, [add(c, off), add(add(c, off), [0, up ? 1.0 : -1.0, 0]), add(add(c, off), [0, up ? 1.75 : -1.7, 0])], {r:function(u){ return Math.max(.05, (z[0] * .55) * (1 - u * .8)); }, col:[.93, .88, .76], rad:6}); }
+    }); });
+  }
+  teeth(UP, SZU, 15.05, true); teeth(LO, SZL, 14.15, false);
+  push("dientes", g, {layer:"hueso"});
+  // Hioides
+  g = G.B();
+  G.tube(g, [[-1.15, 10.95, -.95], [-.6, 10.82, -.45], [0, 10.78, -.32], [.6, 10.82, -.45], [1.15, 10.95, -.95]], {r:.27, col:COL.bone, rad:8, flatY:1.5});
+  S2.forEach(function(s){ G.tube(g, [X([1.15, 10.95, -.95], s), X([1.9, 11.15, -1.9], s), X([2.6, 11.4, -3.0], s)], {r:function(u){ return .18 - u * .07; }, col:COL.bone, rad:6, caps:true}); G.ell(g, X([.85, 11.2, -.6], s), .1, .18, .1, COL.bone, 5, 6); });
+  push("hioides", g, {layer:"hueso"});
+
+  /* =================== ARTICULACIÓN TEMPOROMANDIBULAR Y SUTURAS =================== */
+  g = G.B();
+  S2.forEach(function(s){ G.ell(g, X([5.05, 19.47, -3.95], s), .92, .13, .58, COL.cart, 8, 12);
+    var c = X([5.05, 19.2, -3.95], s), pts = []; for(var i = 0; i <= 20; i++){ var a = i / 20 * PI * 2; pts.push(add(c, [s * .1 + 1.0 * Math.cos(a) * .95, -.05 + .05 * Math.sin(a), .62 * Math.sin(a)])); } G.tube(g, pts, {r:.1, col:COL.lig, rad:5});
+    G.tube(g, [X([5.75, 19.8, -3.0], s), X([5.95, 19.2, -3.6], s), X([5.75, 18.4, -4.1], s)], {r:.14, col:COL.lig, rad:5, flatX:1.6}); });
+  push("articulacion_temporomandibular", g, {layer:"ligamento"});
+  g = G.B();
+  (function(){ var sut = [], i, col = [.62, .55, .44];
+    S2.forEach(function(s){ var p = []; for(i = 0; i <= 14; i++){ var la = -.1 + (PI / 2 - .1) * i / 14; p.push(sk(la, s > 0 ? 2.15 : 2 * PI - 2.15, .04)); } sut.push(p);
+      p = []; for(i = 0; i <= 10; i++) p.push(sk(.75, s * (i / 10) * 1.25, .04)); sut.push(p);
+      p = []; for(i = 0; i <= 8; i++) p.push(sk(.75 - (1.37) * i / 8, s * 1.25, .04)); sut.push(p);
+      p = []; for(i = 0; i <= 8; i++) p.push(sk(.2, s * (1.25 + .9 * i / 8), .04)); sut.push(p); });
+    var sg = []; for(i = 0; i <= 10; i++) sg.push(sk(.75 + (PI / 2 - .75) * i / 10, 0, .04)); sut.push(sg);
+    sut.forEach(function(p){ G.tube(g, p, {r:.06, col:col, rad:4}); }); })();
+  push("suturas_craneales", g, {layer:"ligamento"});
+
+  /* =================== ENCÉFALO =================== */
+  function floorY(x, z){ if(z > .6) return 23.95; if(z > -1.6) return 20.45 + 3.5 * ss((z + 1.6) / 2.2); if(z > -6.4) return Math.abs(x) < 1.9 ? 22.3 : 20.45; return 20.45 + 1.2 * ss((-6.4 - z) / 1.3); }
+  function clampV(p, f){ var q = Math.sqrt(Math.pow(p[0] / R0[0], 2) + Math.pow((p[1] - C0[1]) / R0[1], 2) + Math.pow((p[2] - C0[2]) / R0[2], 2)); return q > f ? add(C0, sc(sub(p, C0), f / q)) : p; }
+  function hemiBase(s, a, b){ var HC = [s * 3.25, 25.0, -3.8], p = [HC[0] + s * 3.45 * Math.cos(a) * Math.cos(b), HC[1] + 7.6 * Math.sin(a), HC[2] + 7.9 * Math.cos(a) * Math.sin(b)];
+    if(s * p[0] < .14) p[0] = s * .14; p = clampV(p, .905); var fl = floorY(p[0], p[2]); if(p[1] < fl) p[1] = fl + (p[1] - fl) * .04; return p; }
+  function gyr(p){ var x = p[0], y = p[1], z = p[2];
+    var n = Math.sin(3.1 * x + 1.7 * Math.sin(1.3 * z + .4)) + Math.sin(2.7 * z + 1.6 * Math.sin(1.4 * y)) + Math.sin(2.9 * y + 1.4 * Math.sin(1.2 * x + .9 * z));
+    return Math.exp(-n * n * 5); }
+  var lastS = 0;
+  ["cerebro"].forEach(function(id){
+    var gg = G.B();
+    S2.forEach(function(s){
+      surf(gg, 58, 84, function(u, v){ var a = -PI / 2 + .04 + (PI - .08) * v, b = u * PI * 2, p = hemiBase(s, a, b), HC = [s * 3.25, 24.6, -3.8];
+        var g1 = gyr(p), syl = 0; if(s * p[0] > 3.2 && p[2] > -6.5 && p[2] < 1.6){ var d = p[1] - (22.95 + .3 * (p[2] + .5)); syl = Math.exp(-d * d / .06); }
+        var cen = 0; if(p[1] > 25){ var dc = p[2] - (-3.4 + .55 * (p[1] - 25) * -.5) ; cen = Math.exp(-dc * dc / .05) * .7; }
+        lastS = Math.min(1, g1 + syl + cen);
+        var dir = nrm(sub(p, HC)); if(s * p[0] < .2) dir = [s, 0, 0];
+        return sub(p, sc(dir, .2 * g1 + .42 * syl + .25 * cen)); },
+        function(){ return lerp(C.brain, C.brainD, lastS * .75); }, true);
+    });
+    push(id, gg, {layer:"organo"});
+  });
+  g = G.B();
+  [[1, [2.3, 19.55, -7.75], [2.45, 1.5, 1.9]], [-1, [2.3, 19.55, -7.75], [2.45, 1.5, 1.9]], [0, [0, 19.6, -8.05], [1.0, 1.45, 1.75]]].forEach(function(cb){
+    var s = cb[0] || 1, c = cb[0] ? X(cb[1], s) : cb[1], r = cb[2];
+    surf(g, 26, 34, function(u, v){ var a = -PI / 2 + .05 + (PI - .1) * v, b = u * PI * 2, p = [c[0] + r[0] * Math.cos(a) * Math.cos(b), c[1] + r[1] * Math.sin(a), c[2] + r[2] * Math.cos(a) * Math.sin(b)];
+      p = clampV(p, .9); if(p[1] > 21.15) p[1] = 21.15 + (p[1] - 21.15) * .1;
+      var f = Math.sin(p[1] * 7.5 + .9 * Math.sin(p[2] * 1.4) + .5 * Math.sin(p[0] * 1.1)); lastS = Math.exp(-f * f * 4);
+      return sub(p, sc(nrm(sub(p, c)), .09 * lastS)); }, function(){ return lerp(C.cereb, C.brainD, lastS * .6); }, true);
+  });
+  push("cerebelo", g, {layer:"organo"});
+  g = G.B();
+  G.tube(g, [[0, 17.6, -6.35], [0, 18.6, -6.0], [0, 19.6, -5.7], [0, 20.6, -5.6], [0, 21.6, -5.6], [0, 22.6, -5.75]], {r:function(u){ return u < .25 ? .72 + u * .4 : u < .62 ? 1.2 - Math.pow((u - .44) / .18, 2) * .3 : .92; }, col:C.stem, rad:16, flatY:1.3, caps:true});
+  S2.forEach(function(s){ G.tube(g, [X([.5, 22.2, -5.2], s), X([1.1, 22.9, -5.0], s), X([1.7, 23.6, -4.6], s)], {r:.45, col:C.stem, rad:10}); G.ell(g, X([.42, 18.35, -5.1], s), .25, .7, .22, C.stem, 6, 8);
+    G.tube(g, [X([.9, 20.4, -6.2], s), X([1.6, 20.2, -6.9], s), X([2.1, 20.0, -7.3], s)], {r:.38, col:C.stem, rad:8}); });
+  G.ell(g, [0, 23.2, -5.4], 1.1, .8, 1.3, C.stem, 10, 12);
+  push("tronco_encefalico", g, {layer:"organo"});
+  g = G.B(); G.ell(g, [0, 20.55, -3.4], .45, .32, .4, C.hyp, 8, 10); G.tube(g, [[0, 20.8, -3.45], [0, 21.4, -3.55], [0, 21.9, -3.9]], {r:.09, col:C.hyp, rad:6});
+  push("hipofisis", g, {layer:"organo"});
+
+  /* =================== OJOS, OÍDO, BOCA, FARINGE Y LARINGE =================== */
+  g = G.B();
+  S2.forEach(function(s){ var e = X(EYE, s);
+    G.ell(g, e, 1.2, 1.2, 1.2, C.eye, 14, 18); G.ell(g, add(e, [0, 0, 1.0]), .62, .62, .38, [.86, .92, .96], 10, 12);
+    G.ell(g, add(e, [0, 0, 1.12]), .56, .56, .1, C.iris, 8, 14); G.ell(g, add(e, [0, 0, 1.2]), .22, .22, .06, C.pupil, 6, 10);
+    G.ell(g, X([4.35, 22.75, 1.9], s), .55, .28, .45, C.lac, 8, 10); });
+  push("globos_oculares", g, {layer:"organo"});
+  g = G.B();
+  S2.forEach(function(s){
+    G.ell(g, X([7.05, 20.0, -5.0], s), .3, 1.25, .85, C.ear, 10, 12);
+    var hp = [[6.95, 19.3, -4.25], [7.25, 21.2, -4.0], [7.45, 22.5, -4.7], [7.5, 22.3, -6.0], [7.35, 20.6, -6.6], [7.2, 19.0, -6.3], [7.0, 17.9, -5.7], [6.85, 17.7, -5.1]];
+    G.tube(g, hp.map(function(p){ return X(p, s); }), {r:function(u){ return u > .82 ? .38 : .24; }, col:C.ear, rad:8, caps:true});
+    G.ell(g, X([6.95, 17.95, -5.3], s), .25, .55, .45, C.ear, 8, 10);
+    G.tube(g, [X([6.95, 19.85, -5.0], s), X([6.0, 19.72, -4.9], s), X([5.05, 19.75, -4.75], s)], {r:.27, col:[.86, .64, .58], rad:8});
+    G.ell(g, X([4.95, 19.78, -4.72], s), .05, .38, .34, [.95, .9, .8], 6, 10);
+    [[4.75, 19.95, -4.85], [4.6, 19.78, -4.8], [4.48, 19.66, -4.72]].forEach(function(q){ G.ell(g, X(q, s), .1, .12, .1, COL.bone, 5, 6); });
+    var sp0 = []; for(var i = 0; i <= 40; i++){ var a = i / 40 * PI * 5, r = .42 * (1 - i / 48); sp0.push(add(X([4.05, 19.7, -4.3], s), [s * (.12 * i / 40), r * Math.sin(a), r * Math.cos(a)])); }
+    G.tube(g, sp0, {r:.08, col:[.95, .88, .7], rad:5});
+    G.torus(g, X([4.55, 20.25, -5.35], s), [1, 0, 0], .32, .06, [.95, .88, .7], 18, 5); G.torus(g, X([4.55, 20.25, -5.35], s), [0, 1, 0], .32, .06, [.95, .88, .7], 18, 5); G.torus(g, X([4.55, 20.25, -5.35], s), [0, 0, 1], .32, .06, [.95, .88, .7], 18, 5);
+  });
+  push("oido", g, {layer:"organo"});
+  g = G.B();
+  G.tube(g, [[0, 14.95, 3.0], [0, 15.5, 1.9], [0, 15.6, .2], [0, 15.1, -1.2], [0, 13.8, -2.0], [0, 12.3, -1.9]], {r:function(u){ return u < .2 ? .38 + u * 3.2 : u < .65 ? 1.02 : 1.02 - (u - .65) * 1.0; }, col:C.tongue, rad:16, flatX:1.95, caps:true});
+  G.ell(g, [0, 13.7, .6], 1.55, 1.15, 2.0, C.tongue, 12, 16);
+  push("lengua", g, {layer:"organo"});
+  g = G.B();
+  G.tube(g, [[0, 19.2, -2.2], [0, 17.0, -2.6], [0, 14.6, -2.9], [0, 12.0, -3.0], [0, 10.0, -3.3], [0, 8.6, -3.7], [0, 7.6, -4.1]], {r:function(u){ return u < .7 ? .92 : .92 - (u - .7) * .9; }, col:C.muc, rad:18, flatY:1.75, caps:false});
+  G.plate(g, [-1.3, 16.3, -1.5], [1.3, 16.3, -1.5], [0, 15.0, -2.45], .25, [0, -.25, -.1], C.muc, 6);
+  G.ell(g, [0, 14.85, -2.5], .2, .4, .2, C.muc, 6, 8);
+  S2.forEach(function(s){ G.ell(g, X([1.3, 14.6, -2.0], s), .35, .55, .35, [.82, .5, .5], 8, 10); });
+  push("faringe", g, {layer:"organo", op:.75});
+  g = G.B();
+  S2.forEach(function(s){
+    slab(g, coons([[0, 7.7, -.35], X([1.4, 7.6, -1.2], s), X([2.0, 7.6, -2.6], s)], [[0, 9.95, -.02], X([1.5, 10.3, -1.0], s), X([2.0, 10.0, -2.4], s)], [[0, 7.7, -.35], [0, 9.3, .02], [0, 9.95, -.02]], [X([2.0, 7.6, -2.6], s), X([2.05, 8.8, -2.55], s), X([2.0, 10.0, -2.4], s)]), .16, C.cart || COL.cart, 8, 8);
+    G.tube(g, [X([2.0, 10.0, -2.4], s), X([2.15, 10.8, -2.75], s), X([2.25, 11.25, -2.95], s)], {r:.12, col:COL.cart, rad:6, caps:true});
+    G.tube(g, [X([2.0, 7.6, -2.6], s), X([1.75, 6.95, -2.6], s)], {r:.12, col:COL.cart, rad:6, caps:true});
+    G.ell(g, X([.45, 8.65, -2.62], s), .25, .42, .25, COL.cart, 6, 8);
+    G.tube(g, [X([.06, 8.55, -.55], s), X([.25, 8.55, -1.5], s), X([.4, 8.58, -2.4], s)], {r:.1, col:C.fold, rad:6});
+    G.tube(g, [X([.12, 9.05, -.6], s), X([.4, 9.05, -1.5], s), X([.55, 9.0, -2.4], s)], {r:.12, col:[.9, .62, .6], rad:6});
+    G.plate(g, [0, 9.55, -.9], X([1.0, 11.6, -1.75], s), [0, 12.3, -2.1], .1, [0, 0, -.25], [.86, .8, .62], 6);
+  });
+  G.torus(g, [0, 7.0, -1.95], [0, 1, .35], 1.0, .22, COL.cart, 26, 6);
+  slab(g, coons([[-.9, 6.8, -2.85], [.9, 6.8, -2.85]], [[-.9, 8.4, -2.8], [.9, 8.4, -2.8]], [[-.9, 6.8, -2.85], [-.9, 8.4, -2.8]], [[.9, 6.8, -2.85], [.9, 8.4, -2.8]]), .22, COL.cart, 3, 3);
+  push("laringe", g, {layer:"organo"});
+  g = G.B();
+  S2.forEach(function(s){ G.ellBetween(g, X([1.35, 4.95, -1.45], s), X([1.65, 8.3, -2.05], s), .62, .78, C.thy); });
+  G.ell(g, [0, 5.55, -1.12], .95, .42, .32, C.thy, 8, 12);
+  push("tiroides", g, {layer:"organo"});
+  g = G.B(); S2.forEach(function(s){ [7.4, 5.4].forEach(function(y){ G.ell(g, X([1.55, y, -2.62], s), .18, .26, .14, C.para, 6, 8); }); }); push("paratiroides", g, {layer:"organo"});
+  g = G.B();
+  S2.forEach(function(s){ G.ell(g, X([5.55, 17.4, -3.6], s), .85, 2.15, 1.45, C.gland, 12, 14); G.ell(g, X([5.4, 18.3, -2.0], s), .55, .7, .8, C.gland, 8, 10);
+    G.tube(g, [X([5.5, 17.9, -2.0], s), X([5.55, 17.7, -.6], s), X([5.0, 17.4, .6], s), X([4.2, 16.4, 1.1], s), X([3.6, 16.1, 1.2], s)], {r:.1, col:C.gland, rad:5}); });
+  push("glandula_parotida", g, {layer:"organo"});
+  g = G.B();
+  S2.forEach(function(s){ G.ell(g, X([3.3, 10.95, -1.45], s), .8, .65, 1.3, C.gland, 10, 12); G.tube(g, [X([3.0, 11.4, -.6], s), X([2.0, 12.4, .8], s), X([.6, 13.15, 2.75], s)], {r:.08, col:C.gland, rad:5}); });
+  push("glandula_submandibular", g, {layer:"organo"});
+  g = G.B(); S2.forEach(function(s){ G.ell(g, X([1.45, 13.05, 1.85], s), .35, .32, 1.0, C.gland, 8, 10); }); push("glandula_sublingual", g, {layer:"organo"});
+
+  /* =================== MÚSCULOS =================== */
+  var seed = 21301;
+  function mus(id, deep, parts){ var gg = G.B(); G.muscle(gg, {parts:parts}, seed += 191, {m:deep ? COL.musDeep : COL.mus, t:COL.ten}); push(id, gg, {layer:deep ? "profundo" : "superficial"}); return gg; }
+  function bil(fn){ return [].concat.apply([], S2.map(function(s){ var r = fn(s); return Array.isArray(r) ? r : [r]; })); }
+  function ring(gg, pts, r){ G.tube(gg, pts, {r:r, col:function(){ return COL.mus.map(function(x){ return x * (.85 + Math.random() * .2); }); }, rad:5}); }
+  // --- cráneo y cara ---
+  mus("occipitofrontal", false, bil(function(s){
+    var fi = [.08, .4, .78], fr = fi.map(function(a){ return skS(s, -.04, PI - a, .35); }), fv = fi.map(function(a){ return skS(s, .3, PI - a * 1.02, .35); }), ft = fi.map(function(a){ return skS(s, .62, PI - a * 1.08, .35); });
+    var gx = [1.0, 2.8, 4.6], top = gx.map(function(x){ var ym = C0[1] + R0[1] * Math.sqrt(1 - Math.pow(x / R0[0], 2)); return [s * x, ym + .3, C0[2]]; });
+    var gb = [1.8, 3.4, 4.8].map(function(x){ return skXY(s * x, 26.0, 0, .35); });
+    return [{o:fr, v:[fv], i:ft, n:9, r:.2, belly:[.04, .72], rt:.1, rad:5},
+      {o:ft, v:[gx.map(function(x){ return skXY(s * x, 30.4 - x * .5, 1, .35); }), top, gx.map(function(x){ return skXY(s * x, 30.0 - x * .5, 0, .35); })], i:gb, n:8, r:.08, belly:[2, 3], rt:.08, rad:4, seg:40},
+      {o:[X([1.8, 21.55, -11.75], s), X([3.4, 21.25, -11.0], s), X([4.8, 20.7, -9.75], s)], i:gb, n:7, r:.22, belly:[.05, .72], rt:.1, rad:5}]; }));
+  (function(){ var gg = G.B();
+    S2.forEach(function(s){ var c = [s * 3.2, 21.65];
+      [1.0, 1.18, 1.36, 1.54, 1.7].forEach(function(f){ var pts = []; for(var i = 0; i <= 28; i++){ var a = i / 28 * PI * 2, x = c[0] + s * 1.95 * f * Math.cos(a), y = c[1] + 1.75 * f * Math.sin(a); pts.push(F(x, y, .3)); } ring(gg, pts, .15); });
+      [[.25, 2.9], [3.4, 6.05]].forEach(function(arc){ [.62, .8].forEach(function(f){ var pts = []; for(var i = 0; i <= 12; i++){ var a = arc[0] + (arc[1] - arc[0]) * i / 12, x = c[0] + s * 1.95 * f * Math.cos(a), y = c[1] + 1.75 * f * Math.sin(a) * (a < PI ? .85 : .6); pts.push(F(x, y, .3)); } ring(gg, pts, .12); }); });
+    });
+    push("orbicular_ojo", gg, {layer:"superficial"}); })();
+  (function(){ var gg = G.B();
+    [[2.6, 1.3], [2.35, 1.1], [2.1, .9], [1.85, .7], [1.6, .55]].forEach(function(ab){ var pts = []; for(var i = 0; i <= 30; i++){ var a = i / 30 * PI * 2, x = ab[0] * Math.cos(a), y = 15.15 + ab[1] * Math.sin(a); pts.push(F(x, y, .38)); } ring(gg, pts, .17); });
+    push("orbicular_boca", gg, {layer:"superficial"}); })();
+  mus("nasal", false, bil(function(s){ return {o:[X([1.4, 19.3, 5.25], s), X([1.3, 18.8, 5.5], s)], v:[[X([.95, 20.15, 5.75], s)]], i:[X([.12, 20.7, 6.0], s)], n:4, r:.14, belly:[.06, .94], rt:.07, rad:5}; }));
+  mus("elevador_labio_superior", false, bil(function(s){ return [{o:[F(s * 1.55, 20.3, .45), F(s * 2.6, 20.2, .5), F(s * 3.6, 20.0, .55)], i:[F(s * .8, 16.35, .42), F(s * 1.4, 16.25, .42), F(s * 1.95, 16.05, .42)], n:8, r:.2, belly:[.06, .92], rt:.08, rad:5},
+    {o:[F(s * 1.15, 22.4, .4)], v:[[F(s * 1.35, 20.6, .45)]], i:[X([1.55, 18.7, 5.0], s), F(s * 1.1, 16.4, .42)], n:4, r:.15, belly:[.06, .92], rt:.07, rad:5}]; }));
+  mus("cigomatico_menor", false, bil(function(s){ return {o:[F(s * 4.1, 19.95, .5), F(s * 4.5, 19.65, .5)], i:[F(s * 2.0, 16.1, .42), F(s * 2.4, 15.85, .42)], n:4, r:.17, belly:[.06, .92], rt:.08, rad:5}; }));
+  mus("cigomatico_mayor", false, bil(function(s){ return {o:[F(s * 4.95, 19.45, .55), F(s * 5.3, 19.2, .6)], v:[[F(s * 4.05, 17.4, .58)]], i:[F(s * 2.65, 15.35, .42), F(s * 2.8, 15.0, .42)], n:6, r:.26, belly:[.06, .92], rt:.09, rad:5}; }));
+  mus("risorio", false, bil(function(s){ return {o:[F(s * 5.55, 15.9, .45), F(s * 5.65, 14.6, .45)], i:[F(s * 2.8, 15.1, .38)], n:5, r:.15, belly:[.06, .9], rt:.07, rad:5}; }));
+  mus("buccinador", true, bil(function(s){ return {o:[X([3.55, 16.35, -1.2], s), X([3.75, 15.2, -1.85], s), X([3.45, 13.85, -1.4], s)], v:[[X([4.05, 16.0, 1.0], s), X([4.15, 15.1, .8], s), X([4.0, 14.2, 1.0], s)]], i:[X([2.9, 15.45, 3.9], s), X([2.95, 15.0, 3.95], s), X([2.9, 14.6, 3.9], s)], n:10, r:.22, belly:[.05, .93], rt:.09, rad:5}; }));
+  mus("depresor_angulo_boca", false, bil(function(s){ return {o:[F(s * 2.8, 11.35, .5), F(s * 3.85, 11.85, .55)], i:[F(s * 2.8, 14.8, .4)], n:6, r:.22, belly:[.06, .9], rt:.09, rad:5}; }));
+  mus("depresor_labio_inferior", false, bil(function(s){ return {o:[F(s * 1.2, 11.65, .55), F(s * 2.4, 11.7, .55)], i:[F(s * .3, 13.85, .42), F(s * 1.3, 14.0, .42)], n:6, r:.18, belly:[.06, .92], rt:.08, rad:5}; }));
+  mus("mentoniano", false, bil(function(s){ return {o:[X([.45, 12.9, 4.15], s)], i:[F(s * .6, 11.3, .45), F(s * .3, 11.0, .45)], n:3, r:.22, belly:[.06, .94], rt:.08, rad:5}; }));
+  mus("platisma", false, bil(function(s){ return {o:[X([2.0, -3.4, 5.4], s), X([5.0, -3.1, 5.2], s), X([8.0, -2.4, 4.7], s)], v:[[X([2.4, 1.3, 3.55], s), X([5.0, 1.5, 3.6], s), X([7.6, 1.8, 3.0], s)], [F(s * 1.8, 7.6, .3), F(s * 3.6, 7.6, .3), F(s * 5.7, 7.6, .3)]],
+    i:[F(s * 1.0, 11.4, .42), F(s * 2.6, 11.6, .45), F(s * 3.9, 12.5, .5), F(s * 4.7, 13.8, .5)], n:16, r:.15, belly:[.04, .96], rt:.08, rad:5, seg:40}; }));
+  // --- masticación ---
+  mus("masetero", false, bil(function(s){ return [{o:[X([5.0, 19.2, 1.05], s), X([5.85, 19.6, -.6], s), X([6.1, 19.75, -2.2], s)], v:[[X([5.4, 16.2, .1], s), X([5.55, 16.2, -1.5], s), X([5.5, 16.4, -2.9], s)]], i:[X([4.75, 12.8, -.6], s), X([5.0, 12.55, -2.2], s), X([5.15, 12.95, -3.6], s)], n:11, r:.5, belly:[.06, .9], rt:.16, rad:6},
+    {o:[X([5.6, 19.85, -1.6], s), X([5.95, 19.9, -3.0], s)], i:[X([5.2, 16.6, -1.6], s), X([5.2, 17.8, -3.0], s)], n:5, r:.4, belly:[.06, .9], rt:.14, rad:6}]; }));
+  mus("temporal", true, bil(function(s){ return {o:[skS(s, .42, 1.4, .25), skS(s, .5, 1.7, .25), skS(s, .46, 2.0, .25), skS(s, .3, 2.28, .25)], v:[[skS(s, -.1, 1.55, .45), skS(s, -.05, 1.85, .5), skS(s, -.08, 2.1, .5), skS(s, -.15, 2.3, .42)], [X([5.55, 20.6, -3.2], s), X([5.55, 20.6, -2.1], s), X([5.45, 20.6, -1.2], s)]],
+    i:[X([4.95, 19.6, -1.5], s), X([4.85, 18.4, -1.3], s), X([4.7, 17.2, -1.3], s)], n:16, r:.42, belly:[.04, .8], rt:.12, rad:6, seg:36}; }));
+  mus("pterigoideo_lateral", true, bil(function(s){ return [{o:[X([3.3, 19.9, -2.0], s), X([3.6, 19.95, -2.6], s)], i:[X([4.85, 19.2, -3.75], s)], n:3, r:.28, belly:[.06, .9], rt:.1, rad:5}, {o:[X([2.75, 19.2, -1.9], s), X([2.8, 18.0, -2.1], s)], i:[X([4.85, 18.85, -3.9], s), X([4.9, 18.45, -3.95], s)], n:5, r:.34, belly:[.06, .9], rt:.12, rad:5}]; }));
+  mus("pterigoideo_medial", true, bil(function(s){ return {o:[X([2.05, 18.6, -2.05], s), X([2.3, 17.1, -2.3], s)], i:[X([4.4, 14.6, -3.0], s), X([4.45, 13.3, -3.6], s), X([4.5, 12.5, -3.0], s)], n:7, r:.38, belly:[.06, .9], rt:.12, rad:5}; }));
+  // --- músculos del ojo ---
+  function eyeP(s, d, f){ var e = X(EYE, s); return add(e, [s * d[0] * 1.22, d[1] * 1.22, d[2] * 1.22 + (f || 0)]); }
+  var AP = function(s, o){ return add(X(APEX, s), X(o || [0, 0, 0], s)); };
+  mus("recto_superior", true, bil(function(s){ return {o:[AP(s, [0, .18, 0])], v:[[add(X(EYE, s), [0, 1.42, -1.4])]], i:[eyeP(s, [-.25, .9, .35]), eyeP(s, [.25, .9, .35])], n:4, r:.16, belly:[.06, .86], rt:.06, rad:5}; }));
+  mus("recto_inferior", true, bil(function(s){ return {o:[AP(s, [0, -.18, 0])], v:[[add(X(EYE, s), [0, -1.42, -1.4])]], i:[eyeP(s, [-.25, -.9, .35]), eyeP(s, [.25, -.9, .35])], n:4, r:.16, belly:[.06, .86], rt:.06, rad:5}; }));
+  mus("recto_medial", true, bil(function(s){ return {o:[AP(s, [-.15, 0, 0])], v:[[add(X(EYE, s), [s * -1.38, 0, -1.4])]], i:[eyeP(s, [-.9, .25, .38]), eyeP(s, [-.9, -.25, .38])], n:4, r:.17, belly:[.06, .86], rt:.06, rad:5}; }));
+  mus("recto_lateral", true, bil(function(s){ return {o:[AP(s, [.18, 0, 0])], v:[[add(X(EYE, s), [s * 1.42, 0, -1.4])]], i:[eyeP(s, [.92, .25, .3]), eyeP(s, [.92, -.25, .3])], n:4, r:.16, belly:[.06, .86], rt:.06, rad:5}; }));
+  (function(){ var gg = mus("oblicuo_superior_ojo", true, bil(function(s){ var tro = X([2.0, 23.0, 2.55], s); return [{o:[AP(s, [-.1, .25, 0])], v:[[X([1.85, 22.6, .4], s)]], i:[add(tro, [0, -.05, -.3])], n:3, r:.14, belly:[.06, .75], rt:.06, rad:5}, {o:[tro], v:[[X([2.8, 23.0, 1.7], s)]], i:[eyeP(s, [.45, .8, -.25])], n:2, r:.06, belly:[2, 3], rt:.06, rad:4}]; }));
+    S2.forEach(function(s){ G.torus(gg, X([2.0, 23.0, 2.55], s), [1, 0, 0], .14, .05, COL.cart, 12, 4); }); })();
+  mus("oblicuo_inferior_ojo", true, bil(function(s){ return {o:[X([2.05, 20.35, 2.75], s)], v:[[X([3.2, 20.25, 1.7], s)]], i:[eyeP(s, [.82, -.3, -.45])], n:3, r:.15, belly:[.06, .9], rt:.06, rad:5}; }));
+  mus("elevador_parpado", true, bil(function(s){ return {o:[AP(s, [0, .35, 0])], v:[[add(X(EYE, s), [0, 1.6, -.6])]], i:[X([2.6, 22.85, 3.3], s), X([3.2, 22.95, 3.45], s), X([3.8, 22.8, 3.3], s)], n:5, r:.12, belly:[.05, .7], rt:.05, rad:5}; }));
+  // --- cuello ---
+  mus("esternocleidomastoideo", false, bil(function(s){ return {o:[X([.95, -.2, 3.35], s), X([1.5, 0, 3.2], s), X([2.8, .35, 2.5], s), X([4.6, .75, 2.45], s)],
+    v:[[X([2.75, 5.6, .35], s), X([3.6, 5.3, -.15], s)], [X([4.55, 12.0, -2.95], s), X([4.95, 12.2, -3.6], s)]], i:[X([5.8, 19.25, -6.2], s), X([5.55, 20.4, -7.2], s), X([4.75, 20.85, -8.6], s)], n:14, r:.55, belly:[.06, .92], rt:.16, rad:6, seg:40}; }));
+  mus("digastrico", true, bil(function(s){ return [{o:[X([4.5, 18.6, -6.2], s)], v:[[X([3.45, 13.5, -3.7], s)]], i:[X([1.75, 10.9, -.75], s)], n:4, r:.27, belly:[.05, .8], rt:.12, rad:5}, {o:[X([1.75, 10.9, -.75], s)], v:[[X([1.2, 10.55, 1.4], s)]], i:[X([.6, 11.1, 3.3], s)], n:4, r:.26, belly:[.22, .94], rt:.12, rad:5}]; }));
+  mus("estilohioideo", true, bil(function(s){ return {o:[X([3.65, 18.0, -4.85], s)], v:[[X([2.9, 13.6, -3.0], s)]], i:[X([1.9, 10.95, -1.0], s)], n:3, r:.16, belly:[.08, .86], rt:.07, rad:5}; }));
+  mus("milohioideo", true, bil(function(s){ return {o:[X([3.0, 12.5, -1.4], s), X([2.6, 12.2, .4], s), X([1.9, 11.9, 2.0], s), X([.8, 11.6, 3.0], s)], i:[X([.05, 10.95, -.35], s), X([.05, 11.05, .8], s), X([.05, 11.2, 2.0], s), X([.05, 11.35, 2.8], s)], b:[0, -.45, 0], n:12, r:.2, belly:[.05, .95], rt:.08, rad:5}; }));
+  mus("geniohioideo", true, bil(function(s){ return {o:[X([.25, 12.0, 2.95], s)], i:[X([.35, 11.2, -.25], s)], b:[0, .35, 0], n:3, r:.25, belly:[.06, .94], rt:.08, rad:5}; }));
+  mus("esternohioideo", false, bil(function(s){ return {o:[X([.7, -.3, 2.3], s), X([1.5, -.2, 2.2], s)], v:[[X([.95, 3.8, .45], s)], [X([.88, 7.6, .15], s)]], i:[X([.55, 10.55, -.15], s)], n:4, r:.28, belly:[.04, .95], rt:.1, rad:5}; }));
+  mus("esternotiroideo", true, bil(function(s){ return {o:[X([.5, -.6, 2.0], s), X([1.6, -.3, 1.8], s)], v:[[X([1.15, 4.4, -.35], s)]], i:[X([1.7, 8.2, -1.0], s), X([1.95, 8.6, -1.6], s)], n:4, r:.27, belly:[.04, .95], rt:.1, rad:5}; }));
+  mus("tirohioideo", true, bil(function(s){ return {o:[X([1.7, 8.3, -1.0], s), X([1.95, 8.7, -1.7], s)], i:[X([1.4, 10.75, -.7], s), X([2.0, 11.05, -1.6], s)], n:3, r:.25, belly:[.06, .94], rt:.08, rad:5}; }));
+  mus("omohioideo", false, bil(function(s){ return [{o:[X([11.0, -2.4, -11.8], s)], v:[[X([8.6, 1.6, -7.0], s)], [X([5.6, 3.8, -3.8], s)]], i:[X([3.6, 5.4, -2.2], s)], n:3, r:.24, belly:[.05, .82], rt:.1, rad:5}, {o:[X([3.6, 5.4, -2.2], s)], v:[[X([2.4, 8.6, -.8], s)]], i:[X([1.35, 10.7, -.55], s)], n:3, r:.24, belly:[.2, .94], rt:.1, rad:5}]; }));
+  mus("largo_cuello", true, bil(function(s){ return [{o:[X([.6, .2, -7.65], s), X([.9, 2.8, -7.2], s)], v:[[X([.85, 7.1, -5.8], s)]], i:[X([.5, 12.4, -4.5], s), X([.4, 13.8, -4.1], s)], n:5, r:.3, belly:[.05, .95], rt:.1, rad:5}, {o:[X([1.9, 11.3, -5.6], s), X([1.95, 9.9, -6.0], s), X([2.0, 8.5, -6.4], s)], i:[X([.5, 13.9, -4.15], s)], n:4, r:.24, belly:[.06, .94], rt:.08, rad:5}]; }));
+  mus("largo_cabeza", true, bil(function(s){ return {o:[X([1.8, 11.3, -5.35], s), X([1.85, 9.9, -5.75], s), X([1.9, 8.5, -6.1], s), X([1.95, 7.1, -6.45], s)], v:[[X([1.65, 13.0, -4.85], s)]], i:[X([.7, 17.35, -4.6], s), X([1.2, 17.55, -4.9], s)], n:6, r:.36, belly:[.05, .93], rt:.12, rad:5}; }));
+  mus("constrictores_faringe", true, bil(function(s){ return [{o:[X([1.6, 17.6, -1.9], s), X([1.9, 15.6, -1.75], s)], v:[[X([1.62, 16.6, -3.6], s)]], i:[X([.05, 17.4, -3.95], s), X([.05, 15.5, -4.05], s)], n:6, r:.17, belly:[.05, .95], rt:.08, rad:5},
+    {o:[X([1.4, 11.2, -1.4], s), X([2.5, 11.4, -2.9], s)], v:[[X([1.6, 12.2, -4.0], s)]], i:[X([.05, 13.6, -4.05], s), X([.05, 11.6, -4.1], s)], n:6, r:.17, belly:[.05, .95], rt:.08, rad:5},
+    {o:[X([1.95, 9.2, -2.45], s), X([1.3, 7.2, -2.65], s)], v:[[X([1.4, 8.8, -4.2], s)]], i:[X([.05, 10.4, -4.25], s), X([.05, 7.8, -4.65], s)], n:6, r:.18, belly:[.05, .95], rt:.08, rad:5}]; }));
+
+  /* =================== VASOS =================== */
+  function vessel(id, paths, r, vein, col){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r, col:col || (vein ? COL.vein : COL.art), rad:p.rad || 8, revT:!!vein, t0:p.t0 || 0, caps:p.caps}); (p.ells || []).forEach(function(q){ G.ell(gg, q[0], q[1][0], q[1][1], q[1][2], col || (vein ? COL.vein : COL.art), 8, 10); }); }); push(id, gg, {layer:vein ? "vena" : "arteria", flow:1, flowC:vein ? [.6, .78, 1] : [1, .6, .5], speed:vein ? .35 : .75}); }
+  function bilP(fn){ return [].concat.apply([], S2.map(fn)); }
+  (function(){ var cc = entry("carotidas_comunes"); if(cc) S2.forEach(function(s){ G.tube(cc.g, [X([2.6, 7.4, -2.4], s), X([2.7, 8.8, -2.55], s), X([2.75, 10.0, -2.7], s)], {r:.42, col:COL.art, rad:10, t0:24}); G.ell(cc.g, X([2.78, 10.0, -2.72], s), .5, .55, .5, COL.art, 8, 10); }); })();
+  vessel("carotida_interna", bilP(function(s){ return [{pts:[X([2.75, 10.0, -2.7], s), X([2.65, 12.0, -3.6], s), X([2.7, 14.6, -4.5], s), X([2.75, 17.0, -4.9], s), X([2.7, 18.5, -4.7], s), X([2.2, 19.6, -3.9], s), X([1.55, 20.2, -3.4], s), X([1.35, 20.55, -2.6], s), X([1.35, 21.1, -2.4], s), X([1.35, 21.5, -2.95], s)], r:.3, t0:28},
+    {pts:[X([1.38, 21.3, -2.45], s), X([2.0, 21.6, -1.6], s), X([2.5, 22.1, -.3], s), X([2.9, 22.6, 1.2], s), X([2.5, 23.2, 2.8], s)], r:.1, t0:40}]; }));
+  vessel("carotida_externa", bilP(function(s){ return [{pts:[X([2.75, 10.0, -2.7], s), X([3.0, 11.6, -2.6], s), X([3.55, 13.6, -3.3], s), X([4.45, 15.6, -4.4], s), X([4.75, 17.2, -4.9], s), X([5.0, 18.3, -5.0], s)], r:.27, t0:28},
+    {pts:[X([2.85, 10.3, -2.6], s), X([2.5, 9.8, -1.6], s), X([2.0, 8.8, -1.0], s), X([1.75, 8.1, -1.3], s)], r:.12, t0:30},
+    {pts:[X([3.0, 11.2, -2.6], s), X([2.7, 11.65, -1.6], s), X([2.0, 12.4, -.4], s), X([1.3, 13.6, 1.2], s), X([.8, 14.4, 2.6], s)], r:.13, t0:31},
+    {pts:[X([3.15, 11.9, -2.75], s), X([3.9, 13.6, -4.8], s), X([4.3, 16.4, -7.0], s), X([3.9, 18.6, -9.4], s), X([3.0, 21.4, -11.3], s), X([2.3, 24.8, -11.9], s)], r:.13, t0:32},
+    {pts:[X([4.55, 16.2, -4.6], s), X([5.2, 17.6, -6.0], s), X([5.9, 19.2, -6.5], s), X([6.3, 21.0, -6.3], s)], r:.09, t0:36},
+    {pts:[X([2.8, 10.5, -3.0], s), X([2.4, 14.0, -3.9], s), X([2.1, 17.4, -4.1], s)], r:.07, t0:31},
+    {pts:[X([5.0, 18.3, -5.0], s), X([5.5, 19.5, -4.6], s), X([6.6, 20.8, -4.3], s), X([7.0, 22.6, -4.0], s), X([7.05, 24.4, -3.6], s)], r:.15, t0:38},
+    {pts:[X([7.05, 24.4, -3.6], s), skXY(s * 6.4, 27.4, 1, .5), skXY(s * 4.8, 29.6, 1, .45)], r:.1, t0:44}, {pts:[X([7.05, 24.4, -3.6], s), skXY(s * 6.5, 27.8, 0, .5), skXY(s * 4.8, 30.4, 0, .45)], r:.1, t0:44}]; }));
+  vessel("a_facial", bilP(function(s){ return [{pts:[X([3.05, 11.4, -2.6], s), X([3.3, 12.4, -2.2], s), X([3.65, 12.2, -1.0], s), X([3.95, 11.4, -.1], s), X([4.15, 11.75, .55], s), F(s * 3.5, 13.2, .78), F(s * 3.0, 14.6, .72), F(s * 2.35, 16.6, .75), F(s * 1.8, 18.6, .7), F(s * 1.55, 20.6, .62)], r:.14, t0:31},
+    {pts:[F(s * 2.95, 15.45, .7), F(s * 1.4, 15.85, .62), F(0, 15.9, .62)], r:.07, t0:40}, {pts:[F(s * 2.95, 14.5, .7), F(s * 1.4, 14.2, .62), F(0, 14.1, .62)], r:.07, t0:40}]; }));
+  vessel("a_maxilar", bilP(function(s){ return [{pts:[X([5.0, 18.3, -5.0], s), X([4.4, 18.4, -3.6], s), X([3.7, 18.8, -2.6], s), X([3.0, 19.3, -1.6], s), X([2.5, 19.6, -.9], s), X([2.9, 20.05, 1.0], s), X([2.6, 20.0, 2.9], s)], r:.15, t0:38},
+    {pts:[X([4.2, 18.5, -3.4], s), X([3.6, 19.9, -3.9], s), X([4.8, 20.6, -3.6], s), X([5.9, 22.6, -3.0], s), X([6.05, 25.2, -2.0], s), X([5.4, 28.2, -1.0], s)], r:.1, t0:42}, {pts:[X([5.9, 22.6, -3.0], s), X([6.1, 24.8, -6.0], s), X([5.6, 27.4, -8.4], s)], r:.08, t0:46},
+    {pts:[X([4.0, 18.6, -3.0], s), X([4.35, 16.6, -2.4], s), X([4.45, 15.6, -2.2], s), X([3.55, 13.2, -.4], s), X([2.9, 12.65, 1.6], s), X([2.35, 12.45, 3.35], s)], r:.08, t0:41}]; }));
+  vessel("poligono_willis", [{pts:[[0, 18.75, -4.35], [0, 20.0, -4.2], [0, 21.3, -4.3]], r:.2, t0:20}].concat(bilP(function(s){ return [
+    {pts:[[0, 21.3, -4.3], X([.9, 21.35, -4.5], s), X([1.8, 21.5, -5.4], s), X([2.4, 21.4, -7.4], s), X([2.3, 21.35, -9.4], s), X([1.8, 21.6, -10.5], s)], r:.13, t0:23},
+    {pts:[X([1.35, 21.5, -2.95], s), X([1.25, 21.42, -3.8], s), X([1.0, 21.36, -4.5], s)], r:.07, t0:36},
+    {pts:[X([1.35, 21.5, -2.95], s), X([2.6, 21.8, -2.4], s), X([4.0, 22.05, -1.9], s), add(hemiBase(s, -.3, .35), [0, 0, 0])], r:.17, t0:36},
+    {pts:[X([1.35, 21.5, -2.95], s), X([.6, 21.9, -2.0], s), X([.17, 22.3, -1.6], s), X([.17, 23.6, .6], s), X([.17, 25.6, 1.9], s), X([.17, 28.0, .6], s), X([.17, 29.3, -2.6], s), X([.17, 29.0, -6.6], s), X([.17, 27.0, -9.2], s)], r:.11, t0:36},
+    {pts:[[0, 21.1, -4.3], X([1.3, 21.0, -5.2], s), X([2.0, 21.0, -6.6], s), X([2.4, 20.9, -7.6], s)], r:.08, t0:24},
+    {pts:[X([.5, 18.45, -4.6], s), X([1.4, 18.0, -6.4], s), X([1.8, 18.5, -8.0], s)], r:.07, t0:22}]; })).concat([{pts:[[-.2, 22.3, -1.6], [.2, 22.3, -1.6]], r:.06, t0:40}]).concat(bilP(function(s){
+      return [[.85, .9], [1.1, .3], [1.0, -.4], [.7, -1.0], [.3, -1.3], [-.2, -1.05]].map(function(e){ var pts = []; for(var i = 0; i <= 6; i++){ var t = i / 6, a = -.3 + (e[0] + .3) * t, b = .35 + (e[1] - .35) * t, p = hemiBase(s, a, b), d = nrm(sub(p, [s * 3.25, 24.6, -3.8])); pts.push(add(p, sc(d, .06))); } return {pts:pts, r:.07, t0:40}; }); })));
+  vessel("v_yugular_interna", bilP(function(s){ return [{pts:[X([3.25, 17.4, -6.0], s), X([3.6, 15.0, -5.0], s), X([3.75, 12.0, -3.7], s), X([3.6, 9.6, -2.5], s), X([3.2, 7.4, -1.8], s)], r:.52, ells:[[X([3.25, 17.4, -6.0], s), [.6, .62, .6]]]}]; }), .52, true);
+  vessel("v_yugular_externa", bilP(function(s){ return [{pts:[X([5.2, 14.6, -4.2], s), X([5.05, 11.0, -2.4], s), X([5.25, 7.0, -1.6], s), X([6.2, 2.4, -1.2], s), X([6.6, 0, -1.0], s)], r:.22}, {pts:[X([5.75, 18.6, -4.5], s), X([5.45, 16.6, -4.6], s), X([5.2, 14.6, -4.2], s)], r:.18}]; }), .2, true);
+  vessel("v_facial", bilP(function(s){ return [{pts:[F(s * 1.7, 21.2, .6), F(s * 2.1, 18.6, .7), F(s * 3.0, 16.0, .8), F(s * 3.8, 13.6, .8), X([4.1, 11.7, .1], s), X([3.6, 10.6, -1.4], s), X([3.5, 10.3, -2.6], s)], r:.17}]; }), .17, true);
+  (function(){ var pts = [], i, ss0 = [];
+    [.05, .45, .85, 1.25].forEach(function(la){ pts.push(inner(sk(la, PI, 0), .918)); }); pts.push(inner([0, C0[1] + R0[1], C0[2]], .918)); [1.25, .85, .45, .05, -.33].forEach(function(la){ pts.push(inner(sk(la, 0, 0), .918)); });
+    ss0.push({pts:pts, r:.25});
+    S2.forEach(function(s){ var tp = []; for(i = 0; i <= 8; i++) tp.push(inner(sk(-.33, s * 1.25 * i / 8, 0), .918)); tp = tp.concat([X([4.75, 20.2, -6.55], s), X([4.15, 19.0, -6.7], s), X([3.55, 18.0, -6.4], s), X([3.25, 17.4, -6.0], s)]); ss0.push({pts:tp, r:.24});
+      ss0.push({pts:[X([1.9, 20.5, -4.25], s), X([3.6, 20.85, -5.4], s), X([4.75, 20.4, -6.4], s)], r:.08});
+      ss0.push({pts:[X([1.25, 20.6, -2.6], s), X([1.3, 20.65, -3.5], s), X([1.25, 20.55, -4.0], s)], r:.32}); });
+    ss0.push({pts:[[0, 24.5, -6.3], [0, 22.7, -9.2], inner(sk(-.33, 0, 0), .918)], r:.18});
+    vessel("senos_venosos", ss0, .24, true); })();
+
+  /* =================== NERVIOS =================== */
+  function nerve(id, paths, r){ var gg = G.B(); paths.forEach(function(p){ G.tube(gg, p.pts || p, {r:p.r || r || .12, col:COL.nerve, rad:6, t0:p.t0 || 0}); (p.gang || []).forEach(function(q){ G.ell(gg, q[0], q[1][0], q[1][1], q[1][2], COL.nerve, 6, 8); }); }); push(id, gg, {layer:"nervio", flow:1, flowC:[1, .96, .62], speed:.9}); }
+  nerve("n_olfatorio", bilP(function(s){ return [{pts:[X([.48, 23.78, 1.9], s), X([.6, 23.75, .5], s), X([.95, 23.4, -1.0], s), X([1.25, 22.6, -2.4], s)], r:.1, gang:[[X([.45, 23.75, 1.5], s), [.22, .12, .7]]]}]; }));
+  nerve("n_optico", bilP(function(s){ return [{pts:[add(X(EYE, s), [s * -.15, 0, -1.2]), X([2.6, 21.65, -.6], s), X([1.7, 21.55, -2.3], s), X([.6, 21.5, -3.0], s), [0, 21.5, -3.15]], r:.2}, {pts:[[0, 21.5, -3.15], X([.7, 21.6, -3.6], s), X([1.4, 22.2, -4.6], s), X([1.8, 22.6, -5.6], s)], r:.15}]; }).concat([{pts:[[-.4, 21.5, -3.15], [.4, 21.5, -3.15]], r:.24}]));
+  nerve("nervios_motores_ojo", bilP(function(s){ return [{pts:[X([.45, 22.3, -4.8], s), X([1.1, 21.6, -3.8], s), X([1.4, 21.2, -3.0], s), X([1.8, 21.5, -2.0], s), X([2.6, 22.4, -.4], s)], r:.1}, {pts:[X([1.8, 21.5, -2.0], s), X([2.6, 20.95, -.4], s)], r:.07},
+    {pts:[X([1.3, 22.7, -6.4], s), X([1.6, 21.9, -4.2], s), X([1.55, 21.6, -2.9], s), X([1.85, 22.1, -1.0], s), X([2.1, 22.45, -.4], s)], r:.05}, {pts:[X([.45, 19.0, -4.5], s), X([.8, 20.4, -4.15], s), X([1.45, 21.0, -3.2], s), X([2.1, 21.55, -1.6], s), X([3.05, 21.7, -.4], s), X([3.7, 21.72, .3], s)], r:.07}]; }));
+  nerve("n_trigemino", bilP(function(s){ return [{pts:[X([1.25, 20.45, -5.2], s), X([2.0, 20.4, -4.6], s), X([2.6, 20.35, -4.0], s)], r:.24, gang:[[X([2.7, 20.32, -3.9], s), [.55, .22, .4]]]},
+    {pts:[X([2.6, 20.4, -3.6], s), X([2.0, 21.6, -1.8], s), X([2.5, 22.95, .6], s), X([2.45, 23.45, 3.0], s), skXY(s * 2.5, 25.6, 1, .25), skXY(s * 2.7, 28.4, 1, .3)], r:.09},
+    {pts:[X([2.7, 20.2, -3.5], s), X([2.25, 20.0, -2.2], s), X([2.6, 19.65, -.8], s), X([2.85, 20.0, 1.2], s), X([2.6, 20.0, 2.95], s), F(s * 2.3, 18.6, .8)], r:.1}, {pts:[X([2.6, 20.0, 2.95], s), F(s * 3.2, 18.8, .8)], r:.06}, {pts:[X([2.6, 20.0, 2.95], s), F(s * 1.4, 18.9, .7)], r:.06},
+    {pts:[X([2.85, 20.15, -3.6], s), X([3.1, 18.6, -3.1], s), X([3.6, 17.6, -2.6], s)], r:.15},
+    {pts:[X([3.6, 17.6, -2.6], s), X([3.5, 16.0, -2.0], s), X([2.5, 13.6, .1], s), X([1.25, 14.55, 2.0], s)], r:.08},
+    {pts:[X([3.6, 17.6, -2.6], s), X([4.2, 16.6, -2.4], s), X([4.45, 15.65, -2.15], s), X([3.6, 13.25, -.35], s), X([2.95, 12.7, 1.6], s), X([2.4, 12.5, 3.3], s), F(s * 1.8, 12.2, .55)], r:.08},
+    {pts:[X([3.6, 17.6, -2.6], s), X([4.3, 18.3, -4.4], s), X([5.45, 19.55, -4.3], s), X([6.6, 21.4, -4.0], s), X([6.95, 23.6, -3.6], s)], r:.06},
+    {pts:[X([3.6, 17.6, -2.6], s), X([3.85, 17.0, -1.2], s), X([3.95, 15.6, 1.0], s)], r:.06}]; }));
+  nerve("n_facial", bilP(function(s){ var P0 = X([5.0, 17.6, -4.6], s); return [{pts:[X([1.2, 19.55, -5.05], s), X([2.4, 19.8, -5.0], s), X([3.4, 19.9, -4.9], s), X([4.0, 20.0, -4.4], s), X([4.25, 19.6, -5.4], s), X([4.3, 18.5, -5.75], s), P0], r:.15},
+    {pts:[P0, X([5.6, 19.2, -3.2], s), X([6.35, 20.6, -2.0], s), F(s * 5.75, 23.2, .55), F(s * 4.6, 24.6, .5)], r:.07}, {pts:[P0, X([5.7, 18.6, -2.0], s), F(s * 5.3, 19.8, .7), F(s * 4.3, 20.6, .62)], r:.07},
+    {pts:[P0, X([5.6, 16.6, -2.0], s), F(s * 4.6, 16.4, .78), F(s * 3.4, 16.2, .72), F(s * 2.6, 17.0, .66)], r:.07}, {pts:[P0, X([5.2, 14.0, -3.6], s), F(s * 4.6, 12.4, .7), F(s * 3.4, 11.8, .65), F(s * 2.0, 12.2, .6)], r:.06},
+    {pts:[P0, X([5.0, 13.4, -4.4], s), X([4.9, 11.0, -3.0], s), X([4.45, 8.6, -1.6], s)], r:.06}]; }));
+  nerve("n_vestibulococlear", bilP(function(s){ return [{pts:[X([1.25, 19.25, -5.25], s), X([2.4, 19.55, -5.15], s), X([3.4, 19.75, -5.05], s), X([4.0, 19.75, -4.6], s)], r:.13}, {pts:[X([3.4, 19.75, -5.05], s), X([4.4, 20.15, -5.3], s)], r:.08}]; }));
+  nerve("n_glosofaringeo", bilP(function(s){ return [{pts:[X([.85, 18.55, -5.6], s), X([2.9, 17.55, -5.9], s), X([3.05, 16.2, -4.95], s), X([3.15, 15.4, -4.2], s), X([2.6, 13.8, -2.9], s), X([1.6, 13.6, -2.0], s), X([1.0, 14.4, -1.6], s)], r:.09}]; }));
+  nerve("n_hipogloso", bilP(function(s){ return [{pts:[X([.55, 18.1, -5.3], s), X([1.6, 17.4, -5.9], s), X([2.6, 16.4, -5.3], s), X([3.15, 14.4, -4.6], s), X([3.4, 12.0, -2.5], s), X([2.9, 11.85, -1.2], s), X([2.2, 12.05, -.4], s), X([1.5, 12.8, .8], s), X([1.0, 13.9, 2.0], s)], r:.11}]; }));
+  nerve("plexo_cervical", bilP(function(s){ var PN = X([4.65, 9.8, -3.7], s); return [{pts:[X([1.9, 12.6, -6.1], s), X([3.3, 11.6, -5.4], s), PN], r:.1}, {pts:[X([2.06, 11.2, -6.5], s), X([3.4, 10.4, -5.4], s), PN], r:.1}, {pts:[X([2.1, 9.8, -6.8], s), X([3.5, 9.6, -5.4], s), PN], r:.1},
+    {pts:[PN, X([5.05, 13.0, -5.5], s), X([5.0, 16.6, -7.6], s), X([4.8, 19.6, -9.6], s)], r:.07}, {pts:[PN, X([5.45, 12.6, -3.6], s), X([5.75, 15.6, -4.4], s), X([6.5, 17.6, -4.9], s)], r:.08},
+    {pts:[PN, X([4.75, 9.3, -1.7], s), X([3.0, 8.9, .05], s), X([1.4, 8.8, .55], s)], r:.06},
+    {pts:[PN, X([5.4, 6.0, -3.6], s), X([6.6, 2.4, -1.4], s), X([7.2, .6, 1.8], s)], r:.07}, {pts:[PN, X([4.7, 5.0, -1.6], s), X([3.6, 1.4, 2.7], s)], r:.06}, {pts:[PN, X([7.8, 4.0, -6.4], s), X([10.0, 1.9, -5.4], s)], r:.06},
+    {pts:[X([3.35, 12.05, -2.9], s), X([3.35, 9.4, -2.3], s), X([3.25, 6.8, -1.55], s), X([3.95, 8.4, -3.6], s), X([2.6, 10.8, -5.8], s)], r:.06}]; }));
+  (function(){ var vg = entry("n_vago"); if(vg) S2.forEach(function(s){ G.tube(vg.g, [X([.95, 18.3, -5.8], s), X([3.05, 17.35, -6.05], s), X([3.15, 15.4, -5.4], s), X([3.1, 13.0, -4.6], s), X([2.6, 11.0, -4.9], s), X([2.2, 9.6, -5.4], s)], {r:.17, col:COL.nerve, rad:6});
+      G.ell(vg.g, X([3.15, 15.6, -5.4], s), .26, .55, .26, COL.nerve, 6, 8); G.tube(vg.g, [X([3.1, 14.2, -4.9], s), X([2.6, 12.2, -3.8], s), X([2.2, 10.6, -2.4], s), X([1.7, 10.2, -1.35], s)], {r:.07, col:COL.nerve, rad:5}); }); })();
+  (function(){ var ac = entry("n_accesorio"); if(ac){ G.tube(ac.g, [[1.0, 17.6, -6.5], [3.15, 17.2, -6.2], [4.2, 16.0, -5.6], [5.8, 13.8, -4.6]], {r:.2, col:COL.nerve, rad:6});
+      G.tube(ac.g, [[-1.0, 17.6, -6.5], [-3.15, 17.2, -6.2], [-4.2, 16.0, -5.6], [-5.8, 13.8, -4.6], [-7.4, 10.6, -6.2], [-9.2, 6.6, -8.6], [-10.4, 3, -11.2], [-10.6, -1, -13.6]], {r:.2, col:COL.nerve, rad:6}); } })();
+  (function(){ var sy = entry("tronco_simpatico"); if(sy) S2.forEach(function(s){ G.tube(sy.g, [X([2.0, 9.0, -6.2], s), X([2.15, 11.0, -6.0], s), X([2.35, 13.6, -5.6], s), X([2.6, 16.0, -5.2], s), X([2.7, 18.0, -4.9], s)], {r:.11, col:COL.nerve, rad:6}); G.ell(sy.g, X([2.25, 12.4, -5.8], s), .32, 1.15, .28, COL.nerve, 6, 8); }); })();
+})();
+
+/* =====================================================================
    INTERFAZ: capas, explorador, búsqueda, ficha, notas, cuenta y estudio
    ===================================================================== */
 (function(){
@@ -5036,6 +6181,7 @@ function renderLeft(){
       h += '<div class="layer"><span class="dot" style="--c:' + L.c + '"></span><div><b>' + L.n + '</b>' + (L.note ? '<br><small>' + L.note + '</small>' : "") + '</div><small class="mono">' + (n || "") + '</small><button type="button" class="sw ' + (st.layers[L.k] ? "on" : "") + '" data-layer="' + L.k + '" aria-label="Mostrar ' + L.n + '" aria-pressed="' + !!st.layers[L.k] + '"></button></div>';
     });
     h += '<div class="layer"><span class="dot" style="--c:var(--accent)"></span><div><b>Todas las regiones</b><br><small>Muestra todo el cuerpo</small></div><small></small><button type="button" class="sw ' + (st.todo ? "on" : "") + '" data-todo aria-label="Mostrar todas las regiones"></button></div>';
+    h += '<div class="layer"><span class="dot" style="--c:#9bd77c"></span><div><b>Modo ligero</b><br><small>Menos detalle, carga más rápida</small></div><small></small><button type="button" class="sw ' + (CALIDAD === "ligera" ? "on" : "") + '" data-ligero aria-label="Modo ligero"></button></div>';
     h += '<div class="ph">Piel</div><div class="range"><span class="lat" style="font-style:normal;font-family:var(--f-ui);font-size:12.5px">Opacidad</span><input type="range" id="skin" min="0" max="1" step=".05" value="' + st.skin + '" aria-label="Opacidad de la piel"></div>';
     var hid = Object.keys(st.hidden).filter(function(k){ return st.hidden[k]; });
     if(hid.length) h += '<div class="hidden-chip"><span>' + hid.length + (hid.length === 1 ? " estructura oculta" : " estructuras ocultas") + '</span><button type="button" class="btn" id="unhide">Mostrar todas</button></div>';
@@ -5066,6 +6212,7 @@ $("#left .tabs").addEventListener("click", function(e){ var b = e.target.closest
 $("#leftBody").addEventListener("click", function(e){
   var l = e.target.closest("[data-layer]"); if(l){ st.layers[l.dataset.layer] = !st.layers[l.dataset.layer]; applyVis(); renderLeft(); persist(); return; }
   if(e.target.closest("[data-ctx]")){ st.ctx = !st.ctx; applyVis(); renderLeft(); persist(); return; }
+  if(e.target.closest("[data-ligero]")){ var nv = CALIDAD === "ligera" ? "alta" : "ligera"; try{ localStorage.setItem("atlas_calidad", nv); }catch(er){} toast(nv === "ligera" ? "Cambiando a modo ligero…" : "Cambiando a máximo detalle…"); setTimeout(function(){ location.reload(); }, 700); return; }
   if(e.target.closest("[data-todo]")){ st.todo = !st.todo; applyVis(); renderLeft(); if(!st.sel) renderFicha(); persist(); toast(st.todo ? "Se muestran todas las regiones" : "Solo la región " + RINFO[st.region].nombre); return; }
   if(e.target.closest("#unhide")){ st.hidden = {}; applyVis(); renderLeft(); toast("Se muestran todas las estructuras"); return; }
   var s = e.target.closest("[data-sel]"); if(s){ select(s.dataset.sel, true); if(mobile()) openSheet("right"); }
@@ -5075,6 +6222,24 @@ $("#leftBody").addEventListener("click", function(e){
 var ALIAS = {};
 IDS.forEach(function(id){ var d = DATA[id], a = [fold(d.nombre.replace(/\s*\(.*\)/, ""))]; ALIAS[id] = a; });
 Object.assign(ALIAS, {
+  hueso_frontal:["hueso frontal", "frontal,", "glabela", "seno frontal", "supraorbitari"], huesos_parietales:["hueso parietal", "huesos parietales", "parietales"], huesos_temporales:["hueso temporal", "temporales", "mastoides", "penasco", "estiloides", "pterion", "arco cigomatico"],
+  esfenoides:["esfenoides", "silla turca", "pterigoides", "base del craneo", "agujero oval", "agujero redondo"], huesos_cigomaticos:["cigomatico,", "pomulo", "huesos cigomaticos"], maxilares:["maxilar", "paladar duro", "seno maxilar", "infraorbitari"],
+  huesos_nasales:["huesos nasales", "tabique nasal", "vomer", "cornete"], mandibula:["mandibula", "quijada", "condilo de la mandibula", "coronoides de la mandibula", "menton"], dientes:["diente", "muela", "molar", "incisivo", "canino"], hioides:["hioides"],
+  articulacion_temporomandibular:["temporomandibular", "atm"], suturas_craneales:["sutura", "fontanela", "bregma", "lambda"],
+  cerebro:["cerebro", "corteza cerebral", "lobulo frontal", "lobulo temporal", "lobulo parietal", "lobulo occipital", "hemisferio"], cerebelo:["cerebelo"], tronco_encefalico:["tronco del encefalo", "tronco encefalico", "bulbo raquideo", "protuberancia", "mesencefalo"],
+  hipofisis:["hipofisis", "pituitaria"], globos_oculares:["globo ocular", "ojo", "retina", "cornea", "cristalino", "glandula lagrimal"], oido:["oido", "oreja", "timpano", "coclea", "conductos semicirculares", "trompa de eustaquio"], lengua:["lengua ", "lengua,", "lengua.", "lengua;"],
+  faringe:["faringe", "amigdala", "paladar blando", "uvula", "garganta"], laringe:["laringe", "cuerdas vocales", "epiglotis", "cartilago tiroides", "cricoides"], tiroides:["tiroides"], paratiroides:["paratiroides"],
+  glandula_parotida:["parotida"], glandula_submandibular:["submandibular"], glandula_sublingual:["sublingual"],
+  occipitofrontal:["occipitofrontal", "galea", "musculo frontal"], orbicular_ojo:["orbicular del ojo"], orbicular_boca:["orbicular de la boca"], nasal:["musculo nasal"], elevador_labio_superior:["elevador del labio"], cigomatico_mayor:["cigomatico mayor"], cigomatico_menor:["cigomatico menor"],
+  risorio:["risorio"], buccinador:["buccinador"], depresor_angulo_boca:["depresor del angulo"], depresor_labio_inferior:["depresor del labio"], mentoniano:["mentoniano"], platisma:["platisma"],
+  masetero:["masetero"], temporal:["musculo temporal"], pterigoideo_lateral:["pterigoideo lateral"], pterigoideo_medial:["pterigoideo medial"],
+  recto_superior:["recto superior"], recto_inferior:["recto inferior"], recto_medial:["recto medial"], recto_lateral:["recto lateral"], oblicuo_superior_ojo:["oblicuo superior del ojo"], oblicuo_inferior_ojo:["oblicuo inferior del ojo"], elevador_parpado:["elevador del parpado"],
+  esternocleidomastoideo:["esternocleidomastoideo"], digastrico:["digastrico"], estilohioideo:["estilohioideo"], milohioideo:["milohioideo"], geniohioideo:["geniohioideo"], esternohioideo:["esternohioideo"], esternotiroideo:["esternotiroideo"], tirohioideo:["tirohioideo"], omohioideo:["omohioideo"],
+  largo_cuello:["largo del cuello"], largo_cabeza:["largo de la cabeza"], constrictores_faringe:["constrictor"],
+  carotida_interna:["carotida interna"], carotida_externa:["carotida externa", "temporal superficial", "arteria lingual", "arteria occipital", "tiroidea superior"], a_facial:["arteria facial"], a_maxilar:["arteria maxilar", "meningea media", "alveolar inferior"], poligono_willis:["poligono de willis", "cerebral media", "cerebral anterior", "cerebral posterior", "basilar"],
+  v_yugular_interna:["yugular interna"], v_yugular_externa:["yugular externa"], v_facial:["vena facial"], senos_venosos:["seno venoso", "seno cavernoso", "seno sagital", "seno sigmoideo", "seno transverso"],
+  n_olfatorio:["olfatorio"], n_optico:["nervio optico", "quiasma"], nervios_motores_ojo:["oculomotor", "troclear", "abducens", "motor ocular"], n_trigemino:["trigemino", "nervio lingual", "infraorbitario"], n_facial:["nervio facial"], n_vestibulococlear:["vestibulococlear", "nervio auditivo", "acustico"],
+  n_glosofaringeo:["glosofaringeo"], n_hipogloso:["hipogloso"], plexo_cervical:["plexo cervical", "asa cervical", "auricular mayor", "occipital menor"],
   escapula:["escapula", "acromion", "coracoides", "espina de la escapula", "cavidad glenoidea", "tuberculo supraglenoideo", "tuberculo infraglenoideo", "fosa supraespinosa", "fosa infraespinosa", "fosa subescapular", "borde medial", "borde lateral", "angulo inferior"],
   humero:["humero", "tuberculo mayor", "tuberculo menor", "surco intertubercular", "tuberosidad deltoidea", "epicondilo", "cresta supracondilea"],
   cubito:["cubito", "olecranon", "coronoides"], radio:["del radio", "tuberosidad del radio", "radio,", "radio y"], clavicula:["clavicula"], costillas:["costilla"], esternon:["esternon"], vertebras_toracicas:["vertebra toracica", "vertebras toracicas", "apofisis espinosas", "apofisis transversas"], vertebras_cervicales:["vertebra cervical", "cervicales"], atlas:["atlas"], axis:["axis"], medula_espinal:["medula"], discos_intervertebrales:["disco"], hueso_occipital:["occipital", "linea nucal", "mastoides"], corazon:["corazon", "ventriculo", "auricula"], higado:["higado", "hepatic"], estomago:["estomago", "gastric"], bazo:["bazo", "esplenic"], pancreas:["pancrea"], duodeno:["duodeno"], intestino_delgado:["yeyuno", "ileon", "intestino delgado"], colon:["colon", "ciego", "sigmoide"], rinon_derecho:["rinon derecho"], rinon_izquierdo:["rinon izquierdo"], vejiga:["vejiga"], ureteres:["ureter"], vena_porta:["porta"], aorta_abdominal:["aorta abdominal"], linea_alba:["linea alba", "vaina del recto"], pulmon_derecho:["pulmon derecho"], pulmon_izquierdo:["pulmon izquierdo"], traquea_bronquios:["traquea", "bronquio"], esofago:["esofago"], diafragma:["diafragma"], aorta_toracica:["aorta", "cayado"], n_frenico:["frenico"], n_vago:["vago", "recurrente"], vena_cava_superior:["cava superior"], vena_cava_inferior:["cava inferior"], arterias_coronarias:["coronaria"], a_toracica_interna:["toracica interna"], n_intercostales:["nervio intercostal", "nervios intercostales"], a_vertebral:["arteria vertebral"], multifido:["multifido"], cuadrado_lumbar:["cuadrado lumbar"],
@@ -5422,7 +6587,7 @@ $("#study").addEventListener("click", function(e){
 
 /* ---------- Asistente de anatomía (IA) ---------- */
 var IA = {
-  cfg:Object.assign({prov:"gemini", key:"", nivel:"universitario", largo:"normal", nube:true}, LS.get("atlas_ia", {})),
+  cfg:Object.assign({prov:"gemini", key:"", nivel:"universitario", largo:"normal", web:"si", nube:true}, LS.get("atlas_ia", {})),
   msgs:LS.get("atlas_chat", []), busy:false, ctrl:null, sinCtx:false, vista:false, model:LS.get("atlas_ia_model", {})
 };
 IA.msgs = IA.msgs.filter(function(m){ return m && m.t && !m.pending; });
@@ -5437,7 +6602,7 @@ function iaReiniciarLocal(){ IA.msgs = []; IA.cfg.key = ""; IA.chatSucio = false
 function iaDocRef(){ return fb && user ? raiz().collection("config").doc("ia") : null; }
 function iaGuardarNube(){
   var ref = iaDocRef(); if(!ref) return Promise.resolve();
-  if(IA.cfg.nube && iaConectada()) return ref.set({prov:IA.cfg.prov, key:IA.cfg.key, nivel:IA.cfg.nivel, largo:IA.cfg.largo, actualizado:Date.now()});
+  if(IA.cfg.nube && iaConectada()) return ref.set({prov:IA.cfg.prov, key:IA.cfg.key, nivel:IA.cfg.nivel, largo:IA.cfg.largo, web:IA.cfg.web, actualizado:Date.now()});
   return ref.delete();
 }
 function iaCuenta(u){
@@ -5445,7 +6610,7 @@ function iaCuenta(u){
   var ref = iaDocRef(); if(!ref || !ref.get) return;
   ref.get().then(function(d){
     if(!d.exists) return; var v = d.data() || {};
-    if(v.key && !iaConectada()){ IA.cfg = Object.assign(IA.cfg, {prov:v.prov || "gemini", key:v.key, nivel:v.nivel || IA.cfg.nivel, largo:v.largo || IA.cfg.largo, nube:true}); iaGuardarLocal(); iaRender(); }
+    if(v.key && !iaConectada()){ IA.cfg = Object.assign(IA.cfg, {prov:v.prov || "gemini", key:v.key, nivel:v.nivel || IA.cfg.nivel, largo:v.largo || IA.cfg.largo, web:v.web || IA.cfg.web, nube:true}); iaGuardarLocal(); iaRender(); }
   }, function(e){ console.warn("No se leyó la configuración de IA", e); if(e.code === "permission-denied") accesoDenegado(); });
   raiz().collection("config").doc("chat").get().then(function(d){
     if(!d.exists) return; var v = d.data() || {}, loc = IA.msgs.length ? IA.msgs[IA.msgs.length - 1].ts || 0 : 0;
@@ -5470,9 +6635,10 @@ function iaSistema(ctx, conImg){
   var s = "Eres un anatomista especializado y profesor de anatomía humana dentro de la app «Atlas Anatómico 3D». Responde SIEMPRE en español de México, con la terminología anatómica internacional y el nombre en latín cuando ayude a estudiar.\n" +
     nivel + " " + largo + "\n" +
     "Formato: párrafos cortos, listas con guiones y **negritas** para lo esencial. No uses tablas. Cuando menciones una estructura que existe en el atlas, escríbela como [[id]] con el id exacto de la lista de abajo (la app la convierte en un botón que la muestra en 3D). Usa [[id]] solo con ids de la lista; las demás estructuras escríbelas normal.\n" +
-    "Puedes responder sobre cualquier parte del cuerpo humano, aunque el modelo 3D por ahora tiene varias regiones: hombro y brazo, antebrazo y mano, cadera y muslo, rodilla, pierna y pie, columna y espalda, tórax, y abdomen y pelvis. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
+    "Puedes responder sobre cualquier parte del cuerpo humano, y el modelo 3D tiene ocho regiones: hombro y brazo, antebrazo y mano, cadera y muslo, rodilla, pierna y pie, columna y espalda, tórax, abdomen y pelvis, y cabeza y cuello. Si la persona describe síntomas o una lesión propia, da información educativa y recomienda valoración por un profesional de la salud; no des diagnósticos ni tratamientos personalizados. Si no estás seguro de un dato, dilo.\n" +
+    (iaWeb() ? "Tienes búsqueda en internet: úsala para preguntas complejas o que necesiten datos actuales (investigaciones, guías clínicas, valores de referencia, técnicas quirúrgicas, variantes poco comunes). Prioriza fuentes confiables (PubMed, guías de sociedades médicas, libros de texto, sitios universitarios y de salud pública) y no inventes referencias; la app añade al final la lista de fuentes. Para dudas básicas de anatomía no hace falta buscar.\n" : "") +
     "Si te piden preguntas de examen, numéralas y pon las respuestas al final. Si te piden mnemotecnias, que sean en español.\n\n" +
-    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares); 3) cadera y muslo (pelvis, glúteos, rotadores, iliopsoas, cuádriceps, aductores, isquiotibiales, plexo lumbosacro); 4) rodilla, pierna y pie (cruzados, meniscos, compartimentos de la pierna, tobillo y capas plantares); 5) columna y espalda (vértebras, discos, músculos profundos de la espalda, ligamentos vertebrales, médula espinal y nervios espinales); 6) tórax (corazón, pulmones, tráquea, esófago, diafragma, intercostales, grandes vasos, nervios frénico, vago e intercostales); 7) abdomen y pelvis (pared abdominal, suelo pélvico, hígado, estómago, páncreas, bazo, intestinos, riñones, vejiga, aorta abdominal y sistema porta). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
+    "Regiones del atlas: 1) hombro y brazo (cintura escapular, articulación glenohumeral, brazo y codo) con tórax y columna de referencia; 2) antebrazo y mano (compartimentos anterior y posterior, muñeca, carpo, músculos intrínsecos, retináculos, arcos palmares); 3) cadera y muslo (pelvis, glúteos, rotadores, iliopsoas, cuádriceps, aductores, isquiotibiales, plexo lumbosacro); 4) rodilla, pierna y pie (cruzados, meniscos, compartimentos de la pierna, tobillo y capas plantares); 5) columna y espalda (vértebras, discos, músculos profundos de la espalda, ligamentos vertebrales, médula espinal y nervios espinales); 6) tórax (corazón, pulmones, tráquea, esófago, diafragma, intercostales, grandes vasos, nervios frénico, vago e intercostales); 7) abdomen y pelvis (pared abdominal, suelo pélvico, hígado, estómago, páncreas, bazo, intestinos, riñones, vejiga, aorta abdominal y sistema porta); 8) cabeza y cuello (cráneo y cara, mandíbula y dientes, músculos faciales, masticadores, del ojo y del cuello, encéfalo, ojos, oído, lengua, faringe, laringe, tiroides, glándulas salivales, nervios craneales, plexo cervical, carótidas, polígono de Willis, yugulares y senos venosos). La persona está viendo ahora: " + RINFO[st.region].nombre + ". El modelo es esquemático.\n" +
     "Estructuras del atlas (id = nombre):\n" + lista + "\n\nCapas visibles ahora en pantalla: " + (vis.length > 40 ? vis.length + " estructuras" : vis.join(", ")) + ".";
   if(ctx && DATA[ctx]) s += "\n\nLa persona tiene seleccionada esta estructura (úsala como contexto si la pregunta no dice otra cosa): " + fichaTexto(ctx);
   if(conImg) s += "\n\nCon el último mensaje va una imagen de la vista 3D que la persona está viendo en el atlas (modelo esquemático: músculos en rojo, nervios amarillos, arterias rojas, venas azules, huesos color marfil, ligamentos azul claro, órganos rosados; la estructura seleccionada brilla en turquesa).";
@@ -5519,6 +6685,12 @@ function iaErrTxt(e){
   return "No se pudo obtener respuesta de la IA" + (m ? ": " + m : ".");
 }
 
+function iaWeb(){ return IA.cfg.web !== "no"; }
+function fuentesTxt(list){
+  var vis = {}, out = [];
+  list.forEach(function(f){ if(!f || !f.url || vis[f.url]) return; vis[f.url] = 1; var t = String(f.title || "").replace(/[\[\]]/g, "").trim() || f.url.replace(/^https?:\/\/(www\.)?/, "").split("/")[0]; out.push("- [" + t + "](" + f.url + ")"); });
+  return out.length ? "\n\n**Fuentes consultadas en internet:**\n" + out.slice(0, 8).join("\n") : "";
+}
 /* --- Gemini (Google AI Studio, nivel gratuito) --- */
 var GEM = "https://generativelanguage.googleapis.com/v1beta/";
 function elegirGemini(ms){
@@ -5538,22 +6710,26 @@ function gemModelo(key, force){
     });
   });
 }
-function gemEnviar(sys, hist, img, onTxt, signal){
-  var key = IA.cfg.key.trim();
+function gemEnviar(sys, hist, img, onTxt, signal, sinWeb){
+  var key = IA.cfg.key.trim(), web = iaWeb() && !sinWeb, src = [], salio = false, tx = function(t){ salio = true; onTxt(t); };
   return gemModelo(key).then(function(model){
     var contents = hist.map(function(m){ return {role:m.r === "u" ? "user" : "model", parts:[{text:m.t}]}; });
     if(img) contents[contents.length - 1].parts.push({inlineData:{mimeType:"image/jpeg", data:img}});
     var body = {systemInstruction:{parts:[{text:sys}]}, contents:contents, generationConfig:{temperature:.6, maxOutputTokens:8192}};
+    if(web) body.tools = [{google_search:{}}];
     return fetch(GEM + "models/" + model + ":streamGenerateContent?alt=sse&key=" + encodeURIComponent(key), {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body), signal:signal}).then(function(r){
-      if(!r.ok) return r.json().catch(function(){ return {}; }).then(function(j){ if(r.status === 404){ IA.model.gemini = null; LS.set("atlas_ia_model", IA.model); } throw apiErr(r.status, j, "gemini"); });
+      if(!r.ok) return r.json().catch(function(){ return {}; }).then(function(j){
+        if(web && (r.status === 400 || r.status === 429)) return gemEnviar(sys, hist, img, onTxt, signal, true);
+        if(r.status === 404){ IA.model.gemini = null; LS.set("atlas_ia_model", IA.model); } throw apiErr(r.status, j, "gemini"); });
       return leerSSE(r, function(ev){
         if(ev.error) throw apiErr(ev.error.code || 500, ev, "gemini");
-        if(ev.promptFeedback && ev.promptFeedback.blockReason) onTxt("_(El modelo no quiso responder esta pregunta por sus filtros de seguridad.)_");
+        if(ev.promptFeedback && ev.promptFeedback.blockReason) tx("_(El modelo no quiso responder esta pregunta por sus filtros de seguridad.)_");
         var c = ev.candidates && ev.candidates[0];
-        if(c && c.content && c.content.parts) c.content.parts.forEach(function(p){ if(p.text && !p.thought) onTxt(p.text); });
+        if(c && c.groundingMetadata && c.groundingMetadata.groundingChunks) c.groundingMetadata.groundingChunks.forEach(function(g){ if(g.web) src.push({url:g.web.uri, title:g.web.title}); });
+        if(c && c.content && c.content.parts) c.content.parts.forEach(function(p){ if(p.text && !p.thought) tx(p.text); });
         if(c && c.finishReason === "SAFETY") onTxt("\n\n_(La respuesta se cortó por los filtros de seguridad del modelo.)_");
         if(c && c.finishReason === "MAX_TOKENS") onTxt("\n\n_(Respuesta recortada por largo. Pide «continúa» para seguir.)_");
-      });
+      }).then(function(){ if(salio) onTxt(fuentesTxt(src)); });
     });
   });
 }
@@ -5571,18 +6747,20 @@ function antModelo(key, force){
     });
   });
 }
-function antEnviar(sys, hist, img, onTxt, signal){
-  var key = IA.cfg.key.trim();
+function antEnviar(sys, hist, img, onTxt, signal, sinWeb){
+  var key = IA.cfg.key.trim(), web = iaWeb() && !sinWeb, src = [];
   return antModelo(key).then(function(model){
     var msgs = hist.map(function(m){ return {role:m.r === "u" ? "user" : "assistant", content:m.t}; });
     if(img){ var last = msgs[msgs.length - 1]; last.content = [{type:"image", source:{type:"base64", media_type:"image/jpeg", data:img}}, {type:"text", text:last.content}]; }
-    return fetch(ANT + "messages", {method:"POST", headers:antHeaders(key), body:JSON.stringify({model:model, max_tokens:2500, system:sys, messages:msgs, stream:true}), signal:signal}).then(function(r){
-      if(!r.ok) return r.json().catch(function(){ return {}; }).then(function(j){ if(r.status === 404){ IA.model.claude = null; LS.set("atlas_ia_model", IA.model); } throw apiErr(r.status, j, "claude"); });
+    return fetch(ANT + "messages", {method:"POST", headers:antHeaders(key), body:JSON.stringify(Object.assign({model:model, max_tokens:4000, system:sys, messages:msgs, stream:true}, web ? {tools:[{type:"web_search_20250305", name:"web_search", max_uses:5}]} : {})), signal:signal}).then(function(r){
+      if(!r.ok) return r.json().catch(function(){ return {}; }).then(function(j){ if(web && r.status === 400) return antEnviar(sys, hist, img, onTxt, signal, true); if(r.status === 404){ IA.model.claude = null; LS.set("atlas_ia_model", IA.model); } throw apiErr(r.status, j, "claude"); });
       return leerSSE(r, function(ev){
         if(ev.type === "error") throw apiErr(529, ev, "claude");
         if(ev.type === "content_block_delta" && ev.delta && ev.delta.type === "text_delta") onTxt(ev.delta.text);
+        if(ev.type === "content_block_delta" && ev.delta && ev.delta.type === "citations_delta" && ev.delta.citation) src.push({url:ev.delta.citation.url, title:ev.delta.citation.title});
+        if(ev.type === "content_block_start" && ev.content_block && ev.content_block.type === "server_tool_use") onTxt("");
         if(ev.type === "message_delta" && ev.delta && ev.delta.stop_reason === "max_tokens") onTxt("\n\n_(Respuesta recortada por largo. Pide «continúa» para seguir.)_");
-      });
+      }).then(function(){ onTxt(fuentesTxt(src)); });
     });
   });
 }
@@ -5658,8 +6836,10 @@ function md(t){
   var refs = [];
   var src = String(t || "").replace(/\[\[([^\]|]+)(?:\|([^\]]*))?\]\]/g, function(m, a, b){ var id = DATA[a.trim()] ? a.trim() : idPorNombre(a); if(!id) return b || a; refs.push(id); return "\u0001" + (refs.length - 1) + "\u0001"; });
   var inl = function(s){
-    return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[\s(¿¡])[*_](?![\s*_])(.+?)[*_](?=[\s).,;:!?]|$)/g, "$1<i>$2</i>")
-      .replace(/\u0001(\d+)\u0001/g, function(m, n){ var id = refs[+n], d = DATA[id]; return '<button type="button" class="ref" data-sel="' + id + '"><span class="dot" style="--c:' + CATS[d.cat].color + '"></span>' + esc(d.nombre) + '</button>'; });
+    var lk = []; s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, function(m, a, b){ lk.push([a, b]); return "\u0002" + (lk.length - 1) + "\u0002"; });
+    return esc(s).replace(/\u0002(\d+)\u0002/g, function(m, n){ var q = lk[+n]; return "\u0003" + n + "\u0003"; }).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[\s(¿¡])[*_](?![\s*_])(.+?)[*_](?=[\s).,;:!?]|$)/g, "$1<i>$2</i>")
+      .replace(/\u0001(\d+)\u0001/g, function(m, n){ var id = refs[+n], d = DATA[id]; return '<button type="button" class="ref" data-sel="' + id + '"><span class="dot" style="--c:' + CATS[d.cat].color + '"></span>' + esc(d.nombre) + '</button>'; })
+      .replace(/\u0003(\d+)\u0003/g, function(m, n){ var q = lk[+n]; return '<a href="' + esc(q[1]) + '" target="_blank" rel="noopener">' + esc(q[0]) + '</a>'; });
   };
   var lines = src.split("\n"), h = "", list = null, para = [];
   var flushP = function(){ if(para.length){ h += "<p>" + para.map(inl).join("<br>") + "</p>"; para = []; } };
@@ -5679,7 +6859,7 @@ function textoPlano(t){ return String(t || "").replace(/\[\[([^\]|]+)(?:\|([^\]]
 
 /* --- panel del asistente --- */
 var aiEl = $("#ai"), aiMsgs = $("#aiMsgs"), aiIn = $("#aiIn");
-function iaEstado(){ return iaConectada() ? PROV[IA.cfg.prov].n + " · conectado" : "Modo atlas · sin IA"; }
+function iaEstado(){ return iaConectada() ? PROV[IA.cfg.prov].n + " · conectado" + (iaWeb() ? " · con internet" : "") : "Modo atlas · sin IA"; }
 function iaSugerencias(){
   var id = IA.sinCtx ? null : st.sel, d = id && DATA[id], n = d ? d.nombre.replace(/\s*\(.*\)/, "") : "", s;
   if(d && d.cat === "musculo") s = ["Explícame el " + n.toLowerCase() + " de forma sencilla", "¿Qué pasa si se lesiona?", "Hazme 3 preguntas de examen sobre el " + n.toLowerCase(), "Dame una mnemotecnia para recordarlo", "¿Con qué músculos trabaja en equipo?"];
@@ -5708,7 +6888,7 @@ function iaRender(){
   var h = "";
   if(!IA.msgs.length){
     h = '<div class="aiwel"><h4>Hola, soy tu asistente de anatomía</h4><p>Pregúntame lo que quieras de cualquier parte del cuerpo: origen e inserción, recorrido de un nervio, lesiones, preguntas de examen o mnemotecnias. Si tienes una estructura seleccionada, la uso como contexto.</p>' +
-      (iaConectada() ? '<p class="ok">Conectado con ' + PROV[IA.cfg.prov].full + '.</p>'
+      (iaConectada() ? '<p class="ok">Conectado con ' + PROV[IA.cfg.prov].full + (iaWeb() ? ', con búsqueda en internet para las dudas más complejas' : '') + '.</p>'
         : '<div class="note">Ahora respondo con las fichas del atlas. Para preguntas abiertas de todo el cuerpo, conecta la IA gratis con Gemini (toma unos 2 minutos).<div class="row" style="margin-top:10px"><button type="button" class="btn pri" data-cfg>Conectar IA</button></div></div>') + '</div>';
   } else h = IA.msgs.map(iaBurbuja).join("");
   aiMsgs.innerHTML = h; aiMsgs.scrollTop = aiMsgs.scrollHeight;
@@ -5804,10 +6984,12 @@ function hojaIA(){
     '<label class="chk"><input type="checkbox" id="iaNube" ' + (c.nube ? "checked" : "") + '> Guardarla en mi cuenta para usarla también en mi teléfono</label>' +
     '<label class="f">Nivel de explicación</label>' + seg("nivel", c.nivel, [["basico", "Básico"], ["universitario", "Universitario"], ["especialista", "Especialista"]]) +
     '<label class="f">Largo de las respuestas</label>' + seg("largo", c.largo, [["breve", "Breves"], ["normal", "Normales"], ["detallada", "Detalladas"]]) +
+    '<label class="f">Buscar en internet</label>' + seg("web", c.web || "si", [["si", "Sí, con fuentes"], ["no", "No, solo el modelo"]]) +
+    '<p class="sub2" style="margin:6px 0 0">Con internet, el asistente consulta artículos y guías actuales para preguntas complejas y te deja los enlaces de donde sacó la información.</p>' +
     '<div id="iaMsg"></div>' +
     '<div class="row">' + (iaConectada() ? '<button type="button" class="btn danger" id="iaQuitar">Quitar clave</button>' : "") + '<button type="button" class="btn pri grow" id="iaProbar">Probar y guardar</button></div>' +
     '<p style="color:var(--faint);font-size:12px;margin:12px 0 0">Tu clave es personal: no la compartas, porque quien la tenga puede usar tu cuota. Las preguntas se envían directo de este equipo al servicio de IA que elijas.</p>', false, function(p){
-    var sel = {prov:prov, nivel:c.nivel, largo:c.largo};
+    var sel = {prov:prov, nivel:c.nivel, largo:c.largo, web:c.web || "si"};
     p.querySelectorAll("[data-seg]").forEach(function(g){ g.addEventListener("click", function(e){ var b = e.target.closest("[data-v]"); if(!b) return; var k = g.dataset.seg; sel[k] = b.dataset.v;
       g.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); });
       if(k === "prov"){ p.querySelector("#pasos").innerHTML = pasos[sel.prov]; var ki = p.querySelector("#iaKey"); ki.placeholder = sel.prov === "gemini" ? "AIza…" : "sk-ant-…"; ki.value = IA.cfg.prov === sel.prov ? IA.cfg.key : ""; }
@@ -6229,8 +7411,17 @@ hojaLogin();
 initFirebase();
 window.ATLAS = {setRegion:setRegion, select:select, st:st, startStudy:startStudy, IA:IA, iaEnviar:iaEnviar, atlasResponde:atlasResponde, hojaImprimir:hojaImprimir, armarImpresion:armarImpresion, PR:function(){ return PR; }};
 iaRender();
+(function(){ var bt = document.getElementById("boot"); if(bt){ bt.classList.add("off"); setTimeout(function(){ if(bt.parentNode) bt.parentNode.removeChild(bt); }, 600); } })();
 })();
 
+</script>
+<script>
+(function(){
+  var done = false;
+  window.addEventListener("error", function(){ var m = document.getElementById("bootMsg"); if(m && document.getElementById("boot")) m.textContent = "No se pudo cargar el atlas. Recarga la página."; });
+  function go(){ if(done) return; done = true; var src = document.getElementById("atlasSrc"), s = document.createElement("script"); s.text = src.textContent; src.parentNode.removeChild(src); document.body.appendChild(s); }
+  requestAnimationFrame(function(){ setTimeout(go, 30); }); setTimeout(go, 500);
+})();
 </script>
 </body>
 </html>
